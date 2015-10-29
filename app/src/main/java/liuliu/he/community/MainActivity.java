@@ -1,9 +1,11 @@
-package liuliu.hecommunity;
+package liuliu.he.community;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import liuliu.hecommunity.R;
 
 
 public class MainActivity extends ActionBarActivity {
