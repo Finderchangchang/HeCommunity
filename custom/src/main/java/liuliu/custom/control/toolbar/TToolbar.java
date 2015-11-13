@@ -7,7 +7,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -27,6 +29,7 @@ public class TToolbar extends LinearLayout {
     float toolbar_elevation;
     String center_title_str;
     String left_title_str;
+    String center_hint;
     boolean left_clickable;
     boolean center_clickable;
     boolean right_clickable;
@@ -36,6 +39,7 @@ public class TToolbar extends LinearLayout {
     TextView left_user_type_title;
     ImageView right_message_bg;
     TextView right_message;
+    EditText center_et;
     LinearLayout left_ll;
     RelativeLayout center_rl;
     RelativeLayout right_ll;
@@ -44,6 +48,7 @@ public class TToolbar extends LinearLayout {
     LeftOnClickListener leftOnClickListener;
     RightOnClickListener rightOnClickListener;
     CenterOnClickListener centerOnClickListener;
+
     public TToolbar(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TToolbar, defStyle, 0);
@@ -55,6 +60,7 @@ public class TToolbar extends LinearLayout {
         center_clickable = a.getBoolean(R.styleable.TToolbar_center_ll_clickable, false);
         right_clickable = a.getBoolean(R.styleable.TToolbar_right_ll_clickable, true);
         toolbar_elevation = a.getDimension(R.styleable.TToolbar_toolbar_elevation, 0);
+        center_hint = a.getString(R.styleable.TToolbar_center_et_hint);//中间edittext
         a.recycle();
         init(context);
     }
@@ -71,7 +77,27 @@ public class TToolbar extends LinearLayout {
         right_message_bg = (ImageView) this.findViewById(R.id.toolbar_right_message_bg);
         total_rl = (RelativeLayout) this.findViewById(R.id.toolbar_top_rl);
         right_rl_message = (RelativeLayout) this.findViewById(R.id.toolbar_right_rl_message);
-        center_rl= (RelativeLayout) this.findViewById(R.id.toolbar_center_ll);
+        center_rl = (RelativeLayout) this.findViewById(R.id.toolbar_center_ll);
+        center_et= (EditText) this.findViewById(R.id.toolbar_center_edit_et);
+        if(center_hint!=null){
+            center_et.setHint(center_hint);
+            center_rl.setClickable(true);
+            center_rl.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    centerOnClickListener.centerclick();
+                }
+            });
+            center_et.setOnTouchListener(new OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+
+                    return false;
+                }
+            });
+        }else{
+            center_et.setVisibility(GONE);
+        }
         if (toolbar_elevation != 0) {
             setToolbarElevation(toolbar_elevation);
         }
@@ -100,7 +126,7 @@ public class TToolbar extends LinearLayout {
         } else {
             right_ll.setVisibility(View.GONE);
         }
-        if(center_clickable){
+        if (center_clickable) {
             center_rl.setClickable(true);
             center_rl.setOnClickListener(new OnClickListener() {
                 @Override
@@ -189,7 +215,7 @@ public class TToolbar extends LinearLayout {
     }
 
     //获得中间的文本内容
-    public String getCenterText(){
+    public String getCenterText() {
         return center_title.getText().toString().trim();
     }
 
@@ -200,9 +226,12 @@ public class TToolbar extends LinearLayout {
     }
 
     public interface LeftOnClickListener {//左侧点击事件
+
         void leftclick();
     }
-    public interface CenterOnClickListener{//中间点击事件
+
+    public interface CenterOnClickListener {//中间点击事件
+
         void centerclick();
     }
 
@@ -210,8 +239,8 @@ public class TToolbar extends LinearLayout {
         rightOnClickListener = rightOnClick;
     }
 
-    public void setCenterOnClick(CenterOnClickListener centerOnClick){
-        centerOnClickListener=centerOnClick;
+    public void setCenterOnClick(CenterOnClickListener centerOnClick) {
+        centerOnClickListener = centerOnClick;
     }
 
     public void setLeftOnClick(LeftOnClickListener leftOnClick) {

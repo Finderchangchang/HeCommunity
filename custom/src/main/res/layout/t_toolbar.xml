@@ -4,23 +4,14 @@
     android:id="@+id/toolbar_top_rl"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#4276fb"
+    android:background="#9f2122"
     android:orientation="vertical">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#4276fb"
-        android:minHeight="0dp"
-        android:elevation="10dip"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"></android.support.v7.widget.Toolbar>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:elevation="10dip">
+        android:elevation="10dip"
+        android:orientation="horizontal">
 
         <LinearLayout
             android:id="@+id/toolbar_left_ll"
@@ -29,24 +20,22 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:background="@drawable/toolbar_click"
-            android:gravity="center_vertical|center_horizontal"
-            android:minWidth="50dp">
-
-            <ImageView
-                android:id="@+id/toolbar_left_img"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp" />
+            android:gravity="center_vertical"
+            android:minWidth="50dp"
+            android:layout_marginLeft="15dp">
 
             <TextView
                 android:id="@+id/toolbar_left_ll_user_type_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/white"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:textSize="18sp"
+                android:text=""/>
+
+            <ImageView
+                android:id="@+id/toolbar_left_img"
+                android:layout_width="25dp"
+                android:layout_height="25dp"/>
         </LinearLayout>
 
         <TextView
@@ -57,17 +46,21 @@
             android:layout_centerVertical="true"
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            android:textStyle="bold" />
-
+            android:textStyle="bold"
+            android:text="" />
         <RelativeLayout
             android:id="@+id/toolbar_center_ll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toLeftOf="@+id/toolbar_right_rl_img"
             android:layout_toRightOf="@+id/toolbar_left_ll"
-            android:layout_toStartOf="@+id/toolbar_right_rl_img"></RelativeLayout>
-
-
+            android:layout_toStartOf="@+id/toolbar_right_rl_img">
+            <EditText
+                android:id="@+id/toolbar_center_edit_et"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"/>
+        </RelativeLayout>
         <RelativeLayout
             android:id="@+id/toolbar_right_rl_img"
             android:layout_width="60dp"
@@ -76,7 +69,6 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:background="@drawable/toolbar_click"
             android:gravity="center_horizontal">
 
             <ImageView

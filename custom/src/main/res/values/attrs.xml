@@ -114,5 +114,6 @@
         <attr name="right_ll_clickable" format="boolean"></attr>
         <attr name="center_ll_clickable" format="boolean"></attr>
         <attr name="toolbar_elevation" format="dimension"></attr>
+        <attr name="center_et_hint" format="string"></attr>
     </declare-styleable>
 </resources>
