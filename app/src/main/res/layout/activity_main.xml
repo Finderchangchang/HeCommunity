@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -240,14 +238,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="商品分类"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:layout_marginLeft="45dp" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:text="详情>"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:paddingRight="20dp"/>
             </RelativeLayout>
             <LinearLayout
@@ -279,14 +277,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="店内活动公告"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:layout_marginLeft="45dp" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:text="详情>"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:paddingRight="20dp"/>
             </RelativeLayout>
             <LinearLayout
