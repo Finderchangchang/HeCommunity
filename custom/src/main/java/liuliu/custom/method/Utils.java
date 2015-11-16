@@ -34,6 +34,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -50,58 +53,111 @@ import liuliu.custom.method.xml.Jxml;
 import liuliu.custom.control.toast.RadiusToast;
 
 public class Utils {
-    public static final String COMPANY_CHANGETIME = "Company_changeTime";
-    public static final String PERSON_CHANGETIME = "Person_changeTime";
-    public static final String KEY_SESSIONID = "key_sessionid";
-    public static final String KEY_USERNAME = "key_username";
-    public static final String KEY_PASSWORD = "key_password";
-    public static final String KEY_REMEMBER = "key_remember";
-    public static final String KEY_BLUE_READ_CARD_ADDRESS="key_blue_read_card_address";
-    public static final String KEY_BLUE_DA_YIN_ADDRESS="key_blue_da_yin_address";
-    public static final String KEY_IS_OPEN="key_is_open";
+    Context mContext;
 
-    public static final String KEY_NO_READ_MESSAGE = "key_no_read_message";
-
-    public static final String KEY_HAS_CODES = "key_hascodes";
-    public static final String KEY_CODE_NAMES = "key_codenames";
-
-    public static final String KEY_HAS_OPERATORS = "key_hasoperators";
-    public static final String KEY_OPERATORS = "key_operators";
-    public static final String KEY_PULLTOBACK = "key_pulltoback";//检查是否上传到后台
-    public static final String KEY_SERVERNAME = "key_servername";
-    public static final String KEY_PORT = "key_port";
-    public static final String CHECK_UPLOAD_TIME = "check_upload_time";
-    public static final String CHECK_LOAD_TIME = "check_load_time";//下载人员信息时间
-    public static final String BACK_SYS_SETTING_TO_SETTING_HTTP = "sys_setting_to_setting_http";//系统设置页面跳转到网络设置页面
-    public static final String BACK_Login_TO_SETTING_HTTP = "sys_login_to_setting_http";//登录页面跳转到网络设置页面
-    public static final String BACK_RegUser_TO_SETTING_HTTP = "sys_reguser_to_setting_http";//用户注册跳转到网络设置
-    public static final String BACK_Login_TO_RegUser = "sys_login_to_reguser";//登录跳转到用户注册
-    public static final String KEY_BLUETOOTH_ADDRESS = "key_bluetooth_address";
-
-    public static final String KEY_SIGN_PLACE="key_sign_place";
-    public static final String KEY_OPEN_TIME="key_open_time";
-    public static final String KEY = "_key";
-
-    public static final int CAMRAM_RESULT = 500;
-    public static void setText(TextView textView, String val){
-        setText(textView,val,"");
+    public Utils(Context context) {
+        mContext = context;
     }
-    public static void setText(TextView textView,String val,String def_val){
-        if(val!=null){
+
+    public void setText(TextView textView, String val) {
+        setText(textView, val, "");
+    }
+
+    //得到手机的imei
+    public static String getImei(Context context) {
+        // return "357897047649338";
+        return ((TelephonyManager) context
+                .getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+    }
+
+    public String saveTmpFile(String text) {
+        String path = "";
+        if (text != null && text.length() > 0) {
+            try {
+                File temp = new File("/sdcard/aa.txt");
+                OutputStream fstream = new FileOutputStream(temp);
+                fstream.write(text.getBytes());
+                fstream.close();
+                path = temp.getAbsolutePath();
+            } catch (Exception e) {
+            }
+        }
+        return path;
+    }
+    public static String URLEncodeImage(String text) {
+        if (Utils.isEmptyString(text))
+            return "";
+
+        return URLEncoder.encode(text);
+    }
+
+    public void setText(TextView textView, String val, String def_val) {
+        if (val != null) {
             textView.setText(val);
-        }else{
-            if(def_val.equals("")){
-                def_val="无";
+        } else {
+            if (def_val.equals("")) {
+                def_val = "无";
             }
             textView.setText(def_val);
         }
     }
-    private static long exitTime = 0;
-    public interface OnExitListener{
+
+    private long exitTime = 0;
+
+    public interface OnExitListener {
         void toast();
+
         void finish();
     }
-    public static void exit(OnExitListener listener) {
+
+    //包名+model名
+    public static Object getBean(String className) throws Exception {
+        Class cls = null;
+        try {
+            cls = Class.forName("liuliu.throughwaring.model." + className);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new Exception("类错误");
+        }
+        Constructor[] cons = null;
+        try {
+            cons = cls.getConstructors();//得到所有构造器
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("构造器错误");
+        }
+        //如果上面没错，就有构造方法
+        Constructor defcon = cons[0];//得到默认构造器，第0个事默认构造器，无参构造方法
+        Object obj = defcon.newInstance();//实例化，得到一个对象
+        return obj;
+
+    }
+
+    //创建的model对象，字段名，字段值
+    public static void setProperty(Object bean, String propertyName, Object propertyValue) throws Exception {
+        Class cls = bean.getClass();
+        Method[] methos = cls.getMethods();//得到所有的方法
+        for (Method m : methos) {
+            if (m.getName().equalsIgnoreCase("set" + propertyName)) {
+                //找到方法就注入
+                m.invoke(bean, propertyValue);
+                break;
+            }
+        }
+    }
+
+    public static String URLEncode(String text) {
+        if (isEmptyString(text))
+            return "";
+        return text;
+        /*
+         * if(Utils.isEmptyString(text)) return "";
+		 *
+		 * return URLEncoder.encode(text);
+		 */
+    }
+
+    public void exit(OnExitListener listener) {
         if ((System.currentTimeMillis() - exitTime) > 2000) {
             listener.toast();
             exitTime = System.currentTimeMillis();
@@ -109,27 +165,28 @@ public class Utils {
             listener.finish();
         }
     }
+
     /**
      * 判断手机是否有SD卡。
      *
      * @return 有SD卡返回true，没有返回false。
      */
-    public static boolean hasSDCard() {
+    public boolean hasSDCard() {
         return Environment.MEDIA_MOUNTED.equals(Environment
                 .getExternalStorageState());
     }
 
-    public static LinearLayout.LayoutParams setMargin(int width, int height, int left, int top, int right, int bottom) {
+    public LinearLayout.LayoutParams setMargin(int width, int height, int left, int top, int right, int bottom) {
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 width, height);
         lp.setMargins(left, top, right, bottom);
         return lp;
     }
 
-    static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /*根据String类型的time转化为Date类型*/
-    public static Date StringToDate(String time) {
+    public Date StringToDate(String time) {
         try {
             return sdf.parse(time);
         } catch (java.text.ParseException e) {
@@ -138,13 +195,13 @@ public class Utils {
     }
 
     /*将Date转化为String类型*/
-    public static String DateToString(Date date) {
+    public String DateToString(Date date) {
         return sdf.format(date);
     }
 
     /*自定义加载条*/
-    public static Dialog ProgressDialog(Context context, Dialog progressDialog, String val) {
-        progressDialog = new Dialog(context, R.style.progress_dialog);
+    public Dialog ProgressDialog(Dialog progressDialog, String val) {
+        progressDialog = new Dialog(mContext, R.style.progress_dialog);
         progressDialog.setContentView(R.layout.progress_dialog);
         progressDialog.setCancelable(false);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -153,28 +210,15 @@ public class Utils {
         return progressDialog;
     }
 
-    public static void GetCodeModels(Context context, String CodeName) {
-//        XmlManager xml = new XmlManager(context);
-//        types = xml.getXml("Code_ExpressType.xml");
-//        if (types != null) {
-//            for (int i = 0; i < types.size(); i++) {
-//                nameList.add(types.get(i).getValue());
-//            }
-//            if (types.size() > 0) {
-//                spinner_expressType.setText(types.get(0).getValue());
-//            }
-//        }
-    }
-
-    public static boolean fillTestData() {
+    public boolean fillTestData() {
         return false;
     }
 
-    static public String createGUID() {
+    public String createGUID() {
         return UUID.randomUUID().toString();
     }
 
-    static public double getDouble(TextView view) {
+    public double getDouble(TextView view) {
         if (view == null)
             return 0;
 
@@ -185,7 +229,7 @@ public class Utils {
         return 0;
     }
 
-    static public int getInt(TextView view) {
+    public int getInt(TextView view) {
         if (view == null)
             return 0;
 
@@ -197,7 +241,7 @@ public class Utils {
         return 0;
     }
 
-    static public int getInt(Spinner view) {
+    public int getInt(Spinner view) {
         if (view == null)
             return 0;
 
@@ -209,7 +253,7 @@ public class Utils {
         return -1;
     }
 
-    static public String getString(TextView view) {
+    public String getString(TextView view) {
         if (view == null)
             return "";
 
@@ -221,7 +265,7 @@ public class Utils {
         return "";
     }
 
-    static public String getString(Spinner view) {
+    public String getString(Spinner view) {
         if (view == null)
             return "";
 
@@ -235,57 +279,57 @@ public class Utils {
 
     public static String Preferences_name = "BULKGASOLINE";
 
-    public static String ReadString(Context context, String key) {
-        SharedPreferences sp = getSharedPreferences(context);
+    public String ReadString(String key) {
+        SharedPreferences sp = getSharedPreferences();
         return sp.getString(key, "");
     }
 
-    public static int getScannerWidth(Context context) {
-        WindowManager windowManager = (WindowManager) context.getSystemService(context.WINDOW_SERVICE);
+    public int getScannerWidth() {
+        WindowManager windowManager = (WindowManager) mContext.getSystemService(mContext.WINDOW_SERVICE);
         return windowManager.getDefaultDisplay().getWidth();
     }
 
-    public static int getScannerHeight(Context context) {
-        WindowManager windowManager = (WindowManager) context.getSystemService(context.WINDOW_SERVICE);
+    public int getScannerHeight() {
+        WindowManager windowManager = (WindowManager) mContext.getSystemService(mContext.WINDOW_SERVICE);
         return windowManager.getDefaultDisplay().getHeight();
     }
 
-    public static void WriteString(Context context, String key, String value) {
-        SharedPreferences sp = getSharedPreferences(context);
+    public void WriteString(String key, String value) {
+        SharedPreferences sp = getSharedPreferences();
         Editor editor = sp.edit();
         editor.putString(key, value);
         editor.commit();
     }
 
-    public static int ReadInt(Context context, String key) {
-        SharedPreferences sp = getSharedPreferences(context);
+    public int ReadInt(String key) {
+        SharedPreferences sp = getSharedPreferences();
         return sp.getInt(key, 0);
     }
 
-    public static void WriteInt(Context context, String key, int value) {
-        SharedPreferences sp = getSharedPreferences(context);
+    public void WriteInt(String key, int value) {
+        SharedPreferences sp = getSharedPreferences();
         // 锟斤拷锟斤拷锟斤拷锟斤拷
         Editor editor = sp.edit();
         editor.putInt(key, value);
         editor.commit();
     }
 
-    public static void WriteBoolean(Context context, String key, boolean value) {
-        SharedPreferences sp = getSharedPreferences(context);
+    public void WriteBoolean(String key, boolean value) {
+        SharedPreferences sp = getSharedPreferences();
         // 锟斤拷锟斤拷锟斤拷锟斤拷
         Editor editor = sp.edit();
         editor.putBoolean(key, value);
         editor.commit();
     }
 
-    public static Set<String> ReadStringSet(Context context, String key) {
-        SharedPreferences sp = getSharedPreferences(context);
+    public Set<String> ReadStringSet(String key) {
+        SharedPreferences sp = getSharedPreferences();
         return sp.getStringSet(key, new LinkedHashSet<String>());
     }
 
-    public static void WriteStringSet(Context context, String key,
-                                      Set<String> value) {
-        SharedPreferences sp = getSharedPreferences(context);
+    public void WriteStringSet(String key,
+                               Set<String> value) {
+        SharedPreferences sp = getSharedPreferences();
         // 锟斤拷锟斤拷锟斤拷锟斤拷
         Editor editor = sp.edit();
         editor.putStringSet(key, value);
@@ -293,36 +337,21 @@ public class Utils {
         editor.commit();
     }
 
-    public static boolean hasRememberPassword(Context context) {
-        if (Utils.ReadBoolean(context, KEY_REMEMBER)) {
-            if (!isEmpty(Utils.ReadString(context, KEY_USERNAME))
-                    && !isEmpty(Utils.ReadString(context, KEY_PASSWORD))) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public static boolean hasSessionId(Context context) {
-        return !Utils.isEmpty(Utils.ReadString(context, KEY_SESSIONID));
-    }
-
     public static boolean isEmpty(String str) {
         return TextUtils.isEmpty(str);
     }
 
-    public static void hideIM(Context context) {
-        InputMethodManager imm = (InputMethodManager) context
+    public void hideIM() {
+        InputMethodManager imm = (InputMethodManager) mContext
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
-        View v = ((Activity) context).getCurrentFocus();
+        View v = ((Activity) mContext).getCurrentFocus();
         if (v == null)
             imm.hideSoftInputFromWindow(null, 0);
         else
             imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
-    public static Uri startCamra(Activity context, int requestCode) {
+    public Uri startCamra(int requestCode) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // 锟斤拷锟斤拷锟斤拷锟角诧拷锟斤拷一锟斤拷锟斤拷锟捷ｏ拷ContentValues锟斤拷锟斤拷锟斤拷希锟斤拷锟斤拷锟斤拷锟斤拷录锟斤拷锟斤拷锟斤拷时锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷息
         // 锟斤拷些锟斤拷锟捷碉拷锟斤拷锟斤拷锟窖撅拷锟斤拷为锟斤拷锟斤拷锟斤拷MediaStore.Images.Media锟斤拷,锟叫的存储锟斤拷MediaStore.MediaColumn锟斤拷锟斤拷
@@ -342,100 +371,56 @@ public class Utils {
 
         // 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷要锟斤拷锟斤拷锟斤拷Camera锟襟，匡拷锟皆凤拷锟斤拷Camera锟斤拷取锟斤拷锟斤拷图片锟斤拷
         // 锟斤拷锟皆ｏ拷锟斤拷锟斤拷使锟斤拷startActivityForResult锟斤拷锟斤拷锟斤拷Camera
-        context.startActivity(intent);
+        mContext.startActivity(intent);
         return uri;
     }
 
-    public static String getDataPath() {
+    public String getDataPath() {
         File defaultStorageFile = Environment.getExternalStorageDirectory();
         return String.format("%s/Gasoline",
                 defaultStorageFile.getAbsolutePath());
     }
 
-    public static String getDataPath(String name) {
+    public String getDataPath(String name) {
         return String.format("%s/%s", getDataPath(), name);
     }
 
-    public static String getRootPath() {
+    public String getRootPath() {
         return Environment.getExternalStorageDirectory().getAbsolutePath();
-    }
-
-    public static boolean hasCodeNames(Context context) {
-        return Utils.ReadBoolean(context, KEY_HAS_CODES);
-    }
-
-    public static boolean loadCodeNames(Context context, Set<String> codeNames) {
-        if (Utils.ReadBoolean(context, KEY_HAS_CODES)) {
-            Set<String> names = Utils.ReadStringSet(context, KEY_CODE_NAMES);
-            if (names != null) {
-                codeNames.clear();
-                codeNames.addAll(names);
-
-                return true;
-            }
-
-        }
-
-        return false;
-    }
-
-    public static void writeCodeNames(Context context, String xml) {
-        Utils.WriteString(context, KEY_CODE_NAMES, xml);
-        Utils.WriteBoolean(context, KEY_HAS_CODES, true);
     }
 
     /**
      * 锟斤拷锟斤拷锟街碉拷锟斤拷息
      */
-    public static boolean loadCodes(Context context, String codeName,
-                                    ArrayList<String> codeKeys, ArrayList<String> codeValues) {
-        String xml = Utils.ReadString(context, codeName);
+    public boolean loadCodes(String codeName,
+                             ArrayList<String> codeKeys, ArrayList<String> codeValues) {
+        String xml = ReadString(codeName);
         if (Utils.isEmpty(xml))
             return false;
         return parseCodeXml(xml, codeKeys, codeValues);
     }
 
-    public static boolean codesEqual(Context context, String codeName,
-                                     ArrayList<String> codeKeys, ArrayList<String> codeValues) {
-        String xml = Utils.ReadString(context, codeName);
+    public boolean codesEqual(String codeName,
+                              ArrayList<String> codeKeys, ArrayList<String> codeValues) {
+        String xml = ReadString(codeName);
         if (Utils.isEmpty(xml))
             return false;
         return parseCodeXml(xml, codeKeys, codeValues);
 
     }
 
-    /**
-     * 锟斤拷锟截硷拷锟斤拷员锟斤拷息
-     */
-    public static boolean loadOperators(Context context,
-                                        ArrayList<String> operatorIds, ArrayList<String> operators) {
-        if (!hasOperators(context)) {
-            return false;
-        }
-        String xml = Utils.ReadString(context, KEY_OPERATORS);
-        Log.v("cccccccccccccccc", xml);
-        if (Utils.isEmpty(xml)) {
-            return false;
-        }
-        return parseOperatorXml(xml, operatorIds, operators);
-    }
-
-    public static boolean hasOperators(Context context) {
-        return Utils.ReadBoolean(context, KEY_HAS_OPERATORS);
-    }
-
-    public static boolean ReadBoolean(Context context, String key) {
-        SharedPreferences sp = getSharedPreferences(context);
+    public boolean ReadBoolean(String key) {
+        SharedPreferences sp = getSharedPreferences();
         return sp.getBoolean(key, false);
     }
 
-    public static SharedPreferences getSharedPreferences(Context context) {
-        return context.getSharedPreferences(Preferences_name,
+    public SharedPreferences getSharedPreferences() {
+        return mContext.getSharedPreferences(Preferences_name,
                 Context.MODE_PRIVATE);
     }
 
-    public static boolean parseCodeXml(String content,
-                                       ArrayList<String> codeKeys, ArrayList<String> codeValues) {
+    public boolean parseCodeXml(String content,
+                                ArrayList<String> codeKeys, ArrayList<String> codeValues) {
         Jxml xml = new Jxml();
         if (xml.SetDoc(content) && xml.FindElem("InvokeReturn")) {
             xml.IntoElem();
@@ -473,12 +458,12 @@ public class Utils {
         return false;
     }
 
-    public static void writeCodes(Context context, String codeName, String xml) {
-        Utils.WriteString(context, codeName, xml);
+    public void writeCodes(String codeName, String xml) {
+        WriteString(codeName, xml);
     }
 
-    public static boolean parseOperatorXml(String content,
-                                           ArrayList<String> ids, ArrayList<String> values) {
+    public boolean parseOperatorXml(String content,
+                                    ArrayList<String> ids, ArrayList<String> values) {
         Map<String, String> data = new HashMap<String, String>();
         Jxml xml = new Jxml();
         if (xml.SetDoc(content) && xml.FindElem("InvokeReturn")) {
@@ -519,37 +504,17 @@ public class Utils {
         return false;
     }
 
-    public static void writeOperators(Context context, String xml) {
-        Utils.WriteString(context, KEY_OPERATORS, xml);
-        Utils.WriteBoolean(context, KEY_HAS_OPERATORS, true);
-    }
-
-    public static String ReadBlueToothAddress(Context context) {
-        return Utils.ReadString(context, KEY_BLUETOOTH_ADDRESS);
-    }
-
-    public static void WriteBlueToothAddress(Context context, String address) {
-        Utils.WriteString(context, KEY_BLUETOOTH_ADDRESS, address);
-    }
-
-    public static void Sleep(long mi) {
-        try {
-            Thread.sleep(200);
-        } catch (Exception e) {
-        }
-    }
-
-    public static String getTimeString() {
+    public String getTimeString() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return df.format(new Date());
     }
 
-    public static String getCSTimeString() {
+    public String getCSTimeString() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return df.format(new Date()).replace(" ", "T");
     }
 
-    public static String encodeImageView(ImageView imageview) {
+    public String encodeImageView(ImageView imageview) {
         String imageString = "";
         try {
             imageview.setDrawingCacheEnabled(true);
@@ -563,7 +528,7 @@ public class Utils {
         return imageString;
     }
 
-    public static String encodeBitmap(Bitmap bitmap) {
+    public String encodeBitmap(Bitmap bitmap) {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos);
@@ -575,7 +540,7 @@ public class Utils {
         return "";
     }
 
-    public static String XMlEncode(String strData) {
+    public String XMlEncode(String strData) {
         if (strData == null)
             return "";
 
@@ -588,14 +553,14 @@ public class Utils {
         return strData;
     }
 
-    public static String URLEncoder(String strData) {
+    public String URLEncoder(String strData) {
         if (strData == null)
             return "";
 
         return URLEncoder.encode(strData);
     }
 
-    public static String[] LinkedSetToArray(LinkedHashSet<String> datas) {
+    public String[] LinkedSetToArray(LinkedHashSet<String> datas) {
         String[] array = new String[datas.size()];
         int index = 0;
         for (Iterator<String> iter = datas.iterator(); iter.hasNext(); ) {
@@ -605,8 +570,8 @@ public class Utils {
         return array;
     }
 
-    public static boolean saveAssetsFile(AssetManager assetManager,
-                                         String strName, String strTarget) {
+    public boolean saveAssetsFile(AssetManager assetManager,
+                                  String strName, String strTarget) {
         boolean bSucc = false;
         final int BUF_SIZE = 10124;
         try {
@@ -630,7 +595,7 @@ public class Utils {
         return bSucc;
     }
 
-    public static String getTempImagePath() {
+    public String getTempImagePath() {
 
         String path = Environment.getExternalStorageDirectory() + "/gasoline/";
         File file = new File(path);
@@ -640,8 +605,8 @@ public class Utils {
         return path + "temp.image";
     }
 
-    public static Bitmap decodeBitmapFromFile(String filePath,
-                                              int maxNumOfPixels) {
+    public Bitmap decodeBitmapFromFile(String filePath,
+                                       int maxNumOfPixels) {
         Bitmap bitmap = null;
         BitmapFactory.Options opts = new BitmapFactory.Options();
         opts.inJustDecodeBounds = true;
@@ -658,8 +623,8 @@ public class Utils {
         return bitmap;
     }
 
-    public static int computeSampleSize(BitmapFactory.Options options,
-                                        int minSideLength, int maxNumOfPixels) {
+    public int computeSampleSize(BitmapFactory.Options options,
+                                 int minSideLength, int maxNumOfPixels) {
         int initialSize = computeInitialSampleSize(options, minSideLength,
                 maxNumOfPixels);
         int roundedSize;
@@ -674,8 +639,8 @@ public class Utils {
         return roundedSize;
     }
 
-    private static int computeInitialSampleSize(BitmapFactory.Options options,
-                                                int minSideLength, int maxNumOfPixels) {
+    private int computeInitialSampleSize(BitmapFactory.Options options,
+                                         int minSideLength, int maxNumOfPixels) {
         double w = options.outWidth;
         double h = options.outHeight;
         int lowerBound = (maxNumOfPixels == -1) ? 1 : (int) Math.ceil(Math
@@ -695,13 +660,13 @@ public class Utils {
         }
     }
 
-    private static Bitmap previewBitmap = null;
+    private Bitmap previewBitmap = null;
 
-    public static void setPreviewBitmap(Bitmap bitmap) {
+    public void setPreviewBitmap(Bitmap bitmap) {
         previewBitmap = bitmap;
     }
 
-    public static Bitmap getPreviewBitmap() {
+    public Bitmap getPreviewBitmap() {
         return previewBitmap;
     }
 
@@ -709,7 +674,7 @@ public class Utils {
         return (str == null || str.length() == 0);
     }
 
-    public static Boolean getJsonBoolean(JSONObject object, String name) {
+    public Boolean getJsonBoolean(JSONObject object, String name) {
         try {
             return object.getBoolean(name);
         } catch (JSONException e) {
@@ -725,7 +690,7 @@ public class Utils {
         }
     }
 
-    public static int getJsonInt(JSONObject object, String name) {
+    public int getJsonInt(JSONObject object, String name) {
         try {
             return object.getInt(name);
         } catch (JSONException e) {
@@ -733,7 +698,7 @@ public class Utils {
         }
     }
 
-    public static String getJsonDate(JSONObject object, String name) {
+    public String getJsonDate(JSONObject object, String name) {
         try {
             return getDateString(object.getString(name));
         } catch (JSONException e) {
@@ -744,7 +709,7 @@ public class Utils {
     public static String getDateString(String text) {
         // /Date(1361431509843)/
         try {
-            if (!Utils.isEmptyString(text)) {
+            if (!isEmptyString(text)) {
                 text = text.replace("/", "");
                 text = text.replace("\\", "");
                 text = text.replace("Date", "");
@@ -760,12 +725,12 @@ public class Utils {
         return "";
     }
 
-    public static String getTodayString() {
+    public String getTodayString() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
         return formatter.format(new Date());
     }
 
-    public static String getTodayString1() {
+    public String getTodayString1() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.format(new Date());
     }
@@ -774,44 +739,45 @@ public class Utils {
         void put(Intent intent);
     }
 
-    public static void IntentPost(Context context, Class cla, putListener listener) {
+    public void IntentPost(Class cla, putListener listener) {
         Intent intent = new Intent();
-        intent.setClass(context, cla);
+        intent.setClass(mContext, cla);
         if (listener != null) {
             listener.put(intent);
         }
-        context.startActivity(intent);
+        mContext.startActivity(intent);
     }
 
-    public static void IntentPost(Context context, Class cla) {
-        IntentPost(context, cla, null);
+    public void IntentPost(Class cla) {
+        IntentPost(cla, null);
     }
 
-    //intent=getIntent();name=闇�瑕佹帴鏀剁殑閿�
-    public static Object IntentGet(Intent intent, String name) {
+    //intent=getIntent();name=标识符
+    public Object IntentGet(Intent intent, String name) {
         return intent.getStringExtra(name);
     }
 
     //鑾峰緱鎵嬫満璁惧鐨勭浉鍏充俊鎭�
     //鏉冮檺<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    public static TelephonyManager getTelephonyManager(Context context) {
-        return (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
+    public TelephonyManager getTelephonyManager() {
+        return (TelephonyManager) mContext.getSystemService(mContext.TELEPHONY_SERVICE);
     }
 
-    public static void ToastShort(Context context, String text) {
-        RadiusToast.makeText(context, text, Toast.LENGTH_SHORT).show();
+
+    public void ToastShort(String text) {
+        RadiusToast.makeText(mContext, text, Toast.LENGTH_SHORT).show();
     }
 
     //闀挎樉绀鸿嚜瀹氫箟Toast寮瑰嚭妗�
-    public static void ToastLong(Context context, String text) {
-        RadiusToast.makeText(context, text, Toast.LENGTH_LONG).show();
+    public void ToastLong(String text) {
+        RadiusToast.makeText(mContext, text, Toast.LENGTH_LONG).show();
     }
 
     /**
      * 检测Android设备是否支持摄像机
      */
-    public static boolean checkCameraDevice(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+    public boolean checkCameraDevice() {
+        if (mContext.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             return true;
         } else {
             return false;

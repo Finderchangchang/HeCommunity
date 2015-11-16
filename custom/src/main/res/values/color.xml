@@ -318,7 +318,7 @@
     <!-- 海军色 -->
     <color name="black">#000000</color>
     <!-- 黑色 -->
-
+    <color name="item_pressed">#86B2B2B2</color>
     <color name="bg_color">#EDEDED</color>
     <color name="contents_text">#ff000000</color>
     <color name="encode_view">#ffffffff</color>
