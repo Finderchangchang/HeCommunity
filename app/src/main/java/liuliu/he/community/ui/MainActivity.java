@@ -45,7 +45,7 @@ public class MainActivity extends BaseActivity implements IMainView {
         //左侧点击事件
         mToolbar.setLeftOnClick(new TToolbar.LeftOnClickListener() {
             @Override
-            public void leftclick() {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+            public void leftclick() {
 
             }
         });
@@ -88,7 +88,7 @@ public class MainActivity extends BaseActivity implements IMainView {
             switch (mDatas.size()) {
                 case 4://版本一
                     if (position == 0) {
-                        lp.height = 380;
+                        lp.height = 420;
                         holder.mTotalItem.setLayoutParams(lp);
                         holder.left_one_tv.setText(mDatas.get(position).toString());
                         holder.right_two_tv.setText(mDatas.get(position + 1).toString());
@@ -100,7 +100,7 @@ public class MainActivity extends BaseActivity implements IMainView {
                     break;
                 case 5://版本二
                     if (position == 0) {
-                        lp.height = 380;
+                        lp.height = 420;
                         holder.mTotalItem.setLayoutParams(lp);
                         holder.left_one_tv.setText(mDatas.get(position).toString());
                         holder.right_two_tv.setText(mDatas.get(position + 1).toString());
@@ -118,7 +118,7 @@ public class MainActivity extends BaseActivity implements IMainView {
                 case 6:
                     if (ItemStyle.SixFour == ItemStyle.SixFour) {//版本八
                         if (position == 0) {
-                            lp.height = 380;
+                            lp.height = 420;
                             setItemTwo(holder, lp);
                             holder.left_one_tv.setText(mDatas.get(position).toString());
                             holder.right_one_tv.setText(mDatas.get(position + 1).toString());
@@ -137,7 +137,7 @@ public class MainActivity extends BaseActivity implements IMainView {
                         }
                     } else if (ItemStyle.SixThree == ItemStyle.SixThree) {//版本⑦
                         if (position == 0) {
-                            lp.height = 380;
+                            lp.height = 420;
                             setItemTwo(holder, lp);
                             holder.left_one_tv.setText(mDatas.get(position).toString());
                             holder.right_one_tv.setText(mDatas.get(position + 1).toString());
@@ -159,7 +159,7 @@ public class MainActivity extends BaseActivity implements IMainView {
                         }
                     } else if (ItemStyle.SixTwo == ItemStyle.SixTwo) {//版本五
                         if (position == 0) {
-                            lp.height = 380;
+                            lp.height = 420;
                             holder.mTotalItem.setLayoutParams(lp);
                             holder.left_one_tv.setText(mDatas.get(position).toString());
                             holder.right_two_tv.setText(mDatas.get(position + 1).toString());
@@ -176,7 +176,21 @@ public class MainActivity extends BaseActivity implements IMainView {
                     }
                     break;
                 case 7:
-                    if (ItemStyle.SevenTwo == ItemStyle.SevenTwo) {//版本六
+                    if (ItemStyle.SevenOne == ItemStyle.SevenOne) {//版本三
+                        if (position == 0) {
+                            lp.height = 350;
+                            holder.mTotalItem.setLayoutParams(lp);
+                            holder.left_one_tv.setText(mDatas.get(position).toString());
+                            holder.right_two_tv.setText(mDatas.get(position + 1).toString());
+                            holder.right_three_tv.setText(mDatas.get(position + 2).toString());
+                            holder.mRightLLFour.setVisibility(View.GONE);
+                        } else if (position == 1) {
+                            lp.height = 170;
+                            setItemFour(holder, lp, position);
+                        } else {
+                            holder.mTotalItem.setVisibility(View.GONE);
+                        }
+                    } else if (ItemStyle.SevenTwo == ItemStyle.SevenTwo) {//版本六
                         setWeight(holder);
                         if (position == 0) {
                             lp.height = 300;
@@ -195,20 +209,6 @@ public class MainActivity extends BaseActivity implements IMainView {
                             setItemTwo(holder, lp);
                             holder.left_one_tv.setText(mDatas.get(position + 3).toString());
                             holder.right_one_tv.setText(mDatas.get(position + 4).toString());
-                        } else {
-                            holder.mTotalItem.setVisibility(View.GONE);
-                        }
-                    } else if (ItemStyle.SevenOne == ItemStyle.SevenOne) {//版本三
-                        if (position == 0) {
-                            lp.height = 300;
-                            holder.mTotalItem.setLayoutParams(lp);
-                            holder.left_one_tv.setText(mDatas.get(position).toString());
-                            holder.right_two_tv.setText(mDatas.get(position + 1).toString());
-                            holder.right_three_tv.setText(mDatas.get(position + 2).toString());
-                            holder.mRightLLFour.setVisibility(View.GONE);
-                        } else if (position == 1) {
-                            lp.height = 150;
-                            setItemFour(holder, lp, position);
                         } else {
                             holder.mTotalItem.setVisibility(View.GONE);
                         }
@@ -253,7 +253,7 @@ public class MainActivity extends BaseActivity implements IMainView {
 
         @Override
         public int getItemCount() {
-            return 3;
+            return 2;
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {

@@ -27,7 +27,7 @@
             <LinearLayout
                 android:id="@+id/main_title_imgs"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="145dp"
                 android:background="@mipmap/title_bg"
                 android:orientation="horizontal">
 
@@ -36,12 +36,14 @@
             <LinearLayout
                 android:id="@+id/main_styles_ll"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="95dp"
                 android:background="#fff">
 
                 <LinearLayout
                     android:id="@+id/main_good_type_ll"
                     style="@style/MainHotLLStyle"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="7dp"
                     android:background="#add597">
 
                     <ImageView
@@ -61,6 +63,8 @@
                 <LinearLayout
                     android:id="@+id/main_my_order_ll"
                     style="@style/MainHotLLStyle"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginRight="7dp"
                     android:background="#f7b47f">
 
                     <ImageView
@@ -80,6 +84,8 @@
                 <LinearLayout
                     android:id="@+id/main_user_unit_ll"
                     style="@style/MainHotLLStyle"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginRight="7dp"
                     android:background="#7ecdf4">
 
                     <ImageView
@@ -99,6 +105,8 @@
                 <LinearLayout
                     android:id="@+id/main_shoppingcar_ll"
                     style="@style/MainHotLLStyle"
+                    android:layout_marginLeft="7dp"
+                    android:layout_marginRight="14dp"
                     android:background="#F29c9f">
 
                     <ImageView
@@ -119,7 +127,8 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/main_seal_hot"
                 android:layout_width="match_parent"
-                android:layout_height="320dp"></android.support.v7.widget.RecyclerView>
+                android:layout_height="270dp"
+                android:layout_margin="5dp"></android.support.v7.widget.RecyclerView>
 
             <LinearLayout
                 android:id="@+id/main_seal_style_ll"

@@ -19,5 +19,8 @@
         </activity>
         <activity android:name=".ui.LoginActivity"></activity>
         <activity android:name=".ui.RegUserActivity" />
+        <activity android:name=".ui.GoodTypeActivity">
+
+        </activity>
     </application>
 </manifest>

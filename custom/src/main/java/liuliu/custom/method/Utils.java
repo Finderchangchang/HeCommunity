@@ -84,6 +84,7 @@ public class Utils {
         }
         return path;
     }
+
     public static String URLEncodeImage(String text) {
         if (Utils.isEmptyString(text))
             return "";
@@ -284,8 +285,8 @@ public class Utils {
         return sp.getString(key, "");
     }
 
-    public int getScannerWidth() {
-        WindowManager windowManager = (WindowManager) mContext.getSystemService(mContext.WINDOW_SERVICE);
+    public static int getScannerWidth(Context context) {
+        WindowManager windowManager = (WindowManager) context.getSystemService(context.WINDOW_SERVICE);
         return windowManager.getDefaultDisplay().getWidth();
     }
 
