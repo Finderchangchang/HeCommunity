@@ -45,7 +45,7 @@ public class MainActivity extends BaseActivity implements IMainView {
         //×ó²àµã»÷ÊÂ¼þ
         mToolbar.setLeftOnClick(new TToolbar.LeftOnClickListener() {
             @Override
-            public void leftclick() {
+            public void leftclick() {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 
             }
         });
