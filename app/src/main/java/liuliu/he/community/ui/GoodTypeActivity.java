@@ -15,7 +15,6 @@ import net.tsz.afinal.annotation.view.CodeNote;
 import java.util.ArrayList;
 import java.util.List;
 
-import liuliu.he.community.ListModel;
 import liuliu.he.community.R;
 import liuliu.he.community.base.BaseActivity;
 import liuliu.he.community.type.ItemStyle;
@@ -28,7 +27,7 @@ public class GoodTypeActivity extends BaseActivity {
     public static GoodTypeActivity mIntails;
     @CodeNote(id = R.id.good_type_recycle_view)
     RecyclerView good_type_view;
-    List<ListModel> mDatas;
+    List mDatas;
     private HomeAdapter mAdapter;
     Button btns;
 
@@ -60,19 +59,16 @@ public class GoodTypeActivity extends BaseActivity {
     }
 
     protected void initData() {
-        mDatas = new ArrayList<ListModel>();
+        mDatas = new ArrayList<String>();
         String[] s = {"馈赠礼包", "米面粮油", "生鲜蔬菜", "新鲜水果", "干果炒货", "鱼肉蛋禽", "豆制品"
                 , "乳品饮料", "日化美护", "休闲食品", "贵宾卡"};
         for (int i = 0; i < s.length; i++) {
-            ListModel model = new ListModel();
-            model.setVal(s[i]);
-            model.setResult(false);
-            mDatas.add(model);
+            mDatas.add(s[i]);
         }
     }
 
     static class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
-        List<ListModel> mList;
+        List<String> mList;
 
         public HomeAdapter(List list) {
             mList = list;
@@ -98,7 +94,7 @@ public class GoodTypeActivity extends BaseActivity {
 
         @Override
         public void onBindViewHolder(final MyViewHolder holder, final int position) {
-            holder.btn.setText(mList.get(position).getVal());
+            holder.btn.setText(mList.get(position));
             holder.btn.setBackgroundColor(R.color.b2b2b2);
 
             holder.btn.setOnClickListener(new View.OnClickListener() {

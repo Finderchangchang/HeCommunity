@@ -1,5 +1,6 @@
 package liuliu.he.community.ui;
 
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,8 +27,12 @@ public class MainActivity extends BaseActivity implements IMainView {
     TToolbar mToolbar;
     @CodeNote(id = R.id.main_seal_hot)
     RecyclerView seal_hot_rv;
+    @CodeNote(id = R.id.main_seal_detail_ll)
+    RecyclerView seal_detail_ll;
     List mDatas;
+    List mXinDatas;//新品推荐
     private HomeAdapter mAdapter;
+    private XinAdapter mXinAdapter;
     private MainListener mListener;
 
     @Override
@@ -38,6 +43,12 @@ public class MainActivity extends BaseActivity implements IMainView {
         seal_hot_rv.setLayoutManager(new LinearLayoutManager(this));
         //设置adapter
         seal_hot_rv.setAdapter(mAdapter = new HomeAdapter());
+        /*新品推荐Adapter*/
+        //设置布局管理器
+        seal_detail_ll.setLayoutManager(new LinearLayoutManager(this));
+        //设置adapter
+        seal_detail_ll.setAdapter(mXinAdapter = new XinAdapter());
+        seal_detail_ll.setLayoutManager(new GridLayoutManager(this, 2));
     }
 
     @Override
@@ -67,11 +78,43 @@ public class MainActivity extends BaseActivity implements IMainView {
 
     protected void initData() {
         mDatas = new ArrayList<String>();
+        mXinDatas = new ArrayList();
         for (int i = 'A'; i < 'H'; i++) {
             mDatas.add("" + (char) i);
+            mXinDatas.add((char) i);
         }
     }
 
+    class XinAdapter extends RecyclerView.Adapter<XinAdapter.XinViewHolder> {
+        @Override
+        public XinViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            XinViewHolder holder = new XinViewHolder(LayoutInflater.from(
+                    MainActivity.this).inflate(R.layout.recycle_view_item_hot_good, parent,
+                    false));
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(XinViewHolder holder, int position) {
+            holder.tv.setText(mXinDatas.get(position).toString());
+        }
+
+        @Override
+        public int getItemCount() {
+            return mXinDatas.size();
+        }
+
+        class XinViewHolder extends RecyclerView.ViewHolder {
+            TextView tv;
+
+            public XinViewHolder(View itemView) {
+                super(itemView);
+                tv = (TextView) itemView.findViewById(R.id.xin_good_tv);
+            }
+        }
+    }
+
+    /*加载各大促销的Adapter*/
     class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
 
         @Override

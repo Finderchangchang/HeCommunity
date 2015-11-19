@@ -4,5 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="total_bg">#F1F1F1</color>
-
+    <color name="main_dibu_press">#BB2200</color>
+    <color name="main_dibu_normal">#4A4A4A</color>
+    <color name="main_line">#DDDDDD</color>
 </resources>
