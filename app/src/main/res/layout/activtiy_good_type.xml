@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/total_bg">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/good_type_recycle_view"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="270dp"
-        android:layout_margin="5dp"></android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/good_type_recycle_view"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_margin="5dp"></android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
 
 </LinearLayout>

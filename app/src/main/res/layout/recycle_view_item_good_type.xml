@@ -7,6 +7,6 @@
     <Button
         android:id="@+id/good_type_rv_button"
         android:layout_width="0dp"
-        android:layout_height="35dp"
+        android:layout_height="45dp"
         android:layout_weight="1"></Button>
 </LinearLayout>
