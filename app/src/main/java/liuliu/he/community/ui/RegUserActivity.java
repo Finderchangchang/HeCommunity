@@ -13,14 +13,14 @@ import liuliu.he.community.control.login.ILoginView;
 import liuliu.he.community.control.login.LoginListener;
 
 /**
- * ×¢²á
+ * æ³¨å†Œ
  * Created by Administrator on 2015/11/16.
  */
 public class RegUserActivity extends BaseActivity implements ILoginView {
     @CodeNote(id = R.id.login_user_id_et)
-    ImageEditText user_id;//ÓÃ»§
+    ImageEditText user_id;//ç”¨æˆ·
     @CodeNote(id = R.id.login_password_et)
-    ImageEditText pwd;//ÃÜÂë
+    ImageEditText pwd;//å¯†ç 
     @CodeNote(id = R.id.login_button, click = "onClick")
     Button btn;
     @CodeNote(id = R.id.login_remember_pwd)
@@ -42,8 +42,8 @@ public class RegUserActivity extends BaseActivity implements ILoginView {
         switch (view.getId()) {
             case R.id.login_button:
                 if (user_id.getText().isEmpty() || pwd.getText().isEmpty()) {
-                    mUtils.ToastShort("ÕËºÅ»òÃÜÂë²»ÄÜÎª¿Õ£¡");
-                } else {//Ö´ĞĞµÇÂ¼²Ù×÷
+                    mUtils.ToastShort("è´¦å·æˆ–å¯†ç ä¸èƒ½ä¸ºç©ºï¼");
+                } else {//æ‰§è¡Œç™»å½•æ“ä½œ
                     mListener.UserLogin(user_id.getText(), pwd.getText());
                 }
                 break;
@@ -52,13 +52,13 @@ public class RegUserActivity extends BaseActivity implements ILoginView {
 
     @Override
     public void OnLoginResult(boolean result, String message) {
-        if (result) {//ÑéÖ¤³É¹¦£¬Ö´ĞĞµÇÂ¼
+        if (result) {//éªŒè¯æˆåŠŸï¼Œæ‰§è¡Œç™»å½•
             mUtils.IntentPost(MainActivity.class);
-            if (remember_pwd.isChecked()) {//´æ´¢ÔÚÄÚ´æÖĞµÄÄÇ¸ö
+            if (remember_pwd.isChecked()) {//å­˜å‚¨åœ¨å†…å­˜ä¸­çš„é‚£ä¸ª
 
             }
         } else {
-            mUtils.ToastShort("ÕËºÅ»òÃÜÂë´íÎó£¬ÇëÖØĞÂÊäÈë£¡");
+            mUtils.ToastShort("è´¦å·æˆ–å¯†ç é”™è¯¯ï¼Œè¯·é‡æ–°è¾“å…¥ï¼");
         }
     }
 }
