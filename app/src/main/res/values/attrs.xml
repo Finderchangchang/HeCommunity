@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MyItemView">
+        <attr name="myitem_leftimage" format="reference"></attr>
+        <attr name="myitem_rightimage" format="reference" />
+        <attr name="myitem_lefttext" format="string" />
+        <attr name="myitem_righttext" format="string" />
+    </declare-styleable>
+</resources>
