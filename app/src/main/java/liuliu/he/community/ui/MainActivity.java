@@ -29,45 +29,53 @@ public class MainActivity extends BaseActivity implements IMainView {
     RecyclerView seal_hot_rv;
     @CodeNote(id = R.id.main_seal_detail_ll)
     RecyclerView seal_detail_ll;
+    @CodeNote(id = R.id.main_good_type_lv)
+    RecyclerView good_type_lv;
     List mDatas;
-    List mXinDatas;//ĞÂÆ·ÍÆ¼ö
+    List mXinDatas;//æ–°å“æ¨è
+    List mFenDatas;//å•†å“åˆ†ç±»
     private HomeAdapter mAdapter;
     private XinAdapter mXinAdapter;
+    private FenLeiAdapter mFenAdapter;
     private MainListener mListener;
 
     @Override
     public void initViews() {
         setContentView(R.layout.activity_main);
         initData();
-        //ÉèÖÃ²¼¾Ö¹ÜÀíÆ÷
+        //è®¾ç½®å¸ƒå±€ç®¡ç†å™¨
         seal_hot_rv.setLayoutManager(new LinearLayoutManager(this));
-        //ÉèÖÃadapter
+        //è®¾ç½®adapter
         seal_hot_rv.setAdapter(mAdapter = new HomeAdapter());
-        /*ĞÂÆ·ÍÆ¼öAdapter*/
-        //ÉèÖÃ²¼¾Ö¹ÜÀíÆ÷
+        /*æ–°å“æ¨èAdapter*/
+        //è®¾ç½®å¸ƒå±€ç®¡ç†å™¨
         seal_detail_ll.setLayoutManager(new LinearLayoutManager(this));
-        //ÉèÖÃadapter
+        //è®¾ç½®adapter
         seal_detail_ll.setAdapter(mXinAdapter = new XinAdapter());
         seal_detail_ll.setLayoutManager(new GridLayoutManager(this, 2));
+        good_type_lv.setLayoutManager(new LinearLayoutManager(this));
+        //è®¾ç½®adapter
+        good_type_lv.setAdapter(mFenAdapter = new FenLeiAdapter());
+        good_type_lv.setLayoutManager(new GridLayoutManager(this, 2));
     }
 
     @Override
     public void initEvents() {
-        //×ó²àµã»÷ÊÂ¼ş
+        //å·¦ä¾§ç‚¹å‡»äº‹ä»¶
         mToolbar.setLeftOnClick(new TToolbar.LeftOnClickListener() {
             @Override
             public void leftclick() {
 
             }
         });
-        //ÖĞ¼äµã»÷ÊÂ¼ş
+        //ä¸­é—´ç‚¹å‡»äº‹ä»¶
         mToolbar.setCenterOnClick(new TToolbar.CenterOnClickListener() {
             @Override
             public void centerclick() {
 
             }
         });
-        //ÓÒ²àµã»÷ÊÂ¼ş
+        //å³ä¾§ç‚¹å‡»äº‹ä»¶
         mToolbar.setRightOnClick(new TToolbar.RightOnClickListener() {
             @Override
             public void rightclick() {
@@ -79,9 +87,15 @@ public class MainActivity extends BaseActivity implements IMainView {
     protected void initData() {
         mDatas = new ArrayList<String>();
         mXinDatas = new ArrayList();
+        mFenDatas = new ArrayList();
+        String[] s = {"ä¸­ç§‹ç¤¼å“", "ç±³é¢ç²®æ²¹", "ç”Ÿé²œè”¬èœ", "æ–°é²œæ°´æœ", "å¹²æœç‚’è´§",
+                "é±¼è‚‰è›‹ç¦½", "è±†åˆ¶å“", "ä¹³å“é¥®æ–™", "æ—¥åŒ–ç¾æŠ¤", "ä¼‘é—²é£Ÿå“"};
         for (int i = 'A'; i < 'H'; i++) {
             mDatas.add("" + (char) i);
             mXinDatas.add((char) i);
+        }
+        for (int i = 0; i < s.length; i++) {
+            mFenDatas.add(s[i]);
         }
     }
 
@@ -114,7 +128,36 @@ public class MainActivity extends BaseActivity implements IMainView {
         }
     }
 
-    /*¼ÓÔØ¸÷´ó´ÙÏúµÄAdapter*/
+    class FenLeiAdapter extends RecyclerView.Adapter<FenLeiAdapter.FenLeiViewHolder> {
+        @Override
+        public FenLeiViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            FenLeiViewHolder holder = new FenLeiViewHolder(LayoutInflater.from(
+                    MainActivity.this).inflate(R.layout.recycle_view_item_hot_good, parent,
+                    false));
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(FenLeiViewHolder holder, int position) {
+            holder.tv.setText(mFenDatas.get(position).toString());
+        }
+
+        @Override
+        public int getItemCount() {
+            return mFenDatas.size();
+        }
+
+        class FenLeiViewHolder extends RecyclerView.ViewHolder {
+            TextView tv;
+
+            public FenLeiViewHolder(View itemView) {
+                super(itemView);
+                tv = (TextView) itemView.findViewById(R.id.xin_good_tv);
+            }
+        }
+    }
+
+    /*åŠ è½½å„å¤§ä¿ƒé”€çš„Adapter*/
     class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
 
         @Override
@@ -129,7 +172,7 @@ public class MainActivity extends BaseActivity implements IMainView {
         public void onBindViewHolder(MyViewHolder holder, int position) {
             ViewGroup.LayoutParams lp = holder.mTotalItem.getLayoutParams();
             switch (mDatas.size()) {
-                case 4://°æ±¾Ò»
+                case 4://ç‰ˆæœ¬ä¸€
                     if (position == 0) {
                         lp.height = 420;
                         holder.mTotalItem.setLayoutParams(lp);
@@ -141,7 +184,7 @@ public class MainActivity extends BaseActivity implements IMainView {
                         holder.mTotalItem.setVisibility(View.GONE);
                     }
                     break;
-                case 5://°æ±¾¶ş
+                case 5://ç‰ˆæœ¬äºŒ
                     if (position == 0) {
                         lp.height = 420;
                         holder.mTotalItem.setLayoutParams(lp);
@@ -159,7 +202,7 @@ public class MainActivity extends BaseActivity implements IMainView {
                     }
                     break;
                 case 6:
-                    if (ItemStyle.SixFour == ItemStyle.SixFour) {//°æ±¾°Ë
+                    if (ItemStyle.SixFour == ItemStyle.SixFour) {//ç‰ˆæœ¬å…«
                         if (position == 0) {
                             lp.height = 420;
                             setItemTwo(holder, lp);
@@ -178,7 +221,7 @@ public class MainActivity extends BaseActivity implements IMainView {
                         } else {
                             holder.mTotalItem.setVisibility(View.GONE);
                         }
-                    } else if (ItemStyle.SixThree == ItemStyle.SixThree) {//°æ±¾¢ß
+                    } else if (ItemStyle.SixThree == ItemStyle.SixThree) {//ç‰ˆæœ¬â‘¦
                         if (position == 0) {
                             lp.height = 420;
                             setItemTwo(holder, lp);
@@ -190,7 +233,7 @@ public class MainActivity extends BaseActivity implements IMainView {
                         } else {
                             holder.mTotalItem.setVisibility(View.GONE);
                         }
-                    } else if (ItemStyle.SixOne == ItemStyle.SixOne) {//°æ±¾ËÄ
+                    } else if (ItemStyle.SixOne == ItemStyle.SixOne) {//ç‰ˆæœ¬å››
                         setWeight(holder);
                         if (position == 0 || position == 1 || position == 2) {
                             lp.height = 200;
@@ -200,7 +243,7 @@ public class MainActivity extends BaseActivity implements IMainView {
                         } else {
                             holder.mTotalItem.setVisibility(View.GONE);
                         }
-                    } else if (ItemStyle.SixTwo == ItemStyle.SixTwo) {//°æ±¾Îå
+                    } else if (ItemStyle.SixTwo == ItemStyle.SixTwo) {//ç‰ˆæœ¬äº”
                         if (position == 0) {
                             lp.height = 420;
                             holder.mTotalItem.setLayoutParams(lp);
@@ -219,7 +262,7 @@ public class MainActivity extends BaseActivity implements IMainView {
                     }
                     break;
                 case 7:
-                    if (ItemStyle.SevenOne == ItemStyle.SevenOne) {//°æ±¾Èı
+                    if (ItemStyle.SevenOne == ItemStyle.SevenOne) {//ç‰ˆæœ¬ä¸‰
                         if (position == 0) {
                             lp.height = 350;
                             holder.mTotalItem.setLayoutParams(lp);
@@ -233,7 +276,7 @@ public class MainActivity extends BaseActivity implements IMainView {
                         } else {
                             holder.mTotalItem.setVisibility(View.GONE);
                         }
-                    } else if (ItemStyle.SevenTwo == ItemStyle.SevenTwo) {//°æ±¾Áù
+                    } else if (ItemStyle.SevenTwo == ItemStyle.SevenTwo) {//ç‰ˆæœ¬å…­
                         setWeight(holder);
                         if (position == 0) {
                             lp.height = 300;
@@ -267,7 +310,7 @@ public class MainActivity extends BaseActivity implements IMainView {
             holder.mRightRightLL.setVisibility(View.GONE);
         }
 
-        //ÉèÖÃItemÓĞËÄ¸ö
+        //è®¾ç½®Itemæœ‰å››ä¸ª
         private void setItemFour(MyViewHolder holder, ViewGroup.LayoutParams lp, int position) {
             holder.mTotalItem.setLayoutParams(lp);
             holder.left_one_tv.setText(mDatas.get(position + 1).toString());
@@ -281,7 +324,7 @@ public class MainActivity extends BaseActivity implements IMainView {
             holder.mRightLLFour.setVisibility(View.GONE);
         }
 
-        //ÉèÖÃweight 2:1
+        //è®¾ç½®weight 2:1
         private void setWeight(MyViewHolder holder) {
             LinearLayout.LayoutParams param;
             param = new LinearLayout.LayoutParams(0,
@@ -300,16 +343,16 @@ public class MainActivity extends BaseActivity implements IMainView {
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
-            LinearLayout mTotalItem;//×ÜÌåµÄ
-            LinearLayout mLeftLL;//×ó²à²¼¾Ö
-            LinearLayout mLeftLLOne;//×ó²à²¼¾Ö
-            LinearLayout mLeftLLTwo;//×ó²à²¼¾Ö
-            LinearLayout mRightLL;//ÓÒ²à²¼¾Ö
-            LinearLayout mRightLLOne;//ÓÒ²à²¼¾Ö
-            LinearLayout mRightRightLL;//ÓÒ²à²¼¾Ö
-            LinearLayout mRightLLTwo;//ÓÒ²à²¼¾Ö
-            LinearLayout mRightLLThree;//ÓÒ²à²¼¾Ö
-            LinearLayout mRightLLFour;//ÓÒ²à²¼¾Ö
+            LinearLayout mTotalItem;//æ€»ä½“çš„
+            LinearLayout mLeftLL;//å·¦ä¾§å¸ƒå±€
+            LinearLayout mLeftLLOne;//å·¦ä¾§å¸ƒå±€
+            LinearLayout mLeftLLTwo;//å·¦ä¾§å¸ƒå±€
+            LinearLayout mRightLL;//å³ä¾§å¸ƒå±€
+            LinearLayout mRightLLOne;//å³ä¾§å¸ƒå±€
+            LinearLayout mRightRightLL;//å³ä¾§å¸ƒå±€
+            LinearLayout mRightLLTwo;//å³ä¾§å¸ƒå±€
+            LinearLayout mRightLLThree;//å³ä¾§å¸ƒå±€
+            LinearLayout mRightLLFour;//å³ä¾§å¸ƒå±€
             TextView left_one_tv;
             TextView left_two_tv;
             TextView right_one_tv;
