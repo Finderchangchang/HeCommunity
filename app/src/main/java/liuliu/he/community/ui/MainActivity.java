@@ -33,6 +33,7 @@ public class MainActivity extends BaseActivity implements IMainView {
     RecyclerView good_type_lv;
     List mDatas;
     List mXinDatas;//新品推荐
+    List mXinDatas;//新品推荐
     List mFenDatas;//商品分类
     private HomeAdapter mAdapter;
     private XinAdapter mXinAdapter;
@@ -128,6 +129,7 @@ public class MainActivity extends BaseActivity implements IMainView {
         }
     }
 
+    /*加载各大促销的Adapter*/
     class FenLeiAdapter extends RecyclerView.Adapter<FenLeiAdapter.FenLeiViewHolder> {
         @Override
         public FenLeiViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -221,7 +223,7 @@ public class MainActivity extends BaseActivity implements IMainView {
                         } else {
                             holder.mTotalItem.setVisibility(View.GONE);
                         }
-                    } else if (ItemStyle.SixThree == ItemStyle.SixThree) {//版本⑦
+                    } else if (ItemStyle.SixThree == ItemStyle.SixThree) {//�汾��
                         if (position == 0) {
                             lp.height = 420;
                             setItemTwo(holder, lp);
@@ -233,7 +235,7 @@ public class MainActivity extends BaseActivity implements IMainView {
                         } else {
                             holder.mTotalItem.setVisibility(View.GONE);
                         }
-                    } else if (ItemStyle.SixOne == ItemStyle.SixOne) {//版本四
+                    } else if (ItemStyle.SixOne == ItemStyle.SixOne) {//�汾��
                         setWeight(holder);
                         if (position == 0 || position == 1 || position == 2) {
                             lp.height = 200;
@@ -243,7 +245,7 @@ public class MainActivity extends BaseActivity implements IMainView {
                         } else {
                             holder.mTotalItem.setVisibility(View.GONE);
                         }
-                    } else if (ItemStyle.SixTwo == ItemStyle.SixTwo) {//版本五
+                    } else if (ItemStyle.SixTwo == ItemStyle.SixTwo) {//�汾��
                         if (position == 0) {
                             lp.height = 420;
                             holder.mTotalItem.setLayoutParams(lp);
@@ -262,7 +264,7 @@ public class MainActivity extends BaseActivity implements IMainView {
                     }
                     break;
                 case 7:
-                    if (ItemStyle.SevenOne == ItemStyle.SevenOne) {//版本三
+                    if (ItemStyle.SevenOne == ItemStyle.SevenOne) {//�汾��
                         if (position == 0) {
                             lp.height = 350;
                             holder.mTotalItem.setLayoutParams(lp);
@@ -276,7 +278,7 @@ public class MainActivity extends BaseActivity implements IMainView {
                         } else {
                             holder.mTotalItem.setVisibility(View.GONE);
                         }
-                    } else if (ItemStyle.SevenTwo == ItemStyle.SevenTwo) {//版本六
+                    } else if (ItemStyle.SevenTwo == ItemStyle.SevenTwo) {//�汾��
                         setWeight(holder);
                         if (position == 0) {
                             lp.height = 300;
