@@ -7,4 +7,6 @@
     <color name="main_dibu_press">#BB2200</color>
     <color name="main_dibu_normal">#4A4A4A</color>
     <color name="main_line">#DDDDDD</color>
+    <color name="good_type_btn_press">#12B059</color>
+    <color name="good_type_btn">#EFEFEF</color>
 </resources>

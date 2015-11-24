@@ -1,5 +1,7 @@
 package liuliu.he.community.ui;
 
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -7,8 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import net.tsz.afinal.annotation.view.CodeNote;
 
@@ -17,7 +17,6 @@ import java.util.List;
 
 import liuliu.he.community.R;
 import liuliu.he.community.base.BaseActivity;
-import liuliu.he.community.type.ItemStyle;
 
 /**
  * 商品类型Activity
@@ -48,11 +47,12 @@ public class GoodTypeActivity extends BaseActivity {
         mAdapter.setOnItemClickLitener(new HomeAdapter.OnItemClickLitener() {
             @Override
             public void onItemClick(Button btn, int position) {
+                mAdapter.notifyItemChanged(0);
                 if (btns != null) {
-                    btns.setBackgroundColor(R.color.b2b2b2);
+                    btns.setBackgroundResource(R.mipmap.good_type_item);
                 }
                 btns = btn;
-                btns.setBackgroundColor(R.color.red);
+                btns.setBackgroundResource(R.mipmap.good_type_item_pressed);
             }
         });
 
@@ -60,8 +60,8 @@ public class GoodTypeActivity extends BaseActivity {
 
     protected void initData() {
         mDatas = new ArrayList<String>();
-        String[] s = {"馈赠礼包", "米面粮油", "生鲜蔬菜", "新鲜水果", "干果炒货", "鱼肉蛋禽", "豆制品"
-                , "乳品饮料", "日化美护", "休闲食品", "贵宾卡"};
+        String[] s = {"米面粮油", "生鲜蔬菜", "新鲜水果", "干果炒货", "鱼肉蛋禽", "豆制品"
+                , "乳品饮料", "日化美护", "休闲食品", "馈赠礼包"};
         for (int i = 0; i < s.length; i++) {
             mDatas.add(s[i]);
         }
@@ -69,9 +69,10 @@ public class GoodTypeActivity extends BaseActivity {
 
     static class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
         List<String> mList;
-
+        int mClick;
         public HomeAdapter(List list) {
             mList = list;
+
         }
 
         public interface OnItemClickLitener {
@@ -95,11 +96,20 @@ public class GoodTypeActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(final MyViewHolder holder, final int position) {
             holder.btn.setText(mList.get(position));
-            holder.btn.setBackgroundColor(R.color.b2b2b2);
+            holder.btn.setBackgroundResource(R.mipmap.good_type_item);
+            Resources resources = GoodTypeActivity.mIntails.getResources();
+            Drawable drawable = resources.getDrawable(R.mipmap.good_type_item_pressed);
+            if(holder.btn.getBackground()==drawable){
+                holder.btn.setBackgroundResource(R.mipmap.good_type_item);
+            }
+//            if (!result) {
+//                holder.btn.setBackgroundResource(R.mipmap.good_type_item_pressed);
+//            }
 
             holder.btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    notifyItemChanged(0);
                     mOnItemClickLitener.onItemClick(holder.btn, position);
                 }
             });
