@@ -33,7 +33,6 @@ public class MainActivity extends BaseActivity implements IMainView {
     RecyclerView good_type_lv;
     List mDatas;
     List mXinDatas;//新品推荐
-    List mXinDatas;//新品推荐
     List mFenDatas;//商品分类
     private HomeAdapter mAdapter;
     private XinAdapter mXinAdapter;

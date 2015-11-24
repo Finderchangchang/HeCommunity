@@ -13,7 +13,7 @@ import android.widget.TextView;
 /**
  * Created by liuliu on 2015/11/16   16:29
  *
- * @author ÁøÎ°½Ü
+ * @author æŸ³ä¼Ÿæ°
  * @Email 1031066280@qq.com
  */
 public class ViewHolder {
@@ -32,7 +32,7 @@ public class ViewHolder {
     }
 
     /**
-     * ÄÃµ½Ò»¸öViewHolder¶ÔÏó
+     * æ‹¿åˆ°ä¸€ä¸ªViewHolderå¯¹è±¡
      *
      * @param context
      * @param convertView
@@ -54,7 +54,7 @@ public class ViewHolder {
     }
 
     /**
-     * Í¨¹ı¿Ø¼şµÄId»ñÈ¡¶ÔÓÚµÄ¿Ø¼ş£¬Èç¹ûÃ»ÓĞÔò¼ÓÈëviews
+     * é€šè¿‡æ§ä»¶çš„Idè·å–å¯¹äºçš„æ§ä»¶ï¼Œå¦‚æœæ²¡æœ‰åˆ™åŠ å…¥views
      *
      * @param viewId
      * @return
@@ -69,7 +69,7 @@ public class ViewHolder {
     }
 
     /**
-     * ÎªTextViewÉèÖÃ×Ö·û´®
+     * ä¸ºTextViewè®¾ç½®å­—ç¬¦ä¸²
      *
      * @param viewId
      * @param text
@@ -81,14 +81,14 @@ public class ViewHolder {
         return this;
     }
 
-    //»ñÈ¡ÖªµÀtextviewµÄÖµ
+    //è·å–çŸ¥é“textviewçš„å€¼
     public String getText(int viewId) {
         TextView view = getView(viewId);
         return view.getText().toString().trim();
     }
 
     /**
-     * ÉèÖÃ¼àÌıÊ±¼ä
+     * è®¾ç½®ç›‘å¬æ—¶é—´
      *
      * @param viewId
      * @param listener
@@ -103,7 +103,7 @@ public class ViewHolder {
     ;
 
     /**
-     * ÎªImageViewÉèÖÃÍ¼Æ¬
+     * ä¸ºImageViewè®¾ç½®å›¾ç‰‡
      *
      * @param viewId
      * @param drawableId
@@ -116,7 +116,7 @@ public class ViewHolder {
     }
 
     /**
-     * ÎªImageViewÉèÖÃÍ¼Æ¬
+     * ä¸ºImageViewè®¾ç½®å›¾ç‰‡
      *
      * @param viewId
      * @param bm
@@ -135,7 +135,7 @@ public class ViewHolder {
     }
 
     /**
-     * ÎªImageViewÉèÖÃÍ¼Æ¬
+     * ä¸ºImageViewè®¾ç½®å›¾ç‰‡
      *
      * @param viewId
      * @param url
