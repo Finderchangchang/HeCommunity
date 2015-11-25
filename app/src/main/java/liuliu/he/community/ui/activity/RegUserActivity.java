@@ -1,4 +1,4 @@
-package liuliu.he.community.ui;
+package liuliu.he.community.ui.activity;
 
 import android.view.View;
 import android.widget.Button;

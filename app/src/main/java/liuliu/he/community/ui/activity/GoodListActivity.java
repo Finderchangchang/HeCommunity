@@ -1,4 +1,4 @@
-package liuliu.he.community.ui;
+package liuliu.he.community.ui.activity;
 
 import android.widget.LinearLayout;
 

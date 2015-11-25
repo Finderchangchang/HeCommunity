@@ -9,19 +9,20 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:label="@string/app_name">
 
         </activity>
-        <activity android:name=".ui.LoginActivity"></activity>
-        <activity android:name=".ui.RegUserActivity" />
-        <activity android:name=".ui.GoodTypeActivity">
+        <activity android:name=".ui.activity.LoginActivity"></activity>
+        <activity android:name=".ui.activity.RegUserActivity" />
+        <activity android:name=".ui.activity.GoodTypeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.CartList" />
+        <activity android:name=".ui.activity.CartList" />
+        <activity android:name=".ui.activity.FragActivity"/>
     </application>
 </manifest>

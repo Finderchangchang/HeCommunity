@@ -1,4 +1,4 @@
-package liuliu.he.community.ui;
+package liuliu.he.community.ui.activity;
 
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;

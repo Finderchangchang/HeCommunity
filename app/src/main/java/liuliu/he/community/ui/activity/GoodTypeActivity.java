@@ -1,4 +1,4 @@
-package liuliu.he.community.ui;
+package liuliu.he.community.ui.activity;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -72,7 +72,6 @@ public class GoodTypeActivity extends BaseActivity {
             }
         });
         good_type_view.setLayoutManager(new GridLayoutManager(this, 4));
-
 
         //设置布局管理器
         good_type_viewss.setLayoutManager(new LinearLayoutManager(this));
