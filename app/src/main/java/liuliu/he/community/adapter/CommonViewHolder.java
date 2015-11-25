@@ -16,18 +16,17 @@ import android.widget.TextView;
  * @author 柳伟杰
  * @Email 1031066280@qq.com
  */
-public class ViewHolder {
+public class CommonViewHolder {
     private final SparseArray<View> mViews;
     private int mPosition;
     private View mConvertView;
 
-    private ViewHolder(Context context, ViewGroup parent, int layoutId,
-                       int position) {
+    private CommonViewHolder(Context context, ViewGroup parent, int layoutId,
+                             int position) {
         this.mPosition = position;
         this.mViews = new SparseArray<View>();
         mConvertView = LayoutInflater.from(context).inflate(layoutId, parent,
                 false);
-        // setTag
         mConvertView.setTag(this);
     }
 
@@ -41,12 +40,12 @@ public class ViewHolder {
      * @param position
      * @return
      */
-    public static ViewHolder get(Context context, View convertView,
+    public static CommonViewHolder get(Context context, View convertView,
                                  ViewGroup parent, int layoutId, int position) {
         if (convertView == null) {
-            return new ViewHolder(context, parent, layoutId, position);
+            return new CommonViewHolder(context, parent, layoutId, position);
         }
-        return (ViewHolder) convertView.getTag();
+        return (CommonViewHolder) convertView.getTag();
     }
 
     public View getConvertView() {
@@ -75,7 +74,7 @@ public class ViewHolder {
      * @param text
      * @return
      */
-    public ViewHolder setText(int viewId, String text) {
+    public CommonViewHolder setText(int viewId, String text) {
         TextView view = getView(viewId);
         view.setText(text);
         return this;
@@ -94,7 +93,7 @@ public class ViewHolder {
      * @param listener
      * @return
      */
-    public ViewHolder setOnClickListener(int viewId, View.OnClickListener listener) {
+    public CommonViewHolder setOnClickListener(int viewId, View.OnClickListener listener) {
         View view = getView(viewId);
         view.setOnClickListener(listener);
         return this;
@@ -109,7 +108,7 @@ public class ViewHolder {
      * @param drawableId
      * @return
      */
-    public ViewHolder setImageResource(int viewId, int drawableId) {
+    public CommonViewHolder setImageResource(int viewId, int drawableId) {
         ImageView view = getView(viewId);
         view.setImageResource(drawableId);
         return this;
@@ -122,13 +121,13 @@ public class ViewHolder {
      * @param bm
      * @return
      */
-    public ViewHolder setImageBitmap(int viewId, Bitmap bm) {
+    public CommonViewHolder setImageBitmap(int viewId, Bitmap bm) {
         ImageView view = getView(viewId);
         view.setImageBitmap(bm);
         return this;
     }
 
-    public ViewHolder setImageDrawable(int viewId, Drawable bm) {
+    public CommonViewHolder setImageDrawable(int viewId, Drawable bm) {
         ImageView view = getView(viewId);
         view.setImageDrawable(bm);
         return this;
@@ -141,7 +140,7 @@ public class ViewHolder {
      * @param url
      * @return
      */
-    public ViewHolder setImageByUrl(int viewId, String url) {
+    public CommonViewHolder setImageByUrl(int viewId, String url) {
 //        ImageLoader.getInstance(3, Type.LIFO).loadImage(url,
 //                (ImageView) getView(viewId));
         return this;

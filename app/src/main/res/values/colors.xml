@@ -9,4 +9,7 @@
     <color name="main_line">#DDDDDD</color>
     <color name="good_type_btn_press">#12B059</color>
     <color name="good_type_btn">#EFEFEF</color>
+    <color name="main_item_normal">#484848</color>
+    <color name="main_item_pressed">#B92100</color>
+    <color name="main_item_line">#DCDCDC</color>
 </resources>

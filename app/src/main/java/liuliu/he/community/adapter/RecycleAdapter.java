@@ -9,15 +9,16 @@ import java.util.List;
 
 /**
  * Created by liuliu on 2015/11/21   11:35
+ * 通用的Recycle的适配器
  *
  * @author 柳伟杰
  * @Email 1031066280@qq.com
  */
-public abstract class RecycleAdapter<T> extends RecyclerView.Adapter<MyViewHolder> {
+public abstract class RecycleAdapter<T> extends RecyclerView.Adapter<RecycleViewHolder> {
     private Context mContext;
     List mDatas;
     int mLayoutId;
-    MyViewHolder mHolder;
+    RecycleViewHolder mHolder;
 
     public RecycleAdapter(Context context, List<T> datas, int layoutId) {
         mContext = context;
@@ -26,15 +27,15 @@ public abstract class RecycleAdapter<T> extends RecyclerView.Adapter<MyViewHolde
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        mHolder = new MyViewHolder(LayoutInflater.from(
+    public RecycleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        mHolder = new RecycleViewHolder(LayoutInflater.from(
                 mContext).inflate(mLayoutId, parent, false), mContext);
         return mHolder;
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        convert(holder, (T) mDatas.get(position), position);
+    public void onBindViewHolder(RecycleViewHolder holder, int position) {
+        convert(holder, mDatas, position);
     }
 
     @Override
@@ -42,5 +43,5 @@ public abstract class RecycleAdapter<T> extends RecyclerView.Adapter<MyViewHolde
         return mDatas.size();
     }
 
-    public abstract void convert(MyViewHolder holder, T t, int position);
+    public abstract void convert(RecycleViewHolder holder, List<T> t, int position);
 }

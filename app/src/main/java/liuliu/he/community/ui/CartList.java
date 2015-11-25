@@ -9,7 +9,7 @@ import java.util.List;
 
 import liuliu.he.community.R;
 import liuliu.he.community.adapter.CommonAdapter;
-import liuliu.he.community.adapter.ViewHolder;
+import liuliu.he.community.adapter.CommonViewHolder;
 import liuliu.he.community.base.BaseActivity;
 import liuliu.he.community.model.CartModel;
 
@@ -58,7 +58,7 @@ public class CartList extends BaseActivity {
         adapter = new CommonAdapter(this, lsit, R.layout.cart_item) {
 
             @Override
-            public void convert(final ViewHolder holder, Object o, final int position) {
+            public void convert(final CommonViewHolder holder, Object o, final int position) {
                 CartModel cart = (CartModel) o;
                 holder.setText(R.id.cart_name, cart.getName());
                 holder.setText(R.id.cart_num, cart.getNum());

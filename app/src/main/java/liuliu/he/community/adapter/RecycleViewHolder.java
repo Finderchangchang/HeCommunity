@@ -24,12 +24,12 @@ import android.widget.TextView;
  * @author 柳伟杰
  * @Email 1031066280@qq.com
  */
-public class MyViewHolder extends RecyclerView.ViewHolder {
+public class RecycleViewHolder extends RecyclerView.ViewHolder {
     private SparseArray<View> mViews;
     private View mConvertView;
     private Context mContext;
 
-    public MyViewHolder(View itemView, Context context) {
+    public RecycleViewHolder(View itemView, Context context) {
         super(itemView);
         mContext = context;
         this.mViews = new SparseArray<View>();
@@ -51,56 +51,56 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         return (T) view;
     }
 
-    public MyViewHolder setText(int viewId, String text) {
+    public RecycleViewHolder setText(int viewId, String text) {
         TextView tv = getView(viewId);
         tv.setText(text);
         return this;
     }
 
-    public MyViewHolder setImageResource(int viewId, int resId) {
+    public RecycleViewHolder setImageResource(int viewId, int resId) {
         ImageView view = getView(viewId);
         view.setImageResource(resId);
         return this;
     }
 
-    public MyViewHolder setImageBitmap(int viewId, Bitmap bitmap) {
+    public RecycleViewHolder setImageBitmap(int viewId, Bitmap bitmap) {
         ImageView view = getView(viewId);
         view.setImageBitmap(bitmap);
         return this;
     }
 
-    public MyViewHolder setImageDrawable(int viewId, Drawable drawable) {
+    public RecycleViewHolder setImageDrawable(int viewId, Drawable drawable) {
         ImageView view = getView(viewId);
         view.setImageDrawable(drawable);
         return this;
     }
 
-    public MyViewHolder setBackgroundColor(int viewId, int color) {
+    public RecycleViewHolder setBackgroundColor(int viewId, int color) {
         View view = getView(viewId);
         view.setBackgroundColor(color);
         return this;
     }
 
-    public MyViewHolder setBackgroundRes(int viewId, int backgroundRes) {
+    public RecycleViewHolder setBackgroundRes(int viewId, int backgroundRes) {
         View view = getView(viewId);
         view.setBackgroundResource(backgroundRes);
         return this;
     }
 
-    public MyViewHolder setTextColor(int viewId, int textColor) {
+    public RecycleViewHolder setTextColor(int viewId, int textColor) {
         TextView view = getView(viewId);
         view.setTextColor(textColor);
         return this;
     }
 
-    public MyViewHolder setTextColorRes(int viewId, int textColorRes) {
+    public RecycleViewHolder setTextColorRes(int viewId, int textColorRes) {
         TextView view = getView(viewId);
         view.setTextColor(mContext.getResources().getColor(textColorRes));
         return this;
     }
 
     @SuppressLint("NewApi")
-    public MyViewHolder setAlpha(int viewId, float value) {
+    public RecycleViewHolder setAlpha(int viewId, float value) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             getView(viewId).setAlpha(value);
         } else {
@@ -113,19 +113,19 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
-    public MyViewHolder setVisible(int viewId, boolean visible) {
+    public RecycleViewHolder setVisible(int viewId, boolean visible) {
         View view = getView(viewId);
         view.setVisibility(visible ? View.VISIBLE : View.GONE);
         return this;
     }
 
-    public MyViewHolder linkify(int viewId) {
+    public RecycleViewHolder linkify(int viewId) {
         TextView view = getView(viewId);
         Linkify.addLinks(view, Linkify.ALL);
         return this;
     }
 
-    public MyViewHolder setTypeface(Typeface typeface, int... viewIds) {
+    public RecycleViewHolder setTypeface(Typeface typeface, int... viewIds) {
         for (int viewId : viewIds) {
             TextView view = getView(viewId);
             view.setTypeface(typeface);
@@ -134,51 +134,51 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
-    public MyViewHolder setProgress(int viewId, int progress) {
+    public RecycleViewHolder setProgress(int viewId, int progress) {
         ProgressBar view = getView(viewId);
         view.setProgress(progress);
         return this;
     }
 
-    public MyViewHolder setProgress(int viewId, int progress, int max) {
+    public RecycleViewHolder setProgress(int viewId, int progress, int max) {
         ProgressBar view = getView(viewId);
         view.setMax(max);
         view.setProgress(progress);
         return this;
     }
 
-    public MyViewHolder setMax(int viewId, int max) {
+    public RecycleViewHolder setMax(int viewId, int max) {
         ProgressBar view = getView(viewId);
         view.setMax(max);
         return this;
     }
 
-    public MyViewHolder setRating(int viewId, float rating) {
+    public RecycleViewHolder setRating(int viewId, float rating) {
         RatingBar view = getView(viewId);
         view.setRating(rating);
         return this;
     }
 
-    public MyViewHolder setRating(int viewId, float rating, int max) {
+    public RecycleViewHolder setRating(int viewId, float rating, int max) {
         RatingBar view = getView(viewId);
         view.setMax(max);
         view.setRating(rating);
         return this;
     }
 
-    public MyViewHolder setTag(int viewId, Object tag) {
+    public RecycleViewHolder setTag(int viewId, Object tag) {
         View view = getView(viewId);
         view.setTag(tag);
         return this;
     }
 
-    public MyViewHolder setTag(int viewId, int key, Object tag) {
+    public RecycleViewHolder setTag(int viewId, int key, Object tag) {
         View view = getView(viewId);
         view.setTag(key, tag);
         return this;
     }
 
-    public MyViewHolder setChecked(int viewId, boolean checked) {
+    public RecycleViewHolder setChecked(int viewId, boolean checked) {
         Checkable view = (Checkable) getView(viewId);
         view.setChecked(checked);
         return this;
@@ -187,21 +187,21 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
     /**
      * 关于事件的
      */
-    public MyViewHolder setOnClickListener(int viewId,
+    public RecycleViewHolder setOnClickListener(int viewId,
                                            View.OnClickListener listener) {
         View view = getView(viewId);
         view.setOnClickListener(listener);
         return this;
     }
 
-    public MyViewHolder setOnTouchListener(int viewId,
+    public RecycleViewHolder setOnTouchListener(int viewId,
                                            View.OnTouchListener listener) {
         View view = getView(viewId);
         view.setOnTouchListener(listener);
         return this;
     }
 
-    public MyViewHolder setOnLongClickListener(int viewId,
+    public RecycleViewHolder setOnLongClickListener(int viewId,
                                                View.OnLongClickListener listener) {
         View view = getView(viewId);
         view.setOnLongClickListener(listener);
