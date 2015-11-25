@@ -51,7 +51,6 @@ public class GoodTypeActivity extends BaseActivity {
         good_type_view.setLayoutManager(new LinearLayoutManager(this));
         initData();
         //设置adapter
-//        good_type_view.setAdapter(mAdapter = new GoodTypeAdapter(mDatas, 0, mIntails));
         good_type_view.setAdapter(new RecycleAdapter(mIntails, mDatas, R.layout.recycle_view_item_good_type) {
             @Override
             public void convert(RecycleViewHolder holder, final List list, final int position) {
@@ -84,7 +83,7 @@ public class GoodTypeActivity extends BaseActivity {
                 final List<ItemModel> itemModel = list;
                 ImageView imageView = holder.getView(R.id.item_bottom_iv);
                 TextView textView = holder.getView(R.id.item_bottom_tv);
-                listbtn.add(new ChangeItemModel(textView, imageView));
+                listbtn.add(new ChangeItemModel(textView, imageView));//添加组件到listview
                 textView.setText(itemModel.get(position).getTitle());
                 imageView.setImageResource(itemModel.get(position).getNormal_img());
                 if (position == mClick) {//第一次打开的时候选择的项
