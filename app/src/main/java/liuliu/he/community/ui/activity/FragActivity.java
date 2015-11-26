@@ -21,6 +21,8 @@ import liuliu.he.community.adapter.RecycleViewHolder;
 import liuliu.he.community.base.BaseActivity;
 import liuliu.he.community.model.ChangeItemModel;
 import liuliu.he.community.model.ItemModel;
+import liuliu.he.community.ui.fragment.FenleiFragment;
+import liuliu.he.community.ui.fragment.GouwucheFragment;
 import liuliu.he.community.ui.fragment.ShouyeFragment;
 import liuliu.he.community.ui.fragment.WodeFragment;
 
@@ -31,8 +33,6 @@ public class FragActivity extends BaseActivity {
     public static FragActivity mIntails;
     @CodeNote(id = R.id.frag_ll)
     FrameLayout frag_ll;
-    ShouyeFragment shoye;
-    WodeFragment wode;
     @CodeNote(id = R.id.frag_ll_recycle_view)
     RecyclerView bottom_view;
     List<ChangeItemModel> listbtn;//生成的按钮集合（需要颜色改变的view）
@@ -51,9 +51,7 @@ public class FragActivity extends BaseActivity {
         mItems.add(new ItemModel("购物车", R.mipmap.gouwuche_normal, R.mipmap.gouwuche_normal_pressed));
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        shoye = new ShouyeFragment();
-        wode=new WodeFragment();
-        transaction.replace(R.id.frag_ll, shoye);
+        transaction.replace(R.id.frag_ll, new ShouyeFragment());
         transaction.commit();
     }
 
@@ -90,16 +88,16 @@ public class FragActivity extends BaseActivity {
                         FragmentTransaction transaction = fm.beginTransaction();
                         switch (position) {
                             case 0:
-                                transaction.replace(R.id.frag_ll, shoye);
+                                transaction.replace(R.id.frag_ll, new ShouyeFragment());
                                 break;
                             case 1:
-                                transaction.replace(R.id.frag_ll, wode);
+                                transaction.replace(R.id.frag_ll, new FenleiFragment());
                                 break;
                             case 2:
-                                transaction.replace(R.id.frag_ll, shoye);
+                                transaction.replace(R.id.frag_ll, new WodeFragment());
                                 break;
                             case 3:
-                                transaction.replace(R.id.frag_ll, wode);
+                                transaction.replace(R.id.frag_ll, new GouwucheFragment());
                                 break;
                         }
                         transaction.commit();

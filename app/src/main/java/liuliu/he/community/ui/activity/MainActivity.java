@@ -123,7 +123,7 @@ public class MainActivity extends BaseActivity implements IMainView {
 
             public XinViewHolder(View itemView) {
                 super(itemView);
-                tv = (TextView) itemView.findViewById(R.id.xin_good_tv);
+//                tv = (TextView) itemView.findViewById(R.id.xin_good_tv);
             }
         }
     }
@@ -153,7 +153,7 @@ public class MainActivity extends BaseActivity implements IMainView {
 
             public FenLeiViewHolder(View itemView) {
                 super(itemView);
-                tv = (TextView) itemView.findViewById(R.id.xin_good_tv);
+//                tv = (TextView) itemView.findViewById(R.id.xin_good_tv);
             }
         }
     }
