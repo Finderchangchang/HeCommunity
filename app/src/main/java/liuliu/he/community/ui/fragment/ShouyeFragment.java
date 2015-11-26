@@ -1,5 +1,6 @@
 package liuliu.he.community.ui.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,6 +40,15 @@ public class ShouyeFragment extends BaseFragment {
     List mDatas;
     List mXinDatas;//新品推荐
     List mFenDatas;//商品分类
+    @CodeNote(id = R.id.main_good_type_ll, click = "onClick")
+    LinearLayout main_good_type_ll;
+    @CodeNote(id = R.id.main_my_order_ll, click = "onClick")
+    LinearLayout main_my_order_ll;
+    @CodeNote(id = R.id.main_user_unit_ll, click = "onClick")
+    LinearLayout main_user_unit_ll;
+    @CodeNote(id = R.id.main_shoppingcar_ll, click = "onClick")
+    LinearLayout main_shoppingcar_ll;
+    OnItemClick mClick;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -112,62 +122,35 @@ public class ShouyeFragment extends BaseFragment {
         }
     }
 
-//    class XinAdapter extends RecyclerView.Adapter<XinAdapter.XinViewHolder> {
-//        @Override
-//        public XinViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//            XinViewHolder holder = new XinViewHolder(LayoutInflater.from(
-//                    FragActivity.mIntails).inflate(R.layout.recycle_view_item_hot_good, parent,
-//                    false));
-//            return holder;
-//        }
-//
-//        @Override
-//        public void onBindViewHolder(XinViewHolder holder, int position) {
-//            holder.tv.setText(mXinDatas.get(position).toString());
-//        }
-//
-//        @Override
-//        public int getItemCount() {
-//            return mXinDatas.size();
-//        }
-//
-//        class XinViewHolder extends RecyclerView.ViewHolder {
-//            TextView tv;
-//
-//            public XinViewHolder(View itemView) {
-//                super(itemView);
-//                tv = (TextView) itemView.findViewById(R.id.xin_good_tv);
-//            }
-//        }
-//    }
-//
-//    /*加载各大促销的Adapter*/
-//    class FenLeiAdapter extends RecyclerView.Adapter<FenLeiAdapter.FenLeiViewHolder> {
-//        @Override
-//        public FenLeiViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//            FenLeiViewHolder holder = new FenLeiViewHolder(LayoutInflater.from(
-//                    FragActivity.mIntails).inflate(R.layout.recycle_view_item_hot_good, parent,
-//                    false));
-//            return holder;
-//        }
-//
-//        @Override
-//        public void onBindViewHolder(FenLeiViewHolder holder, int position) {
-//            holder.tv.setText(mFenDatas.get(position).toString());
-//        }
-//
-//        @Override
-//        public int getItemCount() {
-//            return mFenDatas.size();
-//        }
-//
-//        class FenLeiViewHolder extends RecyclerView.ViewHolder {
-//            TextView tv;
-//
-//            public FenLeiViewHolder(View itemView) {
-//                super(itemView);
-//                tv = (TextView) itemView.findViewById(R.id.xin_good_tv);
-//            }
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.main_good_type_ll:
+                mClick.onItemClick(1);
+                break;
+            case R.id.main_my_order_ll:
+                break;
+            case R.id.main_user_unit_ll:
+                break;
+            case R.id.main_shoppingcar_ll:
+                break;
+        }
+    }
+
+    public interface OnItemClick {
+        void onItemClick(Object value);//value为传入的值
+    }
+
+    public void setOnItemClick(OnItemClick click) {
+        mClick = click;
+    }
+
+//    @Override
+//    public void onAttach(Activity activity) {
+//        super.onAttach(activity);
+//        try {
+//            mClick = (OnItemClick) activity;
+//        } catch (ClassCastException e) {
+//            throw new ClassCastException(activity.toString() + "must implement OnArticleSelectedListener");
 //        }
 //    }
 

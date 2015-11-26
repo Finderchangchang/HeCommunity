@@ -38,6 +38,7 @@ public class FragActivity extends BaseActivity {
     List<ChangeItemModel> listbtn;//生成的按钮集合（需要颜色改变的view）
     List<ItemModel> mItems;
     int mClick;//被点击的项
+    ShouyeFragment shouye = null;
 
     @Override
     public void initViews() {
@@ -51,13 +52,20 @@ public class FragActivity extends BaseActivity {
         mItems.add(new ItemModel("购物车", R.mipmap.gouwuche_normal, R.mipmap.gouwuche_normal_pressed));
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.frag_ll, new ShouyeFragment());
+        shouye = new ShouyeFragment();
+        shouye.setOnItemClick(new ShouyeFragment.OnItemClick() {
+            @Override
+            public void onItemClick(Object value) {
+                setItem((Integer) value);
+            }
+        });
+        transaction.replace(R.id.frag_ll,shouye);
         transaction.commit();
     }
 
     @Override
     public void initEvents() {
-//设置布局管理器
+        //设置布局管理器
         bottom_view.setLayoutManager(new LinearLayoutManager(this));
         //设置adapter
         bottom_view.setAdapter(new RecycleAdapter(mIntails, mItems, R.layout.recycle_view_item_bottom) {
@@ -76,35 +84,46 @@ public class FragActivity extends BaseActivity {
                 holder.setOnClickListener(R.id.item_bottom_ll, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //恢复成未点击状态
-                        listbtn.get(mClick).getTv().setTextColor(mIntails.getResources().getColor(R.color.main_item_normal));
-                        listbtn.get(mClick).getIv().setImageResource(itemModel.get(mClick).getNormal_img());
-                        //设置为点击状态
-                        listbtn.get(position).getTv().setTextColor(mIntails.getResources().getColor(R.color.main_item_pressed));
-                        listbtn.get(position).getIv().setImageResource(itemModel.get(position).getPressed_img());
-                        mClick = position;
-                        FragmentManager fm = getFragmentManager();
-                        // 开启Fragment事务
-                        FragmentTransaction transaction = fm.beginTransaction();
-                        switch (position) {
-                            case 0:
-                                transaction.replace(R.id.frag_ll, new ShouyeFragment());
-                                break;
-                            case 1:
-                                transaction.replace(R.id.frag_ll, new FenleiFragment());
-                                break;
-                            case 2:
-                                transaction.replace(R.id.frag_ll, new WodeFragment());
-                                break;
-                            case 3:
-                                transaction.replace(R.id.frag_ll, new GouwucheFragment());
-                                break;
-                        }
-                        transaction.commit();
+                        setItem(position);
                     }
                 });
             }
         });
         bottom_view.setLayoutManager(new GridLayoutManager(this, 4));
+    }
+
+    private void setItem(int posi) {
+        //恢复成未点击状态
+        listbtn.get(mClick).getTv().setTextColor(mIntails.getResources().getColor(R.color.main_item_normal));
+        listbtn.get(mClick).getIv().setImageResource(mItems.get(mClick).getNormal_img());
+        //设置为点击状态
+        listbtn.get(posi).getTv().setTextColor(mIntails.getResources().getColor(R.color.main_item_pressed));
+        listbtn.get(posi).getIv().setImageResource(mItems.get(posi).getPressed_img());
+        mClick = posi;
+        FragmentManager fm = getFragmentManager();
+        // 开启Fragment事务
+        final FragmentTransaction transaction = fm.beginTransaction();
+        switch (posi) {
+            case 0:
+                shouye = new ShouyeFragment();
+                transaction.replace(R.id.frag_ll, shouye);
+                shouye.setOnItemClick(new ShouyeFragment.OnItemClick() {
+                    @Override
+                    public void onItemClick(Object value) {
+                        setItem((Integer) value);
+                    }
+                });
+                break;
+            case 1:
+                transaction.replace(R.id.frag_ll, new FenleiFragment());
+                break;
+            case 2:
+                transaction.replace(R.id.frag_ll, new WodeFragment());
+                break;
+            case 3:
+                transaction.replace(R.id.frag_ll, new GouwucheFragment());
+                break;
+        }
+        transaction.commit();
     }
 }

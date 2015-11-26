@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import net.tsz.afinal.FinalActivity;
 import net.tsz.afinal.annotation.view.CodeNote;
@@ -38,10 +39,12 @@ public class FenleiFragment extends BaseFragment {
     int mGoodTypeClick;//被点击的项
     List<Button> good_type_list;
 
+
     //商品分类详细
     List<String> mTypeDetailList;
-    String[] detail = {"全部商品", "精选大米", "面粉挂面", "食用油", "五谷杂粮", "主食"
-            , "调味品"};
+    String[] detail = {"全部商品", "精选大米"};
+//    String[] detail = {"全部商品", "精选大米", "面粉挂面", "食用油", "五谷杂粮", "主食"
+//            , "调味品"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,12 +73,11 @@ public class FenleiFragment extends BaseFragment {
                         good_type_list.add(btn);//将所有按钮添加到list中
                         if (position == mGoodTypeClick) {//设置置顶按钮被点击
                             btn.setBackgroundResource(R.mipmap.good_type_item_pressed);
-                            refreshList();
                         }
                         holder.setOnClickListener(R.id.good_type_rv_button, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        refreshList();
+                                        refreshList(position);
                                         good_type_list.get(mGoodTypeClick).setBackgroundResource(R.mipmap.good_type_item);
                                         good_type_list.get(position).setBackgroundResource(R.mipmap.good_type_item_pressed);
                                         mGoodTypeClick = position;
@@ -87,13 +89,14 @@ public class FenleiFragment extends BaseFragment {
 
         );
         recyclerView.setLayoutManager(new GridLayoutManager(mContext, 4));
+        refreshList(mGoodTypeClick);
         return viewRoot;
     }
 
-    private void refreshList() {
+    private void refreshList(int position) {
         mTypeDetailList = new ArrayList<>();
         for (int s = 0; s < detail.length; s++) {
-            mTypeDetailList.add(detail[s]);
+            mTypeDetailList.add(detail[s] + position);
         }
         good_type_detail.setLayoutManager(new FullyLinearLayoutManager(mContext));
         good_type_detail.setAdapter(new RecycleAdapter(mContext, mTypeDetailList, R.layout.item_fenlei_detail) {
