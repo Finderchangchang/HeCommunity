@@ -29,4 +29,6 @@ dependencies {
     compile 'com.makeramen:roundedimageview:2.2.0'
     compile files('libs/sun.misc.BASE64Decoder.jar')
     compile files('libs/volley.jar')
+    compile 'in.srain.cube:clog:1.0.2'
+    compile files('libs/clog-1.0.2-sources.jar')
 }

@@ -7,8 +7,7 @@
     <ImageView
         android:id="@+id/hot_item_good_img"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@mipmap/good_type_item_pressed" />
+        android:layout_height="200dp" />
 
     <TextView
         android:id="@+id/hot_item_good_name_tv"

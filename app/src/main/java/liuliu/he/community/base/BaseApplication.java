@@ -3,6 +3,8 @@ package liuliu.he.community.base;
 import android.app.Application;
 import android.content.Context;
 
+import liuliu.custom.method.cube.Cube;
+
 /**
  * 作者:柳伟杰 邮件:1031066280@qq.com
  * 创建时间:15/6/21 下午10:13
@@ -17,6 +19,7 @@ public class BaseApplication extends Application {
         super.onCreate();
         sInstance = this;
         context = getApplicationContext();
+        Cube.onCreate(this);
     }
 
     public static Context getContext() {

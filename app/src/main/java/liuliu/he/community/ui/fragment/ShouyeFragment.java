@@ -1,6 +1,6 @@
 package liuliu.he.community.ui.fragment;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,8 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.Volley;
 
 import net.tsz.afinal.FinalActivity;
 import net.tsz.afinal.annotation.view.CodeNote;
@@ -18,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import liuliu.custom.control.toolbar.TToolbar;
+import liuliu.custom.method.volley.BitmapCache;
 import liuliu.he.community.R;
 import liuliu.he.community.adapter.RecycleAdapter;
 import liuliu.he.community.adapter.RecycleViewHolder;
@@ -50,10 +56,18 @@ public class ShouyeFragment extends BaseFragment {
     LinearLayout main_shoppingcar_ll;
     OnItemClick mClick;
 
+    ImageLoader mImageLoader;
+    private RequestQueue mQueue;
+    Context mContext;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.shouye_frag, container, false);
         FinalActivity.initInjectedView(this, viewRoot);
+        mContext = FragActivity.mIntails;
+        mQueue = Volley.newRequestQueue(mContext);
+        mImageLoader = new ImageLoader(mQueue, new BitmapCache());
+
         initData();
         initEvents();
         //设置布局管理器
@@ -68,6 +82,7 @@ public class ShouyeFragment extends BaseFragment {
             @Override
             public void convert(RecycleViewHolder holder, final List list, final int position) {
                 holder.setText(R.id.hot_item_good_name_tv, mXinDatas.get(position).toString());
+                mImageLoader.get("http://pic24.nipic.com/20120920/10361578_112230424175_2.jpg", ImageLoader.getImageListener((ImageView) holder.getView(R.id.hot_item_good_img), 0, R.mipmap.ic_launcher));
             }
         });
         seal_detail_ll.setLayoutManager(new GridLayoutManager(FragActivity.mIntails, 2));
@@ -77,6 +92,7 @@ public class ShouyeFragment extends BaseFragment {
             @Override
             public void convert(RecycleViewHolder holder, final List list, final int position) {
                 holder.setText(R.id.hot_item_good_name_tv, mFenDatas.get(position).toString());
+                mImageLoader.get("http://pic24.nipic.com/20120920/10361578_112230424175_2.jpg", ImageLoader.getImageListener((ImageView) holder.getView(R.id.hot_item_good_img), 0, R.mipmap.ic_launcher));
             }
         });
         good_type_lv.setLayoutManager(new GridLayoutManager(FragActivity.mIntails, 2));
@@ -143,16 +159,6 @@ public class ShouyeFragment extends BaseFragment {
     public void setOnItemClick(OnItemClick click) {
         mClick = click;
     }
-
-//    @Override
-//    public void onAttach(Activity activity) {
-//        super.onAttach(activity);
-//        try {
-//            mClick = (OnItemClick) activity;
-//        } catch (ClassCastException e) {
-//            throw new ClassCastException(activity.toString() + "must implement OnArticleSelectedListener");
-//        }
-//    }
 
     /*加载各大促销的Adapter*/
     class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {

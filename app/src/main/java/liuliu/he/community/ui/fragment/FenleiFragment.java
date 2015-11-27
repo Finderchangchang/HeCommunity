@@ -9,7 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.Volley;
 
 import net.tsz.afinal.FinalActivity;
 import net.tsz.afinal.annotation.view.CodeNote;
@@ -17,6 +21,7 @@ import net.tsz.afinal.annotation.view.CodeNote;
 import java.util.ArrayList;
 import java.util.List;
 
+import liuliu.custom.method.volley.BitmapCache;
 import liuliu.he.community.R;
 import liuliu.he.community.adapter.RecycleAdapter;
 import liuliu.he.community.adapter.RecycleViewHolder;
@@ -51,6 +56,8 @@ public class FenleiFragment extends BaseFragment {
         View viewRoot = inflater.inflate(R.layout.fenlei_frag, container, false);
         FinalActivity.initInjectedView(this, viewRoot);
         mContext = FragActivity.mIntails;
+        mQueue = Volley.newRequestQueue(mContext);
+        mImageLoader = new ImageLoader(mQueue, new BitmapCache());
         //设置布局管理器
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         good_type_list = new ArrayList<>();
@@ -93,7 +100,11 @@ public class FenleiFragment extends BaseFragment {
         return viewRoot;
     }
 
+    ImageLoader mImageLoader;
+    private RequestQueue mQueue;
+
     private void refreshList(int position) {
+
         mTypeDetailList = new ArrayList<>();
         for (int s = 0; s < detail.length; s++) {
             mTypeDetailList.add(detail[s] + position);
@@ -103,6 +114,8 @@ public class FenleiFragment extends BaseFragment {
             @Override
             public void convert(RecycleViewHolder holder, final List list, final int position) {
                 holder.setText(R.id.item_fenlei_detail_tv, mTypeDetailList.get(position).toString());
+                ImageLoader.ImageListener listener = ImageLoader.getImageListener((ImageView) holder.getView(R.id.item_fenlei_detail_iv), 0, R.mipmap.ic_launcher);
+                mImageLoader.get("http://pic24.nipic.com/20120920/10361578_112230424175_2.jpg", listener);
             }
         });
         good_type_detail.setLayoutManager(new FullyGridLayoutManager(mContext, 3));

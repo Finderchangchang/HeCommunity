@@ -10,8 +10,7 @@
     <ImageView
         android:id="@+id/item_fenlei_detail_iv"
         android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:background="@mipmap/title_bg" />
+        android:layout_height="90dp" />
 
     <TextView
         android:id="@+id/item_fenlei_detail_tv"
