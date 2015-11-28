@@ -19,16 +19,17 @@ android {
 }
 
 dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile files('libs/sun.misc.BASE64Decoder.jar')
+    compile files('libs/volley.jar')
+    compile files('libs/CH34xDriver.jar')
+    compile files('libs/core.jar')
     compile 'com.android.support:appcompat-v7:22.2.0'
     //    ---------------下拉刷新
     compile 'com.android.support:recyclerview-v7:22.2.0'
-    compile 'com.balysv.materialmenu:material-menu-toolbar:1.5.1'
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('libs/CH34xDriver.jar')
-    compile files('libs/core.jar')
-    compile 'com.makeramen:roundedimageview:2.2.0'
-    compile files('libs/sun.misc.BASE64Decoder.jar')
-    compile files('libs/volley.jar')
+//    compile 'com.balysv.materialmenu:material-menu-toolbar:1.5.1'
+//    compile 'com.makeramen:roundedimageview:2.2.0'
+
     compile 'in.srain.cube:clog:1.0.2'
-    compile files('libs/clog-1.0.2-sources.jar')
+    compile 'in.srain.cube:cube-sdk:1.0.44@aar'
 }

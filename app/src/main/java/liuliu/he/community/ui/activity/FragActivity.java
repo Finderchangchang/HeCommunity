@@ -2,13 +2,7 @@ package liuliu.he.community.ui.activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import net.tsz.afinal.annotation.view.CodeNote;
 
@@ -16,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import liuliu.he.community.R;
-import liuliu.he.community.adapter.RecycleAdapter;
-import liuliu.he.community.adapter.RecycleViewHolder;
 import liuliu.he.community.base.BaseActivity;
 import liuliu.he.community.model.ChangeItemModel;
 import liuliu.he.community.model.ItemModel;
@@ -33,8 +25,8 @@ public class FragActivity extends BaseActivity {
     public static FragActivity mIntails;
     @CodeNote(id = R.id.frag_ll)
     FrameLayout frag_ll;
-    @CodeNote(id = R.id.frag_ll_recycle_view)
-    RecyclerView bottom_view;
+//    @CodeNote(id = R.id.frag_ll_recycle_view)
+//    RecyclerView bottom_view;
     List<ChangeItemModel> listbtn;//生成的按钮集合（需要颜色改变的view）
     List<ItemModel> mItems;
     int mClick;//被点击的项
@@ -65,31 +57,31 @@ public class FragActivity extends BaseActivity {
 
     @Override
     public void initEvents() {
-        //设置布局管理器
-        bottom_view.setLayoutManager(new LinearLayoutManager(this));
-        //设置adapter
-        bottom_view.setAdapter(new RecycleAdapter(mIntails, mItems, R.layout.recycle_view_item_bottom) {
-            @Override
-            public void convert(RecycleViewHolder holder, List list, final int position) {
-                final List<ItemModel> itemModel = list;
-                ImageView imageView = holder.getView(R.id.item_bottom_iv);
-                TextView textView = holder.getView(R.id.item_bottom_tv);
-                listbtn.add(new ChangeItemModel(textView, imageView));//添加组件到listview
-                textView.setText(itemModel.get(position).getTitle());
-                imageView.setImageResource(itemModel.get(position).getNormal_img());
-                if (position == mClick) {//第一次打开的时候选择的项
-                    imageView.setImageResource(itemModel.get(position).getPressed_img());
-                    textView.setTextColor(mIntails.getResources().getColor(R.color.main_item_pressed));
-                }
-                holder.setOnClickListener(R.id.item_bottom_ll, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        setItem(position);
-                    }
-                });
-            }
-        });
-        bottom_view.setLayoutManager(new GridLayoutManager(this, 4));
+//        //设置布局管理器
+//        bottom_view.setLayoutManager(new LinearLayoutManager(this));
+//        //设置adapter
+//        bottom_view.setAdapter(new RecycleAdapter(mIntails, mItems, R.layout.recycle_view_item_bottom) {
+//            @Override
+//            public void convert(RecycleViewHolder holder, List list, final int position) {
+//                final List<ItemModel> itemModel = list;
+//                ImageView imageView = holder.getView(R.id.item_bottom_iv);
+//                TextView textView = holder.getView(R.id.item_bottom_tv);
+//                listbtn.add(new ChangeItemModel(textView, imageView));//添加组件到listview
+//                textView.setText(itemModel.get(position).getTitle());
+//                imageView.setImageResource(itemModel.get(position).getNormal_img());
+//                if (position == mClick) {//第一次打开的时候选择的项
+//                    imageView.setImageResource(itemModel.get(position).getPressed_img());
+//                    textView.setTextColor(mIntails.getResources().getColor(R.color.main_item_pressed));
+//                }
+//                holder.setOnClickListener(R.id.item_bottom_ll, new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        setItem(position);
+//                    }
+//                });
+//            }
+//        });
+//        bottom_view.setLayoutManager(new GridLayoutManager(this, 4));
     }
 
     private void setItem(int posi) {

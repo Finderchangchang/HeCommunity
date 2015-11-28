@@ -29,7 +29,7 @@ import liuliu.he.community.adapter.RecycleAdapter;
 import liuliu.he.community.adapter.RecycleViewHolder;
 import liuliu.he.community.base.BaseFragment;
 import liuliu.he.community.type.ItemStyle;
-import liuliu.he.community.ui.activity.FragActivity;
+import liuliu.he.community.ui.demo.ListDemoActivity;
 
 /**
  * Created by Administrator on 2015/11/25.
@@ -62,40 +62,40 @@ public class ShouyeFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View viewRoot = inflater.inflate(R.layout.shouye_frag, container, false);
+        View viewRoot = inflater.inflate(R.layout.frag_shouye, container, false);
         FinalActivity.initInjectedView(this, viewRoot);
-        mContext = FragActivity.mIntails;
+        mContext = ListDemoActivity.mIntails;
         mQueue = Volley.newRequestQueue(mContext);
         mImageLoader = new ImageLoader(mQueue, new BitmapCache());
 
         initData();
         initEvents();
         //设置布局管理器
-        seal_hot_rv.setLayoutManager(new LinearLayoutManager(FragActivity.mIntails));
+        seal_hot_rv.setLayoutManager(new LinearLayoutManager(mContext));
         //设置adapter
         seal_hot_rv.setAdapter(new HomeAdapter());
         /*新品推荐Adapter*/
         //设置布局管理器
-        seal_detail_ll.setLayoutManager(new LinearLayoutManager(FragActivity.mIntails));
+        seal_detail_ll.setLayoutManager(new LinearLayoutManager(mContext));
         //设置adapter
-        seal_detail_ll.setAdapter(new RecycleAdapter(FragActivity.mIntails, mXinDatas, R.layout.recycle_view_item_hot_good) {
+        seal_detail_ll.setAdapter(new RecycleAdapter(mContext, mXinDatas, R.layout.recycle_view_item_hot_good) {
             @Override
             public void convert(RecycleViewHolder holder, final List list, final int position) {
                 holder.setText(R.id.hot_item_good_name_tv, mXinDatas.get(position).toString());
                 mImageLoader.get("http://pic24.nipic.com/20120920/10361578_112230424175_2.jpg", ImageLoader.getImageListener((ImageView) holder.getView(R.id.hot_item_good_img), 0, R.mipmap.ic_launcher));
             }
         });
-        seal_detail_ll.setLayoutManager(new GridLayoutManager(FragActivity.mIntails, 2));
-        good_type_lv.setLayoutManager(new LinearLayoutManager(FragActivity.mIntails));
+        seal_detail_ll.setLayoutManager(new GridLayoutManager(mContext, 2));
+        good_type_lv.setLayoutManager(new LinearLayoutManager(mContext));
         //设置adapter
-        good_type_lv.setAdapter(new RecycleAdapter(FragActivity.mIntails, mFenDatas, R.layout.recycle_view_item_hot_good) {
+        good_type_lv.setAdapter(new RecycleAdapter(mContext, mFenDatas, R.layout.recycle_view_item_hot_good) {
             @Override
             public void convert(RecycleViewHolder holder, final List list, final int position) {
                 holder.setText(R.id.hot_item_good_name_tv, mFenDatas.get(position).toString());
                 mImageLoader.get("http://pic24.nipic.com/20120920/10361578_112230424175_2.jpg", ImageLoader.getImageListener((ImageView) holder.getView(R.id.hot_item_good_img), 0, R.mipmap.ic_launcher));
             }
         });
-        good_type_lv.setLayoutManager(new GridLayoutManager(FragActivity.mIntails, 2));
+        good_type_lv.setLayoutManager(new GridLayoutManager(mContext, 2));
         return viewRoot;
     }
 
@@ -166,7 +166,7 @@ public class ShouyeFragment extends BaseFragment {
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             MyViewHolder holder = new MyViewHolder(LayoutInflater.from(
-                    FragActivity.mIntails).inflate(R.layout.recycle_view_item_home, parent,
+                    mContext).inflate(R.layout.recycle_view_item_home, parent,
                     false), mDatas);
             return holder;
         }

@@ -22,7 +22,7 @@ public class GouwucheFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View viewRoot = inflater.inflate(R.layout.gouwuche_frag, container, false);
+        View viewRoot = inflater.inflate(R.layout.frag_gouwuche, container, false);
         FinalActivity.initInjectedView(this, viewRoot);
         tv.setText("购物车");
         return viewRoot;

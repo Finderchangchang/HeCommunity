@@ -26,7 +26,7 @@ import liuliu.he.community.R;
 import liuliu.he.community.adapter.RecycleAdapter;
 import liuliu.he.community.adapter.RecycleViewHolder;
 import liuliu.he.community.base.BaseFragment;
-import liuliu.he.community.ui.activity.FragActivity;
+import liuliu.he.community.ui.demo.ListDemoActivity;
 import liuliu.he.community.view.FullyGridLayoutManager;
 import liuliu.he.community.view.FullyLinearLayoutManager;
 
@@ -53,9 +53,9 @@ public class FenleiFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View viewRoot = inflater.inflate(R.layout.fenlei_frag, container, false);
+        View viewRoot = inflater.inflate(R.layout.frag_fenlei, container, false);
         FinalActivity.initInjectedView(this, viewRoot);
-        mContext = FragActivity.mIntails;
+        mContext = ListDemoActivity.mIntails;
         mQueue = Volley.newRequestQueue(mContext);
         mImageLoader = new ImageLoader(mQueue, new BitmapCache());
         //设置布局管理器

@@ -36,14 +36,13 @@
                     android:background="#add597">
 
                     <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:background="@mipmap/ic_launcher" />
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@mipmap/fenlei_white" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
                         android:text="商品类型"
                         android:textColor="#ffff"
                         android:textSize="12sp" />
@@ -57,9 +56,9 @@
                     android:background="#f7b47f">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:background="@mipmap/ic_launcher" />
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@mipmap/dingdan_white" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -78,14 +77,13 @@
                     android:background="#7ecdf4">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:background="@mipmap/ic_launcher" />
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@mipmap/wode_white" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
                         android:text="用户中心"
                         android:textColor="#ffff"
                         android:textSize="12sp" />
@@ -99,14 +97,13 @@
                     android:background="#F29c9f">
 
                     <ImageView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:background="@mipmap/ic_launcher" />
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@mipmap/gouwuche_white" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
                         android:text="购物车"
                         android:textColor="#ffff"
                         android:textSize="12sp" />
@@ -127,7 +124,7 @@
             <LinearLayout
                 android:id="@+id/main_seal_style_ll"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:background="@color/white"
                 android:orientation="horizontal">
 
