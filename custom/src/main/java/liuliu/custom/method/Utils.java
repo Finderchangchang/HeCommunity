@@ -63,6 +63,25 @@ public class Utils {
         setText(textView, val, "");
     }
 
+    public static Bitmap readBitMap(Context context, int resId) {
+
+        BitmapFactory.Options opt = new BitmapFactory.Options();
+
+        opt.inPreferredConfig = Bitmap.Config.RGB_565;
+
+        opt.inPurgeable = true;
+
+        opt.inInputShareable = true;
+
+        //  获取资源图片
+
+        InputStream is = context.getResources().openRawResource(resId);
+
+        return BitmapFactory.decodeStream(is, null, opt);
+
+    }
+
+
     //得到手机的imei
     public static String getImei(Context context) {
         // return "357897047649338";

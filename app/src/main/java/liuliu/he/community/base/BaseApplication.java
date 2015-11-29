@@ -3,7 +3,7 @@ package liuliu.he.community.base;
 import android.app.Application;
 import android.content.Context;
 
-import liuliu.custom.method.cube.Cube;
+import in.srain.cube.Cube;
 
 /**
  * 作者:柳伟杰 邮件:1031066280@qq.com

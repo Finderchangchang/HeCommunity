@@ -8,9 +8,9 @@ import net.tsz.afinal.annotation.view.CodeNote;
 import java.util.ArrayList;
 import java.util.List;
 
-import liuliu.custom.method.cube.image.CubeImageView;
-import liuliu.custom.method.cube.image.ImageLoader;
-import liuliu.custom.method.cube.image.ImageLoaderFactory;
+import in.srain.cube.image.CubeImageView;
+import in.srain.cube.image.ImageLoader;
+import in.srain.cube.image.ImageLoaderFactory;
 import liuliu.he.community.R;
 import liuliu.he.community.adapter.CommonAdapter;
 import liuliu.he.community.adapter.CommonViewHolder;

@@ -2,19 +2,14 @@ package liuliu.he.community.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.Volley;
 
 import net.tsz.afinal.FinalActivity;
 import net.tsz.afinal.annotation.view.CodeNote;
@@ -22,142 +17,58 @@ import net.tsz.afinal.annotation.view.CodeNote;
 import java.util.ArrayList;
 import java.util.List;
 
-import liuliu.custom.control.toolbar.TToolbar;
-import liuliu.custom.method.volley.BitmapCache;
+import in.srain.cube.image.ImageLoader;
+import in.srain.cube.image.ImageLoaderFactory;
+import in.srain.cube.views.list.ListViewDataAdapter;
 import liuliu.he.community.R;
-import liuliu.he.community.adapter.RecycleAdapter;
-import liuliu.he.community.adapter.RecycleViewHolder;
 import liuliu.he.community.base.BaseFragment;
 import liuliu.he.community.type.ItemStyle;
+import liuliu.he.community.ui.demo.ImageDemo;
 import liuliu.he.community.ui.demo.ListDemoActivity;
+import liuliu.he.community.ui.demo.StringMiddleImageViewViewHolder;
 
 /**
+ * 首页的Fragment
  * Created by Administrator on 2015/11/25.
  */
 public class ShouyeFragment extends BaseFragment {
-    @CodeNote(id = R.id.main_toolbar)
-    TToolbar mToolbar;
     @CodeNote(id = R.id.main_seal_hot)
     RecyclerView seal_hot_rv;
-    @CodeNote(id = R.id.main_seal_detail_ll)
-    RecyclerView seal_detail_ll;
-    @CodeNote(id = R.id.main_good_type_lv)
-    RecyclerView good_type_lv;
-    List mDatas;
-    List mXinDatas;//新品推荐
-    List mFenDatas;//商品分类
-    @CodeNote(id = R.id.main_good_type_ll, click = "onClick")
-    LinearLayout main_good_type_ll;
-    @CodeNote(id = R.id.main_my_order_ll, click = "onClick")
-    LinearLayout main_my_order_ll;
-    @CodeNote(id = R.id.main_user_unit_ll, click = "onClick")
-    LinearLayout main_user_unit_ll;
-    @CodeNote(id = R.id.main_shoppingcar_ll, click = "onClick")
-    LinearLayout main_shoppingcar_ll;
-    OnItemClick mClick;
-
-    ImageLoader mImageLoader;
-    private RequestQueue mQueue;
+    @CodeNote(id = R.id.good_list_grid_view)
+    GridView good_list;
+    ListViewDataAdapter adapter;
     Context mContext;
-
+    List mDatas;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.frag_shouye, container, false);
         FinalActivity.initInjectedView(this, viewRoot);
-        mContext = ListDemoActivity.mIntails;
-        mQueue = Volley.newRequestQueue(mContext);
-        mImageLoader = new ImageLoader(mQueue, new BitmapCache());
-
-        initData();
-        initEvents();
-        //设置布局管理器
-        seal_hot_rv.setLayoutManager(new LinearLayoutManager(mContext));
-        //设置adapter
-        seal_hot_rv.setAdapter(new HomeAdapter());
-        /*新品推荐Adapter*/
-        //设置布局管理器
-        seal_detail_ll.setLayoutManager(new LinearLayoutManager(mContext));
-        //设置adapter
-        seal_detail_ll.setAdapter(new RecycleAdapter(mContext, mXinDatas, R.layout.recycle_view_item_hot_good) {
-            @Override
-            public void convert(RecycleViewHolder holder, final List list, final int position) {
-                holder.setText(R.id.hot_item_good_name_tv, mXinDatas.get(position).toString());
-                mImageLoader.get("http://pic24.nipic.com/20120920/10361578_112230424175_2.jpg", ImageLoader.getImageListener((ImageView) holder.getView(R.id.hot_item_good_img), 0, R.mipmap.ic_launcher));
-            }
-        });
-        seal_detail_ll.setLayoutManager(new GridLayoutManager(mContext, 2));
-        good_type_lv.setLayoutManager(new LinearLayoutManager(mContext));
-        //设置adapter
-        good_type_lv.setAdapter(new RecycleAdapter(mContext, mFenDatas, R.layout.recycle_view_item_hot_good) {
-            @Override
-            public void convert(RecycleViewHolder holder, final List list, final int position) {
-                holder.setText(R.id.hot_item_good_name_tv, mFenDatas.get(position).toString());
-                mImageLoader.get("http://pic24.nipic.com/20120920/10361578_112230424175_2.jpg", ImageLoader.getImageListener((ImageView) holder.getView(R.id.hot_item_good_img), 0, R.mipmap.ic_launcher));
-            }
-        });
-        good_type_lv.setLayoutManager(new GridLayoutManager(mContext, 2));
-        return viewRoot;
-    }
-
-    public void initEvents() {
-//        //左侧点击事件
-//        mToolbar.setLeftOnClick(new TToolbar.LeftOnClickListener() {
-//            @Override
-//            public void leftclick() {
-//
-//            }
-//        });
-//        //中间点击事件
-//        mToolbar.setCenterOnClick(new TToolbar.CenterOnClickListener() {
-//            @Override
-//            public void centerclick() {
-//
-//            }
-//        });
-//        //右侧点击事件
-//        mToolbar.setRightOnClick(new TToolbar.RightOnClickListener() {
-//            @Override
-//            public void rightclick() {
-//
-//            }
-//        });
-    }
-
-    protected void initData() {
         mDatas = new ArrayList<String>();
-        mXinDatas = new ArrayList();
-        mFenDatas = new ArrayList();
         String[] s = {"中秋礼品", "米面粮油", "生鲜蔬菜", "新鲜水果", "干果炒货",
                 "鱼肉蛋禽", "豆制品", "乳品饮料", "日化美护", "休闲食品"};
         for (int i = 'A'; i < 'H'; i++) {
             mDatas.add("" + (char) i);
-            mXinDatas.add((char) i);
         }
-        for (int i = 0; i < s.length; i++) {
-            mFenDatas.add(s[i]);
-        }
+        //设置布局管理器
+        seal_hot_rv.setLayoutManager(new LinearLayoutManager(ListDemoActivity.mIntails));
+        //设置adapter
+        seal_hot_rv.setAdapter(new HomeAdapter());
+
+        FinalActivity.initInjectedView(this, viewRoot);
+        mContext = ListDemoActivity.mIntails;
+        ImageLoader imageLoader = ImageLoaderFactory.create(mContext);
+        adapter = new ListViewDataAdapter<String>();
+        adapter.setViewHolderClass(this, StringMiddleImageViewViewHolder.class, imageLoader);
+        adapter.getDataList().addAll(ImageDemo.getSmallImages());
+        good_list.setNumColumns(2);
+        good_list.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        return viewRoot;
     }
 
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.main_good_type_ll:
-                mClick.onItemClick(1);
-                break;
-            case R.id.main_my_order_ll:
-                break;
-            case R.id.main_user_unit_ll:
-                break;
-            case R.id.main_shoppingcar_ll:
-                break;
-        }
-    }
-
-    public interface OnItemClick {
-        void onItemClick(Object value);//value为传入的值
-    }
-
-    public void setOnItemClick(OnItemClick click) {
-        mClick = click;
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
     }
 
     /*加载各大促销的Adapter*/
@@ -166,7 +77,7 @@ public class ShouyeFragment extends BaseFragment {
         @Override
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             MyViewHolder holder = new MyViewHolder(LayoutInflater.from(
-                    mContext).inflate(R.layout.recycle_view_item_home, parent,
+                    ListDemoActivity.mIntails).inflate(R.layout.recycle_view_item_home, parent,
                     false), mDatas);
             return holder;
         }
@@ -386,5 +297,4 @@ public class ShouyeFragment extends BaseFragment {
             }
         }
     }
-
 }

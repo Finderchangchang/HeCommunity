@@ -15,7 +15,7 @@ import liuliu.he.community.model.ChangeItemModel;
 import liuliu.he.community.model.ItemModel;
 import liuliu.he.community.ui.fragment.FenleiFragment;
 import liuliu.he.community.ui.fragment.GouwucheFragment;
-import liuliu.he.community.ui.fragment.ShouyeFragment;
+import liuliu.he.community.ui.fragment.ShouyeFragments;
 import liuliu.he.community.ui.fragment.WodeFragment;
 
 /**
@@ -30,7 +30,7 @@ public class FragActivity extends BaseActivity {
     List<ChangeItemModel> listbtn;//生成的按钮集合（需要颜色改变的view）
     List<ItemModel> mItems;
     int mClick;//被点击的项
-    ShouyeFragment shouye = null;
+    ShouyeFragments shouye = null;
 
     @Override
     public void initViews() {
@@ -44,8 +44,8 @@ public class FragActivity extends BaseActivity {
         mItems.add(new ItemModel("购物车", R.mipmap.gouwuche_normal, R.mipmap.gouwuche_normal_pressed));
         FragmentManager fm = getFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        shouye = new ShouyeFragment();
-        shouye.setOnItemClick(new ShouyeFragment.OnItemClick() {
+        shouye = new ShouyeFragments();
+        shouye.setOnItemClick(new ShouyeFragments.OnItemClick() {
             @Override
             public void onItemClick(Object value) {
                 setItem((Integer) value);
@@ -97,9 +97,9 @@ public class FragActivity extends BaseActivity {
         final FragmentTransaction transaction = fm.beginTransaction();
         switch (posi) {
             case 0:
-                shouye = new ShouyeFragment();
+                shouye = new ShouyeFragments();
                 transaction.replace(R.id.frag_ll, shouye);
-                shouye.setOnItemClick(new ShouyeFragment.OnItemClick() {
+                shouye.setOnItemClick(new ShouyeFragments.OnItemClick() {
                     @Override
                     public void onItemClick(Object value) {
                         setItem((Integer) value);

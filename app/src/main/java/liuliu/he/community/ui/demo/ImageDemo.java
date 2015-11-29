@@ -25,6 +25,10 @@ public class ImageDemo {
         return Arrays.asList(ImageDemo.imageUrls);
     }
 
+    public static List<String> getSmallImages() {
+        return Arrays.asList(ImageDemo.imageUrls1);
+    }
+
     private final static String[] imageUrls1 = new String[]{
             "http://img4.duitang.com/uploads/blog/201311/04/20131104193715_NCexN.thumb.jpeg",
             "http://cdn.duitang.com/uploads/blog/201401/07/20140107223310_LH3Uy.thumb.jpeg",

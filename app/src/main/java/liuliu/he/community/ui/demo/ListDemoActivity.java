@@ -2,6 +2,7 @@ package liuliu.he.community.ui.demo;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.srain.cube.views.list.ListViewDataAdapter;
+import liuliu.custom.method.Utils;
 import liuliu.he.community.R;
 import liuliu.he.community.base.BaseActivity;
 import liuliu.he.community.model.ChangeItemModel;
@@ -21,6 +23,7 @@ import liuliu.he.community.model.ItemModel;
 import liuliu.he.community.ui.fragment.FenleiFragment;
 import liuliu.he.community.ui.fragment.GouwucheFragment;
 import liuliu.he.community.ui.fragment.ShouyeFragment;
+import liuliu.he.community.ui.fragment.ShouyeFragments;
 import liuliu.he.community.ui.fragment.WodeFragment;
 
 /**
@@ -63,7 +66,7 @@ public class ListDemoActivity extends BaseActivity {
     int mClick;//被点击的项
     List<ChangeItemModel> listbtn;//生成的按钮集合（需要颜色改变的view）
     List<ItemModel> mItems;
-    ShouyeFragment shouye = null;
+    ShouyeFragments shouye = null;
 
 
     @Override
@@ -108,17 +111,18 @@ public class ListDemoActivity extends BaseActivity {
     private void setItem(int position) {
         //恢复成未点击状态
         listbtn.get(mClick).getTv().setTextColor(mIntails.getResources().getColor(R.color.main_item_normal));
-        listbtn.get(mClick).getIv().setImageResource(mItems.get(mClick).getNormal_img());
+        Bitmap bitmap = Utils.readBitMap(mIntails, mItems.get(mClick).getNormal_img());
+        listbtn.get(mClick).getIv().setImageBitmap(bitmap);
         //设置为点击状态
         listbtn.get(position).getTv().setTextColor(mIntails.getResources().getColor(R.color.main_item_pressed));
-        listbtn.get(position).getIv().setImageResource(mItems.get(position).getPressed_img());
+        listbtn.get(position).getIv().setImageBitmap(Utils.readBitMap(mIntails, mItems.get(position).getPressed_img()));
         mClick = position;
         FragmentManager fm = getFragmentManager();
         // 开启Fragment事务
         final FragmentTransaction transaction = fm.beginTransaction();
         switch (position) {
             case 0:
-                shouye = new ShouyeFragment();
+                shouye = new ShouyeFragments();
                 transaction.replace(R.id.frag_ll, new ShouyeFragment());
 //                shouye.setOnItemClick(new ShouyeFragment.OnItemClick() {
 //                    @Override
