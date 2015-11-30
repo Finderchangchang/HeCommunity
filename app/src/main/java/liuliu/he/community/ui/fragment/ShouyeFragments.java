@@ -46,7 +46,7 @@ public class ShouyeFragments extends BaseFragment {
     LinearLayout main_shoppingcar_ll;
     OnItemClick mClick;
 
-//    ImageLoader mImageLoader;
+    //    ImageLoader mImageLoader;
 //    private RequestQueue mQueue;
     Context mContext;
 
@@ -137,8 +137,10 @@ public class ShouyeFragments extends BaseFragment {
             case R.id.main_my_order_ll:
                 break;
             case R.id.main_user_unit_ll:
+                mClick.onItemClick(3);
                 break;
             case R.id.main_shoppingcar_ll:
+                mClick.onItemClick(4);
                 break;
         }
     }

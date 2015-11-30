@@ -23,7 +23,6 @@ import liuliu.he.community.model.ItemModel;
 import liuliu.he.community.ui.fragment.FenleiFragment;
 import liuliu.he.community.ui.fragment.GouwucheFragment;
 import liuliu.he.community.ui.fragment.ShouyeFragment;
-import liuliu.he.community.ui.fragment.ShouyeFragments;
 import liuliu.he.community.ui.fragment.WodeFragment;
 
 /**
@@ -66,7 +65,7 @@ public class ListDemoActivity extends BaseActivity {
     int mClick;//被点击的项
     List<ChangeItemModel> listbtn;//生成的按钮集合（需要颜色改变的view）
     List<ItemModel> mItems;
-    ShouyeFragments shouye = null;
+    ShouyeFragment shouye = null;
 
 
     @Override
@@ -122,14 +121,14 @@ public class ListDemoActivity extends BaseActivity {
         final FragmentTransaction transaction = fm.beginTransaction();
         switch (position) {
             case 0:
-                shouye = new ShouyeFragments();
-                transaction.replace(R.id.frag_ll, new ShouyeFragment());
-//                shouye.setOnItemClick(new ShouyeFragment.OnItemClick() {
-//                    @Override
-//                    public void onItemClick(Object value) {
-//                        setItem((Integer) value);
-//                    }
-//                });
+                shouye = new ShouyeFragment();
+                transaction.replace(R.id.frag_ll, shouye);
+                shouye.setOnItemClick(new ShouyeFragment.OnItemClick() {
+                    @Override
+                    public void onItemClick(Object value) {
+                        setItem((Integer) value);
+                    }
+                });
                 break;
             case 1:
                 transaction.replace(R.id.frag_ll, new FenleiFragment());

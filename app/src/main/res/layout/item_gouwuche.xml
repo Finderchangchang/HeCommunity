@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="1dp">
+
+        <in.srain.cube.image.CubeImageView
+            android:id="@+id/good_img"
+            android:layout_width="90dp"
+            android:layout_height="75dp"
+            android:layout_margin="5dp"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/good_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="三全" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/good_price_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$66.00" />
+
+                <TextView
+                    android:id="@+id/good_guige_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="/10KG" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/count_jian_btn"
+                        style="@style/ButtonStyle"
+                        android:layout_width="35dp"
+                        android:layout_height="20dp"
+                        android:layout_margin="0dp"
+                        android:padding="0dp"
+                        android:text="―" />
+
+                    <EditText
+                        android:id="@+id/num_count_tv"
+                        style="@style/EditTextStyle.Radius"
+                        android:layout_width="30dp"
+                        android:layout_height="20dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:focusable="false"
+                        android:paddingLeft="12dp"
+                        android:text="1"
+                        android:textSize="12sp" />
+
+                    <Button
+                        android:id="@+id/count_jia_btn"
+                        style="@style/ButtonStyle"
+                        android:layout_width="35dp"
+                        android:layout_height="20dp"
+                        android:layout_margin="0dp"
+                        android:padding="0dp"
+                        android:text="＋" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/good_del_iv"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@mipmap/fenlei_normal_pressed" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/main_item_line"></LinearLayout>
+
+</LinearLayout>

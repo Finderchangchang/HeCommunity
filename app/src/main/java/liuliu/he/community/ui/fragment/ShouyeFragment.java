@@ -39,6 +39,16 @@ public class ShouyeFragment extends BaseFragment {
     ListViewDataAdapter adapter;
     Context mContext;
     List mDatas;
+    OnItemClick mClick;
+    @CodeNote(id = R.id.main_good_type_ll, click = "onClick")
+    LinearLayout main_good_type_ll;
+    @CodeNote(id = R.id.main_my_order_ll, click = "onClick")
+    LinearLayout main_my_order_ll;
+    @CodeNote(id = R.id.main_user_unit_ll, click = "onClick")
+    LinearLayout main_user_unit_ll;
+    @CodeNote(id = R.id.main_shoppingcar_ll, click = "onClick")
+    LinearLayout main_shoppingcar_ll;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.frag_shouye, container, false);
@@ -66,9 +76,33 @@ public class ShouyeFragment extends BaseFragment {
         return viewRoot;
     }
 
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.main_good_type_ll:
+                mClick.onItemClick(1);
+                break;
+            case R.id.main_my_order_ll:
+                break;
+            case R.id.main_user_unit_ll:
+                mClick.onItemClick(2);
+                break;
+            case R.id.main_shoppingcar_ll:
+                mClick.onItemClick(3);
+                break;
+        }
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+    }
+
+    public interface OnItemClick {
+        void onItemClick(Object value);//value为传入的值
+    }
+
+    public void setOnItemClick(OnItemClick click) {
+        mClick = click;
     }
 
     /*加载各大促销的Adapter*/

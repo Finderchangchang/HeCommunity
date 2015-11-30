@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import in.srain.cube.image.CubeImageView;
+import in.srain.cube.image.ImageLoader;
+
 /**
  * Created by liuliu on 2015/11/16   16:29
  *
@@ -41,7 +44,7 @@ public class CommonViewHolder {
      * @return
      */
     public static CommonViewHolder get(Context context, View convertView,
-                                 ViewGroup parent, int layoutId, int position) {
+                                       ViewGroup parent, int layoutId, int position) {
         if (convertView == null) {
             return new CommonViewHolder(context, parent, layoutId, position);
         }
@@ -77,6 +80,12 @@ public class CommonViewHolder {
     public CommonViewHolder setText(int viewId, String text) {
         TextView view = getView(viewId);
         view.setText(text);
+        return this;
+    }
+
+    public CommonViewHolder loadImage(int viewId, ImageLoader loader, String url) {
+        CubeImageView view = getView(viewId);
+        view.loadImage(loader, url);
         return this;
     }
 

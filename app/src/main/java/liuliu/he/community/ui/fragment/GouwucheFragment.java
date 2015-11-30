@@ -2,13 +2,10 @@ package liuliu.he.community.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,51 +19,72 @@ import in.srain.cube.image.ImageLoader;
 import in.srain.cube.image.ImageLoaderFactory;
 import in.srain.cube.views.list.ListViewDataAdapter;
 import liuliu.he.community.R;
+import liuliu.he.community.adapter.CommonBaseAdapter;
+import liuliu.he.community.adapter.CommonViewHolder;
 import liuliu.he.community.base.BaseFragment;
+import liuliu.he.community.model.GoodModel;
 import liuliu.he.community.type.ItemStyle;
-import liuliu.he.community.ui.demo.ImageDemo;
+import liuliu.he.community.ui.demo.GouwucheViewViewHolder;
 import liuliu.he.community.ui.demo.ListDemoActivity;
 import liuliu.he.community.ui.demo.MyGridView;
-import liuliu.he.community.ui.demo.StringMiddleImageViewViewHolder;
 
 /**
  * 购物车
  * Created by Administrator on 2015/11/25.
  */
 public class GouwucheFragment extends BaseFragment {
-    @CodeNote(id = R.id.main_seal_hot)
-    RecyclerView seal_hot_rv;
     @CodeNote(id = R.id.good_list_grid_view)
     MyGridView good_list;
-    ListViewDataAdapter adapter;
+    CommonBaseAdapter adapter;
     Context mContext;
-    List mDatas;
+    List<GoodModel> mDatas;
+    GouwucheFragment fragment;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.frag_gouwuche, container, false);
         FinalActivity.initInjectedView(this, viewRoot);
-        mDatas = new ArrayList<String>();
+        mDatas = new ArrayList<GoodModel>();
         String[] s = {"中秋礼品", "米面粮油", "生鲜蔬菜", "新鲜水果", "干果炒货",
                 "鱼肉蛋禽", "豆制品", "乳品饮料", "日化美护", "休闲食品"};
-        for (int i = 'A'; i < 'H'; i++) {
-            mDatas.add("" + (char) i);
-        }
-        //设置布局管理器
-        seal_hot_rv.setLayoutManager(new LinearLayoutManager(ListDemoActivity.mIntails));
-        //设置adapter
-        seal_hot_rv.setAdapter(new HomeAdapter());
-
+        mDatas = new ArrayList<>();
+//        "http://img4.duitang.com/uploads/blog/201311/04/20131104193715_NCexN.thumb.jpeg",
+//                "http://cdn.duitang.com/uploads/blog/201401/07/20140107223310_LH3Uy.thumb.jpeg",
+//                "http://img5.duitang.com/uploads/item/201405/09/20140509222156_kVexJ.thumb.jpeg",
+//                "http://img5.duitang.com/uploads/item/201306/14/20130614185903_raNR3.thumb.jpeg",
+        mDatas.add(new GoodModel(0, "中秋礼品", "http://img4.duitang.com/uploads/blog/201311/04/20131104193715_NCexN.thumb.jpeg"
+                , "$110.00", "101KG", 2));
+        mDatas.add(new GoodModel(0, "米面粮油", "http://cdn.duitang.com/uploads/blog/201401/07/20140107223310_LH3Uy.thumb.jpeg"
+                , "$120.00", "102KG", 2));
+        mDatas.add(new GoodModel(0, "生鲜蔬菜", "http://img5.duitang.com/uploads/item/201405/09/20140509222156_kVexJ.thumb.jpeg"
+                , "$130.00", "103KG", 2));
+//        //设置布局管理器
+//        seal_hot_rv.setLayoutManager(new LinearLayoutManager(ListDemoActivity.mIntails));
+//        //设置adapter
+//        seal_hot_rv.setAdapter(new HomeAdapter());
         FinalActivity.initInjectedView(this, viewRoot);
         mContext = ListDemoActivity.mIntails;
-        ImageLoader imageLoader = ImageLoaderFactory.create(mContext);
-        adapter = new ListViewDataAdapter<String>();
-        adapter.setViewHolderClass(this, StringMiddleImageViewViewHolder.class, imageLoader);
-        adapter.getDataList().addAll(ImageDemo.getSmallImages());
-        good_list.setNumColumns(2);
+        final ImageLoader imageLoader = ImageLoaderFactory.create(mContext);
+        ListViewDataAdapter ada=new ListViewDataAdapter();
+        ada.setViewHolderClass(this, GouwucheViewViewHolder.class, imageLoader);
+        ada.getDataList().addAll(mDatas);
+
+        adapter = new CommonBaseAdapter<GoodModel>() {
+            @Override
+            public void convert(CommonViewHolder holder, List list, int position) {
+                GoodModel model = (GoodModel) list.get(position);
+                holder.loadImage(R.id.good_img, imageLoader, model.getGoodImgUrl());
+            }
+        };
+        fragment = new GouwucheFragment();
+        adapter.setViewHolderClass(this, GouwucheViewViewHolder.class, imageLoader);
+        adapter.getDataList().addAll(mDatas);
+        good_list.setNumColumns(1);
         good_list.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         return viewRoot;
     }
+
     /*加载各大促销的Adapter*/
     class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
 
