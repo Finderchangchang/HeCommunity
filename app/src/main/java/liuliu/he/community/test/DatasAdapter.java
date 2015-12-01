@@ -2,17 +2,13 @@ package liuliu.he.community.test;
 
 import java.util.ArrayList;
 
-import in.srain.cube.views.list.ViewHolderBase;
-import in.srain.cube.views.list.ViewHolderCreator;
-
 /**
  * Created by liuliu on 2015/12/01   9:18
  *
  * @author 柳伟杰
  * @Email 1031066280@qq.com
  */
-public class DatasAdapter<ItemDataType> extends DataAdapterBase<ItemDataType> {
-
+public abstract class DatasAdapter<ItemDataType> extends DataAdapterBase<ItemDataType> {
     protected ArrayList<ItemDataType> mItemDataList = new ArrayList<ItemDataType>();
 
     public DatasAdapter() {
@@ -42,6 +38,7 @@ public class DatasAdapter<ItemDataType> extends DataAdapterBase<ItemDataType> {
         }
         return mItemDataList.get(position);
     }
+
 
     @Override
     public long getItemId(int position) {

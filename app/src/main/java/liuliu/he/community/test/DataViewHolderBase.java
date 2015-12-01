@@ -19,13 +19,13 @@ import liuliu.he.community.model.GoodModel;
  * @author 柳伟杰
  * @Email 1031066280@qq.com
  */
-public class DataViewHolderBase extends ViewHolderBase<GoodModel> {
+public abstract class DataViewHolderBase extends ViewHolderBase<GoodModel> {
     int mLayoutId;
     private ImageLoader mImageLoader;
     private CubeImageView mImageView;
     Button jia_btn;
     Button jian_btn;
-    EditText count_tv;
+    public EditText count_tv;
     TextView good_name;
     TextView good_price;
     TextView good_guige;
@@ -69,4 +69,6 @@ public class DataViewHolderBase extends ViewHolderBase<GoodModel> {
         good_guige.setText(item.getGoodDesc());
         count_tv.setText(item.getGoodCount() + "");
     }
+
+    public abstract void ItemClick(int position);
 }

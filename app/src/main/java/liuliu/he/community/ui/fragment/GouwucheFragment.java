@@ -6,8 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.tsz.afinal.FinalActivity;
 import net.tsz.afinal.annotation.view.CodeNote;
@@ -19,8 +21,11 @@ import in.srain.cube.image.ImageLoader;
 import in.srain.cube.image.ImageLoaderFactory;
 import in.srain.cube.views.list.ListViewDataAdapter;
 import liuliu.he.community.R;
+import liuliu.he.community.adapter.CommonAdapter;
 import liuliu.he.community.base.BaseFragment;
 import liuliu.he.community.model.GoodModel;
+import liuliu.he.community.test.DatasAdapter;
+import liuliu.he.community.test.ViewHolderBase;
 import liuliu.he.community.type.ItemStyle;
 import liuliu.he.community.ui.demo.GouwucheViewViewHolder;
 import liuliu.he.community.ui.demo.ListDemoActivity;
@@ -59,17 +64,26 @@ public class GouwucheFragment extends BaseFragment {
         FinalActivity.initInjectedView(this, viewRoot);
         mContext = ListDemoActivity.mIntails;
         final ImageLoader imageLoader = ImageLoaderFactory.create(mContext);
-        ListViewDataAdapter ada=new ListViewDataAdapter();
+        DatasAdapter ada = new DatasAdapter() {
+            @Override
+            public void convert(ViewHolderBase holder, Object t, int position) {
+                Button btn= (Button) holder.getView(R.id.count_jia_btn);
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ListDemoActivity.mIntails.mUtils.ToastShort("123123");
+                    }
+                });
+            }
+        };
         ada.setViewHolderClass(this, GouwucheViewViewHolder.class, imageLoader);
         ada.getDataList().addAll(mDatas);
-
-        adapter = new ListViewDataAdapter<GoodModel>();
-        fragment = new GouwucheFragment();
-        adapter.setViewHolderClass(this, GouwucheViewViewHolder.class, imageLoader);
-        adapter.getDataList().addAll(mDatas);
+//        adapter = new ListViewDataAdapter<GoodModel>();
+//        adapter.setViewHolderClass(this, GouwucheViewViewHolder.class, imageLoader);
+//        adapter.getDataList().addAll(mDatas);
         good_list.setNumColumns(1);
-        good_list.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        good_list.setAdapter(ada);
+        ada.notifyDataSetChanged();
         return viewRoot;
     }
 

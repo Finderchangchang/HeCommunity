@@ -9,9 +9,9 @@ import android.widget.TextView;
 
 import in.srain.cube.image.CubeImageView;
 import in.srain.cube.image.ImageLoader;
-import in.srain.cube.views.list.ViewHolderBase;
 import liuliu.he.community.R;
 import liuliu.he.community.model.GoodModel;
+import liuliu.he.community.test.ViewHolderBase;
 
 /**
  * Created by liuliu on 2015/11/28   9:55
@@ -46,12 +46,12 @@ public class GouwucheViewViewHolder extends ViewHolderBase<GoodModel> {
         good_name = (TextView) view.findViewById(R.id.good_name_tv);
         good_price = (TextView) view.findViewById(R.id.good_price_tv);
         good_guige = (TextView) view.findViewById(R.id.good_guige_tv);
-        jia_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                count_tv.setText("jia");
-            }
-        });
+//        jia_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                count_tv.setText("jia");
+//            }
+//        });
         jian_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,13 +61,17 @@ public class GouwucheViewViewHolder extends ViewHolderBase<GoodModel> {
         return view;
     }
 
+    public void setClick() {
+
+    }
+
     @Override
     public void showData(int position, GoodModel item) {
         mImageView.loadImage(mImageLoader, item.getGoodImgUrl());
         good_name.setText(item.getGoodName());
         good_price.setText(item.getGoodPrice());
         good_guige.setText(item.getGoodDesc());
-        count_tv.setText(item.getGoodCount()+"");
+        count_tv.setText(item.getGoodCount() + "");
     }
 }
 

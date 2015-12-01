@@ -38,7 +38,7 @@ public class ShouyeFragment extends BaseFragment {
     @CodeNote(id = R.id.good_list_grid_view)
     GridView good_list;
     ListViewDataAdapter adapter;
-//    CommonBaseAdapter adapter;
+    //    CommonBaseAdapter adapter;
     Context mContext;
     List mDatas;
     OnItemClick mClick;
@@ -78,7 +78,6 @@ public class ShouyeFragment extends BaseFragment {
         good_list.setNumColumns(2);
         good_list.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-
         return viewRoot;
     }
 
