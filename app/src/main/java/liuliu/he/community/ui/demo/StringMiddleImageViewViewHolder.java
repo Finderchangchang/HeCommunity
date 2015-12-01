@@ -23,8 +23,7 @@ public class StringMiddleImageViewViewHolder extends ViewHolderBase<String> {
     public StringMiddleImageViewViewHolder(ImageLoader imageLoader) {
         mImageLoader = imageLoader;
     }
-
-    @Override
+    
     public View createView(LayoutInflater inflater) {
         View view = inflater.inflate(R.layout.load_middle_image_list_item, null);
         mImageView = (CubeImageView) view.findViewById(R.id.load_middle_image_list_image_view);

@@ -18,6 +18,9 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import in.srain.cube.image.CubeImageView;
+import in.srain.cube.image.ImageLoader;
+
 /**
  * Created by liuliu on 2015/11/21   14:10
  *
@@ -49,6 +52,12 @@ public class RecycleViewHolder extends RecyclerView.ViewHolder {
             mViews.put(viewId, view);
         }
         return (T) view;
+    }
+
+    public RecycleViewHolder loadImage(int viewId, ImageLoader loader, String url) {
+        CubeImageView view = getView(viewId);
+        view.loadImage(loader, url);
+        return this;
     }
 
     public RecycleViewHolder setText(int viewId, String text) {
@@ -188,21 +197,21 @@ public class RecycleViewHolder extends RecyclerView.ViewHolder {
      * 关于事件的
      */
     public RecycleViewHolder setOnClickListener(int viewId,
-                                           View.OnClickListener listener) {
+                                                View.OnClickListener listener) {
         View view = getView(viewId);
         view.setOnClickListener(listener);
         return this;
     }
 
     public RecycleViewHolder setOnTouchListener(int viewId,
-                                           View.OnTouchListener listener) {
+                                                View.OnTouchListener listener) {
         View view = getView(viewId);
         view.setOnTouchListener(listener);
         return this;
     }
 
     public RecycleViewHolder setOnLongClickListener(int viewId,
-                                               View.OnLongClickListener listener) {
+                                                    View.OnLongClickListener listener) {
         View view = getView(viewId);
         view.setOnLongClickListener(listener);
         return this;

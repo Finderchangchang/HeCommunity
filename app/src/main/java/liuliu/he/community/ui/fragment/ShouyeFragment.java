@@ -17,10 +17,12 @@ import net.tsz.afinal.annotation.view.CodeNote;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.srain.cube.image.CubeImageView;
 import in.srain.cube.image.ImageLoader;
 import in.srain.cube.image.ImageLoaderFactory;
 import in.srain.cube.views.list.ListViewDataAdapter;
 import liuliu.he.community.R;
+import liuliu.he.community.adapter.CommonBaseAdapter;
 import liuliu.he.community.base.BaseFragment;
 import liuliu.he.community.type.ItemStyle;
 import liuliu.he.community.ui.demo.ImageDemo;
@@ -37,6 +39,7 @@ public class ShouyeFragment extends BaseFragment {
     @CodeNote(id = R.id.good_list_grid_view)
     GridView good_list;
     ListViewDataAdapter adapter;
+//    CommonBaseAdapter adapter;
     Context mContext;
     List mDatas;
     OnItemClick mClick;
@@ -48,6 +51,8 @@ public class ShouyeFragment extends BaseFragment {
     LinearLayout main_user_unit_ll;
     @CodeNote(id = R.id.main_shoppingcar_ll, click = "onClick")
     LinearLayout main_shoppingcar_ll;
+    @CodeNote(id = R.id.cub_img)
+    CubeImageView mImg;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,6 +71,7 @@ public class ShouyeFragment extends BaseFragment {
 
         FinalActivity.initInjectedView(this, viewRoot);
         mContext = ListDemoActivity.mIntails;
+
         ImageLoader imageLoader = ImageLoaderFactory.create(mContext);
         adapter = new ListViewDataAdapter<String>();
         adapter.setViewHolderClass(this, StringMiddleImageViewViewHolder.class, imageLoader);
@@ -73,6 +79,7 @@ public class ShouyeFragment extends BaseFragment {
         good_list.setNumColumns(2);
         good_list.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+
         return viewRoot;
     }
 

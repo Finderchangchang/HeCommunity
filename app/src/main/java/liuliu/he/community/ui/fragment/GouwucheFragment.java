@@ -35,7 +35,7 @@ import liuliu.he.community.ui.demo.MyGridView;
 public class GouwucheFragment extends BaseFragment {
     @CodeNote(id = R.id.good_list_grid_view)
     MyGridView good_list;
-    CommonBaseAdapter adapter;
+    ListViewDataAdapter adapter;
     Context mContext;
     List<GoodModel> mDatas;
     GouwucheFragment fragment;
@@ -48,10 +48,6 @@ public class GouwucheFragment extends BaseFragment {
         String[] s = {"中秋礼品", "米面粮油", "生鲜蔬菜", "新鲜水果", "干果炒货",
                 "鱼肉蛋禽", "豆制品", "乳品饮料", "日化美护", "休闲食品"};
         mDatas = new ArrayList<>();
-//        "http://img4.duitang.com/uploads/blog/201311/04/20131104193715_NCexN.thumb.jpeg",
-//                "http://cdn.duitang.com/uploads/blog/201401/07/20140107223310_LH3Uy.thumb.jpeg",
-//                "http://img5.duitang.com/uploads/item/201405/09/20140509222156_kVexJ.thumb.jpeg",
-//                "http://img5.duitang.com/uploads/item/201306/14/20130614185903_raNR3.thumb.jpeg",
         mDatas.add(new GoodModel(0, "中秋礼品", "http://img4.duitang.com/uploads/blog/201311/04/20131104193715_NCexN.thumb.jpeg"
                 , "$110.00", "101KG", 2));
         mDatas.add(new GoodModel(0, "米面粮油", "http://cdn.duitang.com/uploads/blog/201401/07/20140107223310_LH3Uy.thumb.jpeg"
@@ -69,13 +65,7 @@ public class GouwucheFragment extends BaseFragment {
         ada.setViewHolderClass(this, GouwucheViewViewHolder.class, imageLoader);
         ada.getDataList().addAll(mDatas);
 
-        adapter = new CommonBaseAdapter<GoodModel>() {
-            @Override
-            public void convert(CommonViewHolder holder, List list, int position) {
-                GoodModel model = (GoodModel) list.get(position);
-                holder.loadImage(R.id.good_img, imageLoader, model.getGoodImgUrl());
-            }
-        };
+        adapter = new ListViewDataAdapter<GoodModel>();
         fragment = new GouwucheFragment();
         adapter.setViewHolderClass(this, GouwucheViewViewHolder.class, imageLoader);
         adapter.getDataList().addAll(mDatas);
