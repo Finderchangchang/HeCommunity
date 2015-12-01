@@ -22,7 +22,6 @@ import in.srain.cube.image.ImageLoader;
 import in.srain.cube.image.ImageLoaderFactory;
 import in.srain.cube.views.list.ListViewDataAdapter;
 import liuliu.he.community.R;
-import liuliu.he.community.adapter.CommonBaseAdapter;
 import liuliu.he.community.base.BaseFragment;
 import liuliu.he.community.type.ItemStyle;
 import liuliu.he.community.ui.demo.ImageDemo;
