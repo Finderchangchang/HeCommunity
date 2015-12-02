@@ -40,19 +40,14 @@ public abstract class DataAdapterBase<ItemDataType> extends BaseAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolderBase holderBase = null;
-        if (convertView != null && convertView.getTag() instanceof ViewHolderBase) {
-            holderBase = (ViewHolderBase) convertView.getTag();
-        } else {
-            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            holderBase = this.createViewHolder();
-            if (holderBase != null) {
-                convertView = inflater.inflate(mLayoutId, null);
-                if (convertView != null) {
-                    convertView.setTag(holderBase);
-                    holderBase.setItemData(position, convertView);
-                    convert(holderBase, getItem(position), position);
-                }
+        ViewHolderBase holderBase = this.createViewHolder();
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        if (holderBase != null) {
+            convertView = inflater.inflate(mLayoutId, null);
+            if (convertView != null) {
+                convertView.setTag(holderBase);
+                holderBase.setItemData(position, convertView);
+                convert(holderBase, getItem(position), position);
             }
         }
         return convertView;

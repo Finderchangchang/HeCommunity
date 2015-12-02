@@ -42,9 +42,5 @@ public class ViewHolderBase<T> {
         view.setScaleType(ImageView.ScaleType.CENTER_CROP);
         return this;
     }
-
-    public boolean stillHoldLastItemData() {
-        return this.mLastPosition == this.mPosition;
-    }
 }
 
