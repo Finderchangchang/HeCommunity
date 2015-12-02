@@ -1,4 +1,4 @@
-package liuliu.he.community.ui.demo;
+package liuliu.he.community.ui.activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.srain.cube.views.list.ListViewDataAdapter;
+import liuliu.custom.control.toolbar.TToolbar;
 import liuliu.custom.method.Utils;
 import liuliu.he.community.R;
 import liuliu.he.community.base.BaseActivity;
@@ -33,8 +34,6 @@ import liuliu.he.community.ui.fragment.WodeFragment;
  */
 public class ListDemoActivity extends BaseActivity {
     public static ListDemoActivity mIntails;
-    //    @CodeNote(id = R.id.load_middle_image_grid_view)
-//    GridView gridView;
     @CodeNote(id = R.id.frag_ll)
     FrameLayout frag_ll;
     @CodeNote(id = R.id.total_bottom_shouye_ll, click = "onClick")
@@ -66,6 +65,8 @@ public class ListDemoActivity extends BaseActivity {
     List<ChangeItemModel> listbtn;//生成的按钮集合（需要颜色改变的view）
     List<ItemModel> mItems;
     ShouyeFragment shouye = null;
+    @CodeNote(id = R.id.main_toolbar)
+    TToolbar toolbar;
 
 
     @Override
@@ -88,6 +89,24 @@ public class ListDemoActivity extends BaseActivity {
         listbtn.add(new ChangeItemModel(gouwuche_tv, gouwuche_iv));//添加组件到listview
         //加载第一个显示页面
         setItem(mClick);
+        toolbar.setLeftOnClick(new TToolbar.LeftOnClickListener() {
+            @Override
+            public void leftclick() {
+
+            }
+        });
+        toolbar.setCenterOnClick(new TToolbar.CenterOnClickListener() {
+            @Override
+            public void centerclick() {
+
+            }
+        });
+        toolbar.setRightOnClick(new TToolbar.RightOnClickListener() {
+            @Override
+            public void rightclick() {
+
+            }
+        });
     }
 
     public void onClick(View view) {

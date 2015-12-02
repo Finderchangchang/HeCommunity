@@ -25,7 +25,7 @@ import liuliu.he.community.R;
 import liuliu.he.community.base.BaseFragment;
 import liuliu.he.community.type.ItemStyle;
 import liuliu.he.community.ui.demo.ImageDemo;
-import liuliu.he.community.ui.demo.ListDemoActivity;
+import liuliu.he.community.ui.activity.ListDemoActivity;
 import liuliu.he.community.ui.demo.StringMiddleImageViewViewHolder;
 
 /**

@@ -26,7 +26,7 @@ import liuliu.he.community.R;
 import liuliu.he.community.adapter.RecycleAdapter;
 import liuliu.he.community.adapter.RecycleViewHolder;
 import liuliu.he.community.base.BaseFragment;
-import liuliu.he.community.ui.demo.ListDemoActivity;
+import liuliu.he.community.ui.activity.ListDemoActivity;
 import liuliu.he.community.view.FullyGridLayoutManager;
 import liuliu.he.community.view.FullyLinearLayoutManager;
 

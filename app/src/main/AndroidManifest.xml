@@ -29,7 +29,7 @@
         <activity android:name=".ui.activity.ImgActivity">
 
         </activity>
-        <activity android:name=".ui.demo.ListDemoActivity">
+        <activity android:name=".ui.activity.ListDemoActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,25 +1,25 @@
 package liuliu.he.community.test;
 
 import android.util.SparseArray;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+
+import in.srain.cube.image.CubeImageView;
+import in.srain.cube.image.ImageLoader;
 
 /**
  * Created by Administrator on 2015/12/1.
  */
-public abstract class ViewHolderBase<ItemDataType> {
+public class ViewHolderBase<T> {
     protected int mLastPosition;
     protected int mPosition = -1;
     protected View mCurrentView;
-    private final SparseArray<View> mViews;
+    private SparseArray<View> mViews;
 
-    public ViewHolderBase() {
+
+    public ViewHolderBase(String s) {
         this.mViews = new SparseArray<View>();
     }
-
-    public abstract View createView(LayoutInflater var1);
-
-    public abstract void showData(int var1, ItemDataType var2);
 
     public void setItemData(int position, View view) {
         this.mLastPosition = this.mPosition;
@@ -34,6 +34,13 @@ public abstract class ViewHolderBase<ItemDataType> {
             mViews.put(viewId, view);
         }
         return (T) view;
+    }
+
+    public ViewHolderBase loadImage(int viewId, ImageLoader loader, String url) {
+        CubeImageView view = getView(viewId);
+        view.loadImage(loader, url);
+        view.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        return this;
     }
 
     public boolean stillHoldLastItemData() {

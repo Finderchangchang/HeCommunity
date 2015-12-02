@@ -19,7 +19,7 @@ import liuliu.custom.control.toolbar.TToolbar;
 import liuliu.he.community.R;
 import liuliu.he.community.base.BaseFragment;
 import liuliu.he.community.type.ItemStyle;
-import liuliu.he.community.ui.demo.ListDemoActivity;
+import liuliu.he.community.ui.activity.ListDemoActivity;
 
 /**
  * Created by Administrator on 2015/11/25.

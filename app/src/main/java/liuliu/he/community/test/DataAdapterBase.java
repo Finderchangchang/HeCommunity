@@ -1,12 +1,16 @@
 package liuliu.he.community.test;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import in.srain.cube.util.CLog;
-import in.srain.cube.util.CubeDebug;
+import java.util.List;
+
+import liuliu.he.community.test.LazyViewHolderCreator;
+import liuliu.he.community.test.ViewHolderBase;
+import liuliu.he.community.test.ViewHolderCreator;
 
 /**
  * Created by liuliu on 2015/12/01   9:19
@@ -15,70 +19,59 @@ import in.srain.cube.util.CubeDebug;
  * @Email 1031066280@qq.com
  */
 public abstract class DataAdapterBase<ItemDataType> extends BaseAdapter {
-
-    private static final String LOG_TAG = "cube-list";
-    protected ViewHolderCreator<ItemDataType> mViewHolderCreator;
     protected ViewHolderCreator<ItemDataType> mLazyCreator;
-    protected boolean mForceCreateView = false;
+    Context mContext;
+    int mLayoutId;
+    List<ItemDataType> mList;
 
-    public DataAdapterBase() {
-    }
-
-    public DataAdapterBase(Object enclosingInstance, Class<?> cls) {
-        this.setViewHolderClass(enclosingInstance, cls, new Object[0]);
-    }
-
-    public DataAdapterBase(ViewHolderCreator<ItemDataType> viewHolderCreator) {
-        this.mViewHolderCreator = viewHolderCreator;
-    }
-
-    public void setViewHolderCreator(ViewHolderCreator<ItemDataType> viewHolderCreator) {
-        this.mViewHolderCreator = viewHolderCreator;
-    }
-
-    public void setViewHolderClass(Object enclosingInstance, Class<?> cls, Object... args) {
-        this.mLazyCreator = LazyViewHolderCreator.create(enclosingInstance, cls, args);
+    public DataAdapterBase(Context context, int layoutId, List<ItemDataType> list) {
+        mContext = context;
+        mLayoutId = layoutId;
+        mList = list;
+        mLazyCreator = LazyViewHolderCreator.create(context, ViewHolderBase.class, "123");
     }
 
     private ViewHolderBase<ItemDataType> createViewHolder() {
-        if (this.mViewHolderCreator == null && this.mLazyCreator == null) {
+        if (this.mLazyCreator == null) {
             throw new RuntimeException("view holder creator is null");
         } else {
-            return this.mViewHolderCreator != null ? this.mViewHolderCreator.createViewHolder() : (this.mLazyCreator != null ? this.mLazyCreator.createViewHolder() : null);
+            return this.mLazyCreator != null ? this.mLazyCreator.createViewHolder() : null;
         }
-    }
-
-    public void forceCreateView(boolean yes) {
-        this.mForceCreateView = yes;
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (CubeDebug.DEBUG_LIST) {
-            CLog.d("cube-list", "getView %s", new Object[]{Integer.valueOf(position)});
-        }
-
-        Object itemData = this.getItem(position);
         ViewHolderBase holderBase = null;
-        if (!this.mForceCreateView && convertView != null && convertView.getTag() instanceof ViewHolderBase) {
+        if (convertView != null && convertView.getTag() instanceof ViewHolderBase) {
             holderBase = (ViewHolderBase) convertView.getTag();
         } else {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             holderBase = this.createViewHolder();
             if (holderBase != null) {
-                convertView = holderBase.createView(inflater);
-                if (convertView != null && !this.mForceCreateView) {
+                convertView = inflater.inflate(mLayoutId, null);
+                if (convertView != null) {
                     convertView.setTag(holderBase);
+                    holderBase.setItemData(position, convertView);
+                    convert(holderBase, getItem(position), position);
                 }
             }
         }
-
-        if (holderBase != null) {
-            holderBase.setItemData(position, convertView);
-            holderBase.showData(position, itemData);
-            convert(holderBase, getItem(position), position);
-        }
         return convertView;
     }
-    public abstract void convert(ViewHolderBase holder, ItemDataType t,int position);
-    public abstract ItemDataType getItem(int var1);
+
+    public abstract void convert(ViewHolderBase holder, ItemDataType t, int position);
+
+    @Override
+    public int getCount() {
+        return mList.size();
+    }
+
+    @Override
+    public ItemDataType getItem(int position) {
+        return mList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 }
