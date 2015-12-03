@@ -63,7 +63,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
     @Override
     public void OnLoginResult(boolean result, String message) {
         if (result) {//验证成功，执行登录
-            mUtils.IntentPost(MainActivity.class);
+//            mUtils.IntentPost(MainActivity.class);
             if (remember_pwd.isChecked()) {//存储在内存中的那个
 
             }

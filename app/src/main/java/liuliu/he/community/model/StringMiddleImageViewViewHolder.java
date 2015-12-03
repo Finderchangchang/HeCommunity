@@ -1,4 +1,4 @@
-package liuliu.he.community.ui.demo;
+package liuliu.he.community.model;
 
 import android.view.LayoutInflater;
 import android.view.View;

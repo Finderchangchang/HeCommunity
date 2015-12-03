@@ -1,4 +1,4 @@
-package liuliu.he.community.ui.demo;
+package liuliu.he.community.model;
 
 import in.srain.cube.image.ImageReuseInfo;
 import in.srain.cube.image.ImageReuseInfoManger;

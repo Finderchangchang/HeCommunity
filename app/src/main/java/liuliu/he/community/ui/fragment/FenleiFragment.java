@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
@@ -21,14 +20,17 @@ import net.tsz.afinal.annotation.view.CodeNote;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.srain.cube.image.ImageLoaderFactory;
 import liuliu.custom.method.volley.BitmapCache;
 import liuliu.he.community.R;
 import liuliu.he.community.adapter.RecycleAdapter;
 import liuliu.he.community.adapter.RecycleViewHolder;
 import liuliu.he.community.base.BaseFragment;
+import liuliu.he.community.model.ImageDemo;
+import liuliu.he.community.model.MyGridView;
+import liuliu.he.community.test.DataAdapterBase;
+import liuliu.he.community.test.ViewHolderBase;
 import liuliu.he.community.ui.activity.ListDemoActivity;
-import liuliu.he.community.view.FullyGridLayoutManager;
-import liuliu.he.community.view.FullyLinearLayoutManager;
 
 /**
  * 分类
@@ -37,8 +39,10 @@ import liuliu.he.community.view.FullyLinearLayoutManager;
 public class FenleiFragment extends BaseFragment {
     @CodeNote(id = R.id.fenlei_view)
     RecyclerView recyclerView;//商品分类
-    @CodeNote(id = R.id.fenlei_good_type_detail_view)
-    RecyclerView good_type_detail;//商品详细分类
+    //    @CodeNote(id = R.id.fenlei_good_type_detail_view)
+//    RecyclerView good_type_detail;//商品详细分类
+    @CodeNote(id = R.id.fenlei_grid_view)
+    MyGridView gridview;
     Context mContext;
     List mDatas;
     int mGoodTypeClick;//被点击的项
@@ -48,8 +52,6 @@ public class FenleiFragment extends BaseFragment {
     //商品分类详细
     List<String> mTypeDetailList;
     String[] detail = {"全部商品", "精选大米"};
-//    String[] detail = {"全部商品", "精选大米", "面粉挂面", "食用油", "五谷杂粮", "主食"
-//            , "调味品"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -102,22 +104,34 @@ public class FenleiFragment extends BaseFragment {
 
     ImageLoader mImageLoader;
     private RequestQueue mQueue;
+    DataAdapterBase adapterBase;
+    in.srain.cube.image.ImageLoader imageLoader = null;
 
     private void refreshList(int position) {
-
         mTypeDetailList = new ArrayList<>();
         for (int s = 0; s < detail.length; s++) {
             mTypeDetailList.add(detail[s] + position);
         }
-        good_type_detail.setLayoutManager(new FullyLinearLayoutManager(mContext));
-        good_type_detail.setAdapter(new RecycleAdapter(mContext, mTypeDetailList, R.layout.item_fenlei_detail) {
+        imageLoader = ImageLoaderFactory.create(mContext);
+        adapterBase = new DataAdapterBase<String>(mContext, R.layout.item_main_hot_good, ImageDemo.getSmallImages()) {
             @Override
-            public void convert(RecycleViewHolder holder, final List list, final int position) {
-                holder.setText(R.id.item_fenlei_detail_tv, mTypeDetailList.get(position).toString());
-                ImageLoader.ImageListener listener = ImageLoader.getImageListener((ImageView) holder.getView(R.id.item_fenlei_detail_iv), 0, R.mipmap.ic_launcher);
-                mImageLoader.get("http://pic24.nipic.com/20120920/10361578_112230424175_2.jpg", listener);
+            public void convert(ViewHolderBase holder, String url, int position) {
+                holder.loadImage(R.id.good_iv, imageLoader, url);
             }
-        });
-        good_type_detail.setLayoutManager(new FullyGridLayoutManager(mContext, 3));
+        };
+        gridview.setAdapter(adapterBase);
+        gridview.setNumColumns(3);
+        adapterBase.notifyDataSetChanged();
+//        good_type_detail.setLayoutManager(new FullyLinearLayoutManager(mContext));
+//        good_type_detail.setAdapter(new RecycleAdapter<String>(mContext, ImageDemo.getImages(), R.layout.item_fenlei_detail) {
+//            @Override
+//            public void convert(RecycleViewHolder holder, final List<String> list, final int position) {
+//                holder.setText(R.id.item_fenlei_detail_tv, mTypeDetailList.get(position).toString());
+//                ImageLoader.ImageListener listener = ImageLoader.getImageListener((ImageView) holder.getView(R.id.item_fenlei_detail_iv), 0, R.mipmap.ic_launcher);
+////                mImageLoader.get("http://pic24.nipic.com/20120920/10361578_112230424175_2.jpg", listener);
+//                mImageLoader.get(list.get(position), listener);
+//            }
+//        });
+//        good_type_detail.setLayoutManager(new FullyGridLayoutManager(mContext, 3));
     }
 }

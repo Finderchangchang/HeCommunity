@@ -21,17 +21,31 @@
                 android:layout_margin="5dp" />
         </LinearLayout>
 
-        <LinearLayout
+        <liuliu.he.community.model.MyGridView
+            android:id="@+id/fenlei_grid_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="5dp"
-            android:background="@color/white">
+            android:layout_above="@+id/total_botton"
+            android:layout_marginTop="10dp"
+            android:fadingEdge="none"
+            android:horizontalSpacing="10dp"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="2"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:stretchMode="columnWidth" />
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:background="@color/white">-->
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/fenlei_good_type_detail_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp" />
-        </LinearLayout>
+        <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/fenlei_good_type_detail_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="5dp" />-->
+        <!--</LinearLayout>-->
     </LinearLayout>
 </ScrollView>

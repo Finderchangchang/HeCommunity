@@ -21,7 +21,7 @@ import liuliu.he.community.base.BaseFragment;
 import liuliu.he.community.model.GoodModel;
 import liuliu.he.community.test.ViewHolderBase;
 import liuliu.he.community.ui.activity.ListDemoActivity;
-import liuliu.he.community.ui.demo.MyGridView;
+import liuliu.he.community.model.MyGridView;
 
 /**
  * 购物车

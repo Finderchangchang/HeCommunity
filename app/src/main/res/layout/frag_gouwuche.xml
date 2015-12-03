@@ -72,11 +72,11 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
             android:background="@color/white">
 
-            <liuliu.he.community.ui.demo.MyGridView
+            <liuliu.he.community.model.MyGridView
                 android:id="@+id/good_list_grid_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -10,7 +10,7 @@ import liuliu.he.community.R;
 import liuliu.he.community.base.BaseActivity;
 
 /**
- * ÉÌÆ·ÏêÇé
+ * å•†å“è¯¦æƒ…
  * Created by Administrator on 2015/12/2.
  */
 public class GoodDetailActivity extends BaseActivity {
