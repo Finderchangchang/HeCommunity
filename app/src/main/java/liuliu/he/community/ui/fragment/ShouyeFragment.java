@@ -18,6 +18,10 @@ import android.widget.TextView;
 import net.tsz.afinal.FinalActivity;
 import net.tsz.afinal.annotation.view.CodeNote;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +32,13 @@ import in.srain.cube.views.list.ListViewDataAdapter;
 import liuliu.custom.method.Utils;
 import liuliu.he.community.R;
 import liuliu.he.community.base.BaseFragment;
+import liuliu.he.community.base.VolloyTask;
 import liuliu.he.community.model.ChangeItemModel;
 import liuliu.he.community.model.ImageDemo;
 import liuliu.he.community.model.ItemModel;
 import liuliu.he.community.model.MyGridView;
+import liuliu.he.community.model.TitleImagesModel;
+import liuliu.he.community.model.TopImage;
 import liuliu.he.community.test.DataAdapterBase;
 import liuliu.he.community.test.ViewHolderBase;
 import liuliu.he.community.type.ItemStyle;
@@ -92,12 +99,30 @@ public class ShouyeFragment extends BaseFragment {
     TextView hot_zuixin_tv;
     private int clickItem;//热门商品点击的项
     ImageLoader imageLoader = null;
+    List<TopImage> mImgs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.frag_shouye, container, false);
         FinalActivity.initInjectedView(this, viewRoot);
+        mContext = ListDemoActivity.mIntails;
+        mImgs = new ArrayList<>();
         mDatas = new ArrayList<String>();
+        TitleImagesModel mTitle = VolloyTask.GetJson("http://www.hesq.com.cn/fresh/fore/logic/app/home/focus.php", mContext);
+        if (mTitle.isReturnX()) {
+            JSONArray array = (JSONArray) mTitle.getData();
+            for (int i = 0; i < array.length(); i++) {
+                TopImage image = new TopImage();
+                try {
+                    image.setImg(array.getJSONObject(i).getString("img"));
+                    image.setLink(array.getJSONObject(i).getString("link"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                mImgs.add(image);
+            }
+        }
+
         for (int i = 'A'; i < 'H'; i++) {
             mDatas.add("" + (char) i);
         }
@@ -106,8 +131,6 @@ public class ShouyeFragment extends BaseFragment {
         //设置adapter
         seal_hot_rv.setAdapter(new HomeAdapter());
 
-        FinalActivity.initInjectedView(this, viewRoot);
-        mContext = ListDemoActivity.mIntails;
         initData();
         imageLoader = ImageLoaderFactory.create(mContext);
         HotClick(0, ImageDemo.getSmallImages());

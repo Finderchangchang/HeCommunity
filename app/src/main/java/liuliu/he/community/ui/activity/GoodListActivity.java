@@ -1,9 +1,7 @@
 package liuliu.he.community.ui.activity;
 
 import android.widget.LinearLayout;
-
 import net.tsz.afinal.annotation.view.CodeNote;
-
 import liuliu.he.community.R;
 import liuliu.he.community.base.BaseActivity;
 
@@ -20,10 +18,13 @@ public class GoodListActivity extends BaseActivity {
     @Override
     public void initViews() {
         setContentView(R.layout.item_good_list);
+
     }
 
     @Override
     public void initEvents() {
 
     }
+
+
 }
