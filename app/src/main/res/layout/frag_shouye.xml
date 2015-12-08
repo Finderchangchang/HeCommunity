@@ -115,11 +115,16 @@
             </LinearLayout>
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/main_seal_hot"
+        <GridView
+            android:id="@+id/guang_gao_grid_view"
             android:layout_width="match_parent"
-            android:layout_height="270dp"
-            android:layout_margin="10dp" />
+            android:layout_height="290dp"
+            android:fadingEdge="none"
+            android:horizontalSpacing="10dp"
+            android:layout_marginTop="10dp"
+            android:listSelector="@android:color/transparent"
+            android:scrollbarStyle="outsideOverlay"
+            android:stretchMode="columnWidth" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -155,7 +160,7 @@
                             android:id="@+id/hot_tejia_iv"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@mipmap/shouye_normal"/>
+                            android:src="@mipmap/shouye_normal" />
 
                         <TextView
                             android:id="@+id/hot_tejia_tv"
@@ -275,12 +280,13 @@
                 android:scrollbarStyle="outsideOverlay"
                 android:stretchMode="columnWidth" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/main_good_classify_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:layout_marginTop="10dp"
+            android:background="@color/white"
             android:orientation="vertical">
 
             <RelativeLayout

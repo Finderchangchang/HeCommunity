@@ -10,10 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.tsz.afinal.FinalActivity;
 import net.tsz.afinal.annotation.view.CodeNote;
@@ -50,12 +52,14 @@ import liuliu.he.community.ui.activity.ListDemoActivity;
  * Created by Administrator on 2015/11/25.
  */
 public class ShouyeFragment extends BaseFragment {
-    @CodeNote(id = R.id.main_seal_hot)
-    RecyclerView seal_hot_rv;
+    //    @CodeNote(id = R.id.main_seal_hot)
+//    RecyclerView seal_hot_rv;
     @CodeNote(id = R.id.good_list_grid_view)
     MyGridView good_list;
     @CodeNote(id = R.id.good_type_grid_view)
     MyGridView good_type_gv;
+    @CodeNote(id = R.id.guang_gao_grid_view)
+    GridView guang_gao_gv;
     ListViewDataAdapter adapter;
     Context mContext;
     List mDatas;
@@ -99,40 +103,78 @@ public class ShouyeFragment extends BaseFragment {
     TextView hot_zuixin_tv;
     private int clickItem;//热门商品点击的项
     ImageLoader imageLoader = null;
-    List<TopImage> mImgs;
+    List<TopImage> mTopImgs;
+    List<TopImage> mGuanggaoImgs;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.frag_shouye, container, false);
         FinalActivity.initInjectedView(this, viewRoot);
         mContext = ListDemoActivity.mIntails;
-        mImgs = new ArrayList<>();
+        imageLoader = ImageLoaderFactory.create(mContext);
         mDatas = new ArrayList<String>();
-        TitleImagesModel mTitle = VolloyTask.GetJson("http://www.hesq.com.cn/fresh/fore/logic/app/home/focus.php", mContext);
-        if (mTitle.isReturnX()) {
-            JSONArray array = (JSONArray) mTitle.getData();
-            for (int i = 0; i < array.length(); i++) {
-                TopImage image = new TopImage();
-                try {
-                    image.setImg(array.getJSONObject(i).getString("img"));
-                    image.setLink(array.getJSONObject(i).getString("link"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        VolloyTask task = new VolloyTask(mContext);
+        task.getJson(new VolloyTask.OnReturn() {
+            @Override
+            public void onResult(TitleImagesModel model) {//获得头部图片集合
+                if (model.isReturnX()) {
+                    mTopImgs = new ArrayList<>();
+                    JSONArray array = (JSONArray) model.getData();
+                    for (int i = 0; i < array.length(); i++) {
+                        TopImage image = new TopImage();
+                        try {
+                            image.setImg(array.getJSONObject(i).getString("img"));
+                            image.setLink(array.getJSONObject(i).getString("link"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        mTopImgs.add(image);
+                    }
                 }
-                mImgs.add(image);
             }
-        }
+        }, "http://www.hesq.com.cn/fresh/fore/logic/app/home/focus.php");
 
+        new VolloyTask(mContext).getJson(new VolloyTask.OnReturn() {//八种分类的一种（热门消息）
+            @Override
+            public void onResult(TitleImagesModel model) {
+                if (model.isReturnX()) {
+                    JSONObject object = (JSONObject) model.getData();
+                    try {
+                        int type = object.getInt("type");
+                        mGuanggaoImgs = new ArrayList<>();
+                        JSONArray array = object.getJSONArray("content");
+                        for (int i = 0; i < array.length(); i++) {
+                            TopImage image = new TopImage();
+                            try {
+                                image.setImg(array.getJSONObject(i).getString("image"));
+                                image.setLink(array.getJSONObject(i).getString("link"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            mGuanggaoImgs.add(image);
+                        }
+                        guang_gao_adapter = new DataAdapterBase<TopImage>(mContext, R.layout.recycle_view_item_home, mGuanggaoImgs) {
+                            @Override
+                            public void convert(ViewHolderBase holder, TopImage model, int position) {
+                                loadGG(mContext, 8, holder, mGuanggaoImgs, position);
+                            }
+                        };
+                        guang_gao_gv.setNumColumns(1);
+                        guang_gao_gv.setAdapter(guang_gao_adapter);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, "http://www.hesq.com.cn/fresh/fore/logic/app/home/ad.php");
         for (int i = 'A'; i < 'H'; i++) {
             mDatas.add("" + (char) i);
         }
-        //设置布局管理器
-        seal_hot_rv.setLayoutManager(new LinearLayoutManager(ListDemoActivity.mIntails));
-        //设置adapter
-        seal_hot_rv.setAdapter(new HomeAdapter());
+
 
         initData();
-        imageLoader = ImageLoaderFactory.create(mContext);
+
         HotClick(0, ImageDemo.getSmallImages());
         hot_good_adapter = new DataAdapterBase<String>(mContext, R.layout.item_main_hot_good, ImageDemo.getSmallImages()) {
             @Override
@@ -166,9 +208,161 @@ public class ShouyeFragment extends BaseFragment {
         good_type_adapter.notifyDataSetChanged();
         return viewRoot;
     }
+    //加载广告布局
+    private void loadGG(Context context, int type, ViewHolderBase holder, List<TopImage> list, int position) {
+        int width = Utils.getScannerWidth(context);//获得屏幕宽度
+        switch (type) {
+            case 1:
+                if (position == 0) {
+                    holder.setHeight(R.id.total_left_ll, (width - 15) / 2);
+                    holder.loadImage(R.id.total_left_one_iv, imageLoader, list.get(0).getImg());
+                    holder.loadImage(R.id.total_right_two_iv, imageLoader, list.get(1).getImg());
+                    holder.loadImage(R.id.total_right_three_iv, imageLoader, list.get(2).getImg());
+                    holder.loadImage(R.id.total_right_four_iv, imageLoader, list.get(3).getImg());
+                    holder.setMargin(R.id.total_right_ll_right, 0, 0, 0, 0);
+                } else {
+                    setOtherGone(holder);
+                }
+                break;
+            case 2:
+                if (position == 0) {
+                    holder.setHeight(R.id.total_left_ll, (width - 15) / 2);
+                    holder.loadImage(R.id.total_left_one_iv, imageLoader, list.get(0).getImg());
+                    holder.loadImage(R.id.total_right_two_iv, imageLoader, list.get(3).getImg());
+                    holder.loadImage(R.id.total_right_three_iv, imageLoader, list.get(4).getImg());
+                    holder.setMargin(R.id.total_right_ll_right, 0, 0, 0, 0);
+                } else if (position == 1) {
+                    holder.setHeight(R.id.total_left_ll, 170);
+                    holder.setVisible(R.id.total_right_ll_right, View.VISIBLE);
+                    holder.loadImage(R.id.total_left_one_iv, imageLoader, list.get(0).getImg());
+                    holder.loadImage(R.id.total_right_one_iv, imageLoader, list.get(5).getImg());
+                } else {
+                    setOtherGone(holder);
+                }
+                break;
+            case 3:
+                if (position == 0) {
+                    holder.setHeight(R.id.total_left_ll, (width - 15) / 2);
+                    holder.loadImage(R.id.total_left_one_iv, imageLoader, list.get(0).getImg());
+                    holder.loadImage(R.id.total_right_two_iv, imageLoader, list.get(3).getImg());
+                    holder.loadImage(R.id.total_right_three_iv, imageLoader, list.get(4).getImg());
+                    holder.setMargin(R.id.total_right_ll_right, 0, 0, 0, 0);
+                } else if (position == 1) {
+                    holder.setHeight(R.id.total_left_ll, 170);
+                    holder.setVisible(R.id.total_right_ll_right, View.VISIBLE);
+                    holder.loadImage(R.id.total_left_one_iv, imageLoader, list.get(0).getImg());
+                    holder.loadImage(R.id.total_left_two_iv, imageLoader, list.get(2).getImg());
+                    holder.loadImage(R.id.total_right_one_iv, imageLoader, list.get(5).getImg());
+                    holder.loadImage(R.id.total_right_two_iv, imageLoader, list.get(6).getImg());
+                } else {
+                    setOtherGone(holder);
+                }
+                break;
+            case 4:
+                if (position == 0 || position == 1 || position == 2) {
+                    holder.setHeight(R.id.total_left_ll, 230);
+                    holder.loadImage(R.id.total_left_one_iv, imageLoader, list.get(3).getImg());
+                    holder.loadImage(R.id.total_right_one_iv, imageLoader, list.get(4).getImg());
+                    holder.setMargin(R.id.total_right_ll_right, 0, 0, 0, 0);
+                    setWeight(holder);
+                } else {
+                    setOtherGone(holder);
+                }
+                break;
+            case 5:
+                if (position == 0) {
+                    holder.setHeight(R.id.total_left_ll, (width - 15) / 2);
+                    holder.loadImage(R.id.total_left_one_iv, imageLoader, list.get(0).getImg());
+                    holder.loadImage(R.id.total_right_two_iv, imageLoader, list.get(3).getImg());
+                    holder.loadImage(R.id.total_right_three_iv, imageLoader, list.get(4).getImg());
+                    holder.loadImage(R.id.total_right_four_iv, imageLoader, list.get(5).getImg());
+                    holder.setVisible(R.id.total_right_ll_right, View.VISIBLE);
+                    holder.setMargin(R.id.total_right_ll_right, 0, 0, 0, 0);
+                } else if (position == 1) {
+                    holder.setHeight(R.id.total_left_ll, 170);
+                    holder.setVisible(R.id.total_right_ll_right, View.VISIBLE);
+                    holder.loadImage(R.id.total_left_one_iv, imageLoader, list.get(0).getImg());
+                    holder.loadImage(R.id.total_right_one_iv, imageLoader, list.get(5).getImg());
+                    holder.setVisible(R.id.total_right_ll_right, View.GONE);
+                } else {
+                    setOtherGone(holder);
+                }
+                break;
+            case 6:
+                setWeight(holder);
+                holder.setMargin(R.id.total_right_ll_right, 0, 0, 0, 0);
+                if (position == 0) {
+                    holder.setHeight(R.id.total_left_ll, 230);
+                    holder.loadImage(R.id.total_right_two_iv, imageLoader, list.get(3).getImg());
+                    holder.loadImage(R.id.total_right_three_iv, imageLoader, list.get(3).getImg());
+                    holder.setVisible(R.id.total_right_ll_right, View.VISIBLE);
+                    holder.loadImage(R.id.total_left_one_iv, imageLoader, list.get(0).getImg());
+                } else if (position == 1 || position == 2) {
+                    holder.setHeight(R.id.total_left_ll, 150);
+                    holder.loadImage(R.id.total_left_one_iv, imageLoader, list.get(0).getImg());
+                    holder.loadImage(R.id.total_right_two_iv, imageLoader, list.get(3).getImg());
+                    holder.setVisible(R.id.total_right_ll_right, View.VISIBLE);
+                } else {
+                    setOtherGone(holder);
+                }
+                break;
+            case 7:
+                if (position == 0) {
+                    holder.setHeight(R.id.total_left_ll, (width - 15) / 2);
+                    holder.loadImage(R.id.total_left_one_iv, imageLoader, list.get(0).getImg());
+                    holder.loadImage(R.id.total_right_two_iv, imageLoader, list.get(3).getImg());
+                    holder.setMargin(R.id.total_right_ll_right, 0, 0, 0, 0);
+                } else if (position == 1) {
+                    holder.setHeight(R.id.total_left_ll, 170);
+                    holder.setVisible(R.id.total_right_ll_right, View.VISIBLE);
+                    holder.loadImage(R.id.total_left_one_iv, imageLoader, list.get(0).getImg());
+                    holder.loadImage(R.id.total_left_two_iv, imageLoader, list.get(2).getImg());
+                    holder.loadImage(R.id.total_right_one_iv, imageLoader, list.get(5).getImg());
+                    holder.loadImage(R.id.total_right_two_iv, imageLoader, list.get(6).getImg());
+                } else {
+                    setOtherGone(holder);
+                }
+                break;
+            case 8:
+                if (position == 0 || position == 1 || position == 2) {
+                    if (position == 0) {
+                        holder.setHeight(R.id.total_left_ll, 230);
+                    } else {
+                        holder.setHeight(R.id.total_left_ll, 150);
+                    }
+                    holder.loadImage(R.id.total_left_one_iv, imageLoader, list.get(3).getImg());
+                    holder.loadImage(R.id.total_right_one_iv, imageLoader, list.get(4).getImg());
+                    holder.setMargin(R.id.total_right_ll_right, 0, 0, 0, 0);
+                } else {
+                    setOtherGone(holder);
+                }
+                break;
+        }
+    }
+
+    //设置weight 2:1
+    private void setWeight(ViewHolderBase holder) {
+        LinearLayout.LayoutParams param;
+        param = new LinearLayout.LayoutParams(0,
+                LinearLayout.LayoutParams.MATCH_PARENT, 2.5f);
+        param.setMargins(5, 5, 5, 5);
+        holder.getView(R.id.total_left_ll).setLayoutParams(param);
+        param = new LinearLayout.LayoutParams(0,
+                LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
+        param.setMargins(5, 5, 5, 5);
+        holder.getView(R.id.total_right_ll).setLayoutParams(param);
+    }
+
+    //设置其他内容隐藏
+    private void setOtherGone(ViewHolderBase holder) {
+        holder.setVisible(R.id.totalItem_ll, View.GONE);
+        holder.setVisible(R.id.total_left_ll, View.GONE);
+        holder.setVisible(R.id.total_right_ll, View.GONE);
+    }
 
     DataAdapterBase good_type_adapter;
     DataAdapterBase hot_good_adapter;
+    DataAdapterBase guang_gao_adapter;
     List<ChangeItemModel> mItemList;
     List<ItemModel> mItems;
 
@@ -252,236 +446,12 @@ public class ShouyeFragment extends BaseFragment {
 
     public interface OnItemClick {
         void onItemClick(Object value);//value为传入的值
+
     }
 
     public void setOnItemClick(OnItemClick click) {
         mClick = click;
     }
 
-    /*加载各大促销的Adapter*/
-    class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> {
 
-        @Override
-        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            MyViewHolder holder = new MyViewHolder(LayoutInflater.from(
-                    ListDemoActivity.mIntails).inflate(R.layout.recycle_view_item_home, parent,
-                    false), mDatas);
-            return holder;
-        }
-
-        @Override
-        public void onBindViewHolder(MyViewHolder holder, int position) {
-            ViewGroup.LayoutParams lp = holder.mTotalItem.getLayoutParams();
-            switch (mDatas.size()) {
-                case 4://版本一
-                    if (position == 0) {
-                        lp.height = 420;
-                        holder.mTotalItem.setLayoutParams(lp);
-                        holder.left_one_tv.setText(mDatas.get(position).toString());
-                        holder.right_two_tv.setText(mDatas.get(position + 1).toString());
-                        holder.right_three_tv.setText(mDatas.get(position + 2).toString());
-                        holder.right_four_tv.setText(mDatas.get(position + 3).toString());
-                    } else {
-                        holder.mTotalItem.setVisibility(View.GONE);
-                    }
-                    break;
-                case 5://版本二
-                    if (position == 0) {
-                        lp.height = 420;
-                        holder.mTotalItem.setLayoutParams(lp);
-                        holder.left_one_tv.setText(mDatas.get(position).toString());
-                        holder.right_two_tv.setText(mDatas.get(position + 1).toString());
-                        holder.right_three_tv.setText(mDatas.get(position + 2).toString());
-                        holder.mRightLLFour.setVisibility(View.GONE);
-                    } else if (position == 1) {
-                        lp.height = 200;
-                        setItemTwo(holder, lp);
-                        holder.left_one_tv.setText(mDatas.get(position + 2).toString());
-                        holder.right_one_tv.setText(mDatas.get(position + 3).toString());
-                    } else {
-                        holder.mTotalItem.setVisibility(View.GONE);
-                    }
-                    break;
-                case 6:
-                    if (ItemStyle.SixFour == ItemStyle.SixFour) {//版本八
-                        if (position == 0) {
-                            lp.height = 420;
-                            setItemTwo(holder, lp);
-                            holder.left_one_tv.setText(mDatas.get(position).toString());
-                            holder.right_one_tv.setText(mDatas.get(position + 1).toString());
-                        } else if (position == 1) {
-                            lp.height = 200;
-                            setItemTwo(holder, lp);
-                            holder.left_one_tv.setText(mDatas.get(position + 1).toString());
-                            holder.right_one_tv.setText(mDatas.get(position + 2).toString());
-                        } else if (position == 2) {
-                            lp.height = 200;
-                            setItemTwo(holder, lp);
-                            holder.left_one_tv.setText(mDatas.get(position + 2).toString());
-                            holder.right_one_tv.setText(mDatas.get(position + 3).toString());
-                        } else {
-                            holder.mTotalItem.setVisibility(View.GONE);
-                        }
-                    } else if (ItemStyle.SixThree == ItemStyle.SixThree) {//�汾��
-                        if (position == 0) {
-                            lp.height = 420;
-                            setItemTwo(holder, lp);
-                            holder.left_one_tv.setText(mDatas.get(position).toString());
-                            holder.right_one_tv.setText(mDatas.get(position + 1).toString());
-                        } else if (position == 1) {
-                            lp.height = 200;
-                            setItemFour(holder, lp, position);
-                        } else {
-                            holder.mTotalItem.setVisibility(View.GONE);
-                        }
-                    } else if (ItemStyle.SixOne == ItemStyle.SixOne) {//�汾��
-                        setWeight(holder);
-                        if (position == 0 || position == 1 || position == 2) {
-                            lp.height = 200;
-                            setItemTwo(holder, lp);
-                            holder.left_one_tv.setText(mDatas.get(position).toString());
-                            holder.right_one_tv.setText(mDatas.get(position + 1).toString());
-                        } else {
-                            holder.mTotalItem.setVisibility(View.GONE);
-                        }
-                    } else if (ItemStyle.SixTwo == ItemStyle.SixTwo) {//�汾��
-                        if (position == 0) {
-                            lp.height = 420;
-                            holder.mTotalItem.setLayoutParams(lp);
-                            holder.left_one_tv.setText(mDatas.get(position).toString());
-                            holder.right_two_tv.setText(mDatas.get(position + 1).toString());
-                            holder.right_three_tv.setText(mDatas.get(position + 2).toString());
-                            holder.right_four_tv.setText(mDatas.get(position + 3).toString());
-                        } else if (position == 1) {
-                            lp.height = 200;
-                            holder.left_one_tv.setText(mDatas.get(position + 3).toString());
-                            holder.right_one_tv.setText(mDatas.get(position + 4).toString());
-                            setItemTwo(holder, lp);
-                        } else {
-                            holder.mTotalItem.setVisibility(View.GONE);
-                        }
-                    }
-                    break;
-                case 7:
-                    if (ItemStyle.SevenOne == ItemStyle.SevenOne) {//�汾��
-                        if (position == 0) {
-                            lp.height = 350;
-                            holder.mTotalItem.setLayoutParams(lp);
-                            holder.left_one_tv.setText(mDatas.get(position).toString());
-                            holder.right_two_tv.setText(mDatas.get(position + 1).toString());
-                            holder.right_three_tv.setText(mDatas.get(position + 2).toString());
-                            holder.mRightLLFour.setVisibility(View.GONE);
-                        } else if (position == 1) {
-                            lp.height = 170;
-                            setItemFour(holder, lp, position);
-                        } else {
-                            holder.mTotalItem.setVisibility(View.GONE);
-                        }
-                    } else if (ItemStyle.SevenTwo == ItemStyle.SevenTwo) {//�汾��
-                        setWeight(holder);
-                        if (position == 0) {
-                            lp.height = 300;
-                            holder.mTotalItem.setLayoutParams(lp);
-                            holder.left_one_tv.setText(mDatas.get(position).toString());
-                            holder.right_two_tv.setText(mDatas.get(position + 1).toString());
-                            holder.right_three_tv.setText(mDatas.get(position + 2).toString());
-                            holder.mRightLLFour.setVisibility(View.GONE);
-                        } else if (position == 1) {
-                            lp.height = 150;
-                            setItemTwo(holder, lp);
-                            holder.left_one_tv.setText(mDatas.get(position + 2).toString());
-                            holder.right_one_tv.setText(mDatas.get(position + 3).toString());
-                        } else if (position == 2) {
-                            lp.height = 150;
-                            setItemTwo(holder, lp);
-                            holder.left_one_tv.setText(mDatas.get(position + 3).toString());
-                            holder.right_one_tv.setText(mDatas.get(position + 4).toString());
-                        } else {
-                            holder.mTotalItem.setVisibility(View.GONE);
-                        }
-                    }
-                    break;
-            }
-        }
-
-        private void setItemTwo(MyViewHolder holder, ViewGroup.LayoutParams lp) {
-            holder.mTotalItem.setLayoutParams(lp);
-            holder.left_two_tv.setVisibility(View.GONE);
-            holder.mRightLLOne.setVisibility(View.VISIBLE);
-            holder.mRightRightLL.setVisibility(View.GONE);
-        }
-
-        //设置Item有四个
-        private void setItemFour(MyViewHolder holder, ViewGroup.LayoutParams lp, int position) {
-            holder.mTotalItem.setLayoutParams(lp);
-            holder.left_one_tv.setText(mDatas.get(position + 1).toString());
-            holder.left_two_tv.setText(mDatas.get(position + 2).toString());
-            holder.right_one_tv.setText(mDatas.get(position + 3).toString());
-            holder.right_two_tv.setText(mDatas.get(position + 4).toString());
-            holder.mLeftLLTwo.setVisibility(View.VISIBLE);
-            holder.mRightLLOne.setVisibility(View.VISIBLE);
-            holder.mRightRightLL.setVisibility(View.VISIBLE);
-            holder.mRightLLThree.setVisibility(View.GONE);
-            holder.mRightLLFour.setVisibility(View.GONE);
-        }
-
-        //设置weight 2:1
-        private void setWeight(MyViewHolder holder) {
-            LinearLayout.LayoutParams param;
-            param = new LinearLayout.LayoutParams(0,
-                    LinearLayout.LayoutParams.MATCH_PARENT, 2.5f);
-            param.setMargins(0, 0, 5, 0);
-            holder.mLeftLL.setLayoutParams(param);
-            param = new LinearLayout.LayoutParams(0,
-                    LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
-            param.setMargins(5, 0, 0, 0);
-            holder.mRightLL.setLayoutParams(param);
-        }
-
-        @Override
-        public int getItemCount() {
-            return 2;
-        }
-
-        class MyViewHolder extends RecyclerView.ViewHolder {
-            LinearLayout mTotalItem;//总体的
-            LinearLayout mLeftLL;//左侧布局
-            LinearLayout mLeftLLOne;//左侧布局
-            LinearLayout mLeftLLTwo;//左侧布局
-            LinearLayout mRightLL;//右侧布局
-            LinearLayout mRightLLOne;//右侧布局
-            LinearLayout mRightRightLL;//右侧布局
-            LinearLayout mRightLLTwo;//右侧布局
-            LinearLayout mRightLLThree;//右侧布局
-            LinearLayout mRightLLFour;//右侧布局
-            TextView left_one_tv;
-            TextView left_two_tv;
-            TextView right_one_tv;
-            TextView right_two_tv;
-            TextView right_three_tv;
-            TextView right_four_tv;
-            List mList;
-
-            public MyViewHolder(View view, List list) {
-                super(view);
-                mList = list;
-                mTotalItem = (LinearLayout) view.findViewById(R.id.totalItem_ll);
-                mLeftLL = (LinearLayout) view.findViewById(R.id.total_left_ll);
-                mLeftLLOne = (LinearLayout) view.findViewById(R.id.total_left_ll_one);
-                mLeftLLTwo = (LinearLayout) view.findViewById(R.id.total_left_ll_two);
-                mRightLL = (LinearLayout) view.findViewById(R.id.total_right_ll);
-                mRightRightLL = (LinearLayout) view.findViewById(R.id.total_right_ll_right);
-                mRightLLOne = (LinearLayout) view.findViewById(R.id.total_right_ll_one);
-                mRightLLTwo = (LinearLayout) view.findViewById(R.id.total_right_ll_two);
-                mRightLLThree = (LinearLayout) view.findViewById(R.id.total_right_ll_three);
-                mRightLLFour = (LinearLayout) view.findViewById(R.id.total_right_ll_four);
-                left_one_tv = (TextView) view.findViewById(R.id.total_left_one);
-                left_two_tv = (TextView) view.findViewById(R.id.total_left_two);
-                right_one_tv = (TextView) view.findViewById(R.id.total_right_one);
-                right_two_tv = (TextView) view.findViewById(R.id.total_right_two);
-                right_three_tv = (TextView) view.findViewById(R.id.total_right_three);
-                right_four_tv = (TextView) view.findViewById(R.id.total_right_four);
-            }
-        }
-    }
 }

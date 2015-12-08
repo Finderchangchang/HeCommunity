@@ -2,10 +2,14 @@ package liuliu.he.community.test;
 
 import android.util.SparseArray;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import in.srain.cube.image.CubeImageView;
 import in.srain.cube.image.ImageLoader;
+import liuliu.he.community.R;
 
 /**
  * Created by Administrator on 2015/12/1.
@@ -36,10 +40,38 @@ public class ViewHolderBase<T> {
         return (T) view;
     }
 
+    public ViewHolderBase setHeight(int viewId, int height) {
+        LinearLayout view = getView(viewId);
+        ViewGroup.LayoutParams lp = view.getLayoutParams();
+        lp.height = height;
+        view.setLayoutParams(lp);
+        return this;
+    }
+
+    public ViewHolderBase setMargin(int viewId, int left, int right, int top, int bottom) {
+        LinearLayout ll = (LinearLayout) getView(viewId);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) ll.getLayoutParams();
+        layoutParams.setMargins(left, right, top, bottom);//4个参数按顺序分别是左上右下
+        ll.setLayoutParams(layoutParams);
+        return this;
+    }
+
+    public ViewHolderBase setVisible(int viewId, int visible) {
+        getView(viewId).setVisibility(visible);
+        return this;
+    }
+
     public ViewHolderBase loadImage(int viewId, ImageLoader loader, String url) {
         CubeImageView view = getView(viewId);
         view.loadImage(loader, url);
         view.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        view.setVisibility(View.VISIBLE);
+        return this;
+    }
+
+    public ViewHolderBase setText(int viewId, String val) {
+        TextView view = getView(viewId);
+        view.setText(val);
         return this;
     }
 }

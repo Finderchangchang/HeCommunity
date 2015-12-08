@@ -9,7 +9,6 @@ public class TopImage {
      * img : http://img.hesq.com.cn/fresh/upload/ad/20151130/1448835823156.jpg
      * link : #
      */
-
     private String img;
     private String link;
 

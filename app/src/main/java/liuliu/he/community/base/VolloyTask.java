@@ -24,18 +24,18 @@ import liuliu.he.community.model.TitleImagesModel;
  * Created by Administrator on 2015/12/7.
  */
 public class VolloyTask {
-    onReturn onReturn;
+    Context mContext;
 
-    public interface onReturn {
-        void onResult();
+    public VolloyTask(Context mContext) {
+        this.mContext = mContext;
     }
 
-    public void setOnReturn(onReturn onReturn) {
-        this.onReturn = onReturn;
+    public interface OnReturn {
+        void onResult(TitleImagesModel model);
     }
 
-    public static TitleImagesModel GetJson(String url, Context context) {
-        RequestQueue mQueue = Volley.newRequestQueue(context);
+    public void getJson(final OnReturn on, String url) {
+        RequestQueue mQueue = Volley.newRequestQueue(mContext);
         final TitleImagesModel model = new TitleImagesModel();
         JsonRequest jsonObjectRequest = new JsonObjectRequest(url, null,
                 new Response.Listener<JSONObject>() {
@@ -45,6 +45,7 @@ public class VolloyTask {
                             model.setError(response.getString("error"));//错误信息
                             model.setReturnX(response.getString("return"));
                             model.setData(response.get("data"));//结果为true，返回结果
+                            on.onResult(model);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -58,11 +59,11 @@ public class VolloyTask {
                 model.setReturnX("");
                 model.setError(error.toString());
                 model.setData(null);
+                on.onResult(model);
             }
         }
 
         );
         mQueue.add(jsonObjectRequest);
-        return model;
     }
 }

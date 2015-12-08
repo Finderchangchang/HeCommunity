@@ -20,7 +20,7 @@ public class MainListener {
 
     //获得顶部轮动图片集合
     public void TitleImages() {
-        mView.OnTitleImages(VolloyTask.GetJson("http://www.hesq.com.cn/fresh/fore/logic/app/home/focus.php", mContext));
+//        mView.OnTitleImages(VolloyTask.GetJson("http://www.hesq.com.cn/fresh/fore/logic/app/home/focus.php", mContext));
     }
 }
 
