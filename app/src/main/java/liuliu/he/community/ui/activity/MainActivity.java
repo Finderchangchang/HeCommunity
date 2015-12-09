@@ -3,25 +3,13 @@ package liuliu.he.community.ui.activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-
 import net.tsz.afinal.annotation.view.CodeNote;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +33,8 @@ import liuliu.he.community.ui.fragment.WodeFragment;
  * @author 柳伟杰
  * @Email 1031066280@qq.com
  */
-public class ListDemoActivity extends BaseActivity {
-    public static ListDemoActivity mIntails;
+public class MainActivity extends BaseActivity {
+    public static MainActivity mIntails;
     @CodeNote(id = R.id.frag_ll)
     FrameLayout frag_ll;
     @CodeNote(id = R.id.total_bottom_shouye_ll, click = "onClick")

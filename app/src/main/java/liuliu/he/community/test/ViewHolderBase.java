@@ -1,5 +1,6 @@
 package liuliu.he.community.test;
 
+import android.content.Intent;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,12 @@ import android.widget.TextView;
 
 import in.srain.cube.image.CubeImageView;
 import in.srain.cube.image.ImageLoader;
-import liuliu.he.community.R;
+import liuliu.custom.method.Utils;
+import liuliu.he.community.model.TopImage;
+import liuliu.he.community.ui.activity.GoodDetailActivity;
+import liuliu.he.community.ui.activity.GoodListActivity;
+import liuliu.he.community.ui.activity.HelpActivity;
+import liuliu.he.community.ui.activity.MainActivity;
 
 /**
  * Created by Administrator on 2015/12/1.
@@ -61,12 +67,70 @@ public class ViewHolderBase<T> {
         return this;
     }
 
+//    public ViewHolderBase loadImage(int viewId, ImageLoader loader, String url) {
+//        loadImage(viewId, loader, url, null);
+//        return this;
+//    }
+
+    public ViewHolderBase loadImageByUrl(int viewId, ImageLoader loader, final TopImage model) {
+        CubeImageView view = getView(viewId);
+        view.loadImage(loader, model.getImg());
+        view.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        view.setVisibility(View.VISIBLE);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                jiexiLink(model.getLink());
+            }
+        });
+
+        return this;
+    }
+
     public ViewHolderBase loadImage(int viewId, ImageLoader loader, String url) {
         CubeImageView view = getView(viewId);
         view.loadImage(loader, url);
         view.setScaleType(ImageView.ScaleType.CENTER_CROP);
         view.setVisibility(View.VISIBLE);
+
         return this;
+    }
+
+    /**
+     * 解析link
+     *
+     * @param link = "../product/detail.php?id=852";
+     */
+    private void jiexiLink(final String link) {
+        if (link.contains("product")) {
+            if (link.contains("detail.php")) {//跳转到商品的详细页面
+                MainActivity.mIntails.mUtils.IntentPost(GoodDetailActivity.class, new Utils.putListener() {
+                    @Override
+                    public void put(Intent intent) {
+                        intent.putExtra("id", link.split("=")[1]);
+                    }
+                });
+            } else if (link.contains("list.php")) {//跳转到商品列表
+                MainActivity.mIntails.mUtils.IntentPost(GoodListActivity.class, new Utils.putListener() {
+                    @Override
+                    public void put(Intent intent) {
+                        intent.putExtra("type", link.split("=")[1]);
+                    }
+                });
+            }
+        } else if (link.contains("user")) {//跳转到帮助中心
+            if (link.contains("help.php")) {
+                MainActivity.mIntails.mUtils.IntentPost(HelpActivity.class);
+            }
+        }
+    }
+
+    public interface OnImageClick {
+        void click();
+    }
+
+    public void loadClick(OnImageClick click) {
+
     }
 
     public ViewHolderBase setText(int viewId, String val) {

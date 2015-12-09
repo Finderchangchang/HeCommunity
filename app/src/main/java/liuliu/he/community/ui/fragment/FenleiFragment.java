@@ -26,27 +26,28 @@ import liuliu.he.community.R;
 import liuliu.he.community.adapter.RecycleAdapter;
 import liuliu.he.community.adapter.RecycleViewHolder;
 import liuliu.he.community.base.BaseFragment;
+import liuliu.he.community.control.fenlei.FenLeiListener;
+import liuliu.he.community.control.fenlei.IFenLeiView;
 import liuliu.he.community.model.ImageDemo;
 import liuliu.he.community.model.MyGridView;
 import liuliu.he.community.test.DataAdapterBase;
 import liuliu.he.community.test.ViewHolderBase;
-import liuliu.he.community.ui.activity.ListDemoActivity;
+import liuliu.he.community.ui.activity.MainActivity;
 
 /**
  * 分类
  * Created by Administrator on 2015/11/25.
  */
-public class FenleiFragment extends BaseFragment {
+public class FenleiFragment extends BaseFragment implements IFenLeiView {
     @CodeNote(id = R.id.fenlei_view)
     RecyclerView recyclerView;//商品分类
-    //    @CodeNote(id = R.id.fenlei_good_type_detail_view)
-//    RecyclerView good_type_detail;//商品详细分类
     @CodeNote(id = R.id.fenlei_grid_view)
     MyGridView gridview;
     Context mContext;
     List mDatas;
     int mGoodTypeClick;//被点击的项
     List<Button> good_type_list;
+    FenLeiListener mListener;
 
 
     //商品分类详细
@@ -57,7 +58,8 @@ public class FenleiFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.frag_fenlei, container, false);
         FinalActivity.initInjectedView(this, viewRoot);
-        mContext = ListDemoActivity.mIntails;
+        mContext = MainActivity.mIntails;
+        mListener = new FenLeiListener(mContext, this);
         mQueue = Volley.newRequestQueue(mContext);
         mImageLoader = new ImageLoader(mQueue, new BitmapCache());
         //设置布局管理器
@@ -133,5 +135,10 @@ public class FenleiFragment extends BaseFragment {
 //            }
 //        });
 //        good_type_detail.setLayoutManager(new FullyGridLayoutManager(mContext, 3));
+    }
+
+    @Override
+    public void loadFenLei(List list) {
+
     }
 }

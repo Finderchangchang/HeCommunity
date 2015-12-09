@@ -15,11 +15,14 @@ public class GoodTypeModel {
      * link :字符串(链接地址)  ../product/list.php?bid=69
      */
     private int id;
+    private int bid;
     private String image;
     private String title;
     private String t1;
     private String t2;
     private String link;
+    private boolean isPreferential;
+    private boolean isPresent;
 
     public void setImage(String image) {
         this.image = image;
@@ -61,4 +64,35 @@ public class GoodTypeModel {
         return link;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getBid() {
+        return bid;
+    }
+
+    public void setBid(int bid) {
+        this.bid = bid;
+    }
+
+    public boolean isPreferential() {
+        return isPreferential;
+    }
+
+    public void setIsPreferential(boolean isPreferential) {
+        this.isPreferential = isPreferential;
+    }
+
+    public boolean isPresent() {
+        return isPresent;
+    }
+
+    public void setIsPresent(boolean isPresent) {
+        this.isPresent = isPresent;
+    }
 }

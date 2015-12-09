@@ -20,7 +20,7 @@ import liuliu.he.community.test.DataAdapterBase;
 import liuliu.he.community.base.BaseFragment;
 import liuliu.he.community.model.GoodModel;
 import liuliu.he.community.test.ViewHolderBase;
-import liuliu.he.community.ui.activity.ListDemoActivity;
+import liuliu.he.community.ui.activity.MainActivity;
 import liuliu.he.community.model.MyGridView;
 
 /**
@@ -45,7 +45,7 @@ public class GouwucheFragment extends BaseFragment {
                 , "$120.00", "102KG", 2));
         mDatas.add(new GoodModel(0, "生鲜蔬菜", "http://img5.duitang.com/uploads/item/201405/09/20140509222156_kVexJ.thumb.jpeg"
                 , "$130.00", "103KG", 2));
-        mContext = ListDemoActivity.mIntails;
+        mContext = MainActivity.mIntails;
         final ImageLoader imageLoader = ImageLoaderFactory.create(mContext);
         adapter = new DataAdapterBase<GoodModel>(mContext, R.layout.item_gouwuche, mDatas) {
             @Override
@@ -54,7 +54,7 @@ public class GouwucheFragment extends BaseFragment {
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ListDemoActivity.mIntails.mUtils.ToastShort("model:" + model.getGoodName());
+                        MainActivity.mIntails.mUtils.ToastShort("model:" + model.getGoodName());
                     }
                 });
                 holder.loadImage(R.id.good_img, imageLoader, model.getGoodImgUrl());

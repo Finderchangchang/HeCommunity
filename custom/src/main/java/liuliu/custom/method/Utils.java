@@ -387,10 +387,7 @@ public class Utils {
         // values);
         Uri uri = Uri.fromFile(new File(getDataPath() + "/temp/"
                 + System.currentTimeMillis() + ".tmp"));
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri); // 锟斤拷锟斤拷锟酵斤拷锟侥硷拷锟侥存储锟斤拷式锟斤拷uri指锟斤拷锟斤拷锟斤拷Camera应锟斤拷锟斤拷
-
-        // 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷要锟斤拷锟斤拷锟斤拷Camera锟襟，匡拷锟皆凤拷锟斤拷Camera锟斤拷取锟斤拷锟斤拷图片锟斤拷
-        // 锟斤拷锟皆ｏ拷锟斤拷锟斤拷使锟斤拷startActivityForResult锟斤拷锟斤拷锟斤拷Camera
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         mContext.startActivity(intent);
         return uri;
     }
@@ -773,7 +770,7 @@ public class Utils {
     }
 
     //intent=getIntent();name=标识符
-    public Object IntentGet(Intent intent, String name) {
+    public String IntentGet(Intent intent, String name) {
         return intent.getStringExtra(name);
     }
 

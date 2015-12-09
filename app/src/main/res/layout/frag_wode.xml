@@ -137,6 +137,7 @@
                             android:text="分"
                             android:textColor="#70AD34" />
                     </LinearLayout>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

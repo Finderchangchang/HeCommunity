@@ -10,7 +10,7 @@ import liuliu.custom.method.Utils;
 
 /**
  * BaseActivity声明相关通用方法
- * <p>
+ * <p/>
  * Created by LiuWeiJie on 2015/7/22 0022.
  * Email:1031066280@qq.com
  */
@@ -24,8 +24,8 @@ public abstract class BaseActivity extends FinalActivity {
         initViews();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-        initEvents();
         mUtils = new Utils(this);
+        initEvents();
     }
 
     public abstract void initViews();

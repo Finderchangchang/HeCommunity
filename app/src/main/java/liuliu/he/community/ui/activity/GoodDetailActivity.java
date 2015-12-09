@@ -24,6 +24,7 @@ public class GoodDetailActivity extends BaseActivity {
     @CodeNote(id = R.id.num_count_et)
     EditText num_count;
     int count;
+    String good_id;//需要显示的商品编码
 
     @Override
     public void initViews() {
@@ -33,7 +34,7 @@ public class GoodDetailActivity extends BaseActivity {
 
     @Override
     public void initEvents() {
-
+        good_id = mUtils.IntentGet(getIntent(), "id");
     }
 
     public void onClick(View view) {

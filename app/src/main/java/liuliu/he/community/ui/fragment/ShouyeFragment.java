@@ -23,11 +23,9 @@ import java.util.List;
 import in.srain.cube.image.CubeImageView;
 import in.srain.cube.image.ImageLoader;
 import in.srain.cube.image.ImageLoaderFactory;
-import in.srain.cube.views.list.ListViewDataAdapter;
 import liuliu.custom.method.Utils;
 import liuliu.he.community.R;
 import liuliu.he.community.base.BaseFragment;
-import liuliu.he.community.base.VolloyTask;
 import liuliu.he.community.control.shouye.IShouyeView;
 import liuliu.he.community.control.shouye.ShouyeListener;
 import liuliu.he.community.model.ChangeItemModel;
@@ -36,13 +34,11 @@ import liuliu.he.community.model.ImageDemo;
 import liuliu.he.community.model.ItemModel;
 import liuliu.he.community.model.MyGridView;
 import liuliu.he.community.model.ProductModel;
-import liuliu.he.community.model.TitleImagesModel;
 import liuliu.he.community.model.TopImage;
 import liuliu.he.community.test.DataAdapterBase;
 import liuliu.he.community.test.ViewHolderBase;
-import liuliu.he.community.type.ItemStyle;
 import liuliu.he.community.ui.activity.GoodDetailActivity;
-import liuliu.he.community.ui.activity.ListDemoActivity;
+import liuliu.he.community.ui.activity.MainActivity;
 
 /**
  * 首页的Fragment
@@ -55,9 +51,7 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
     MyGridView good_type_gv;
     @CodeNote(id = R.id.guang_gao_grid_view)
     GridView guang_gao_gv;
-    ListViewDataAdapter adapter;
     Context mContext;
-    List mDatas;
     OnItemClick mClick;
     @CodeNote(id = R.id.main_good_type_ll, click = "onClick")
     LinearLayout main_good_type_ll;
@@ -69,7 +63,6 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
     LinearLayout main_shoppingcar_ll;
     @CodeNote(id = R.id.cub_img)
     CubeImageView mImg;
-    //热门
     @CodeNote(id = R.id.hot_tejia_rl, click = "onClick")
     RelativeLayout hot_tejia_rl;
     @CodeNote(id = R.id.hot_tejia_ll)
@@ -78,7 +71,6 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
     ImageView hot_tejia_iv;
     @CodeNote(id = R.id.hot_tejia_tv)
     TextView hot_tejia_tv;
-
     @CodeNote(id = R.id.hot_jingpin_rl, click = "onClick")
     RelativeLayout hot_jingpin_rl;
     @CodeNote(id = R.id.hot_jingpin_ll)
@@ -87,7 +79,6 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
     ImageView hot_jingpin_iv;
     @CodeNote(id = R.id.hot_jingpin_tv)
     TextView hot_jingpin_tv;
-
     @CodeNote(id = R.id.hot_zuixin_rl, click = "onClick")
     RelativeLayout hot_zuixin_rl;
     @CodeNote(id = R.id.hot_zuixin_ll)
@@ -98,55 +89,27 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
     TextView hot_zuixin_tv;
     private int clickItem;//热门商品点击的项
     ImageLoader imageLoader = null;
-    List<TopImage> mTopImgs;
-    List<TopImage> mGuanggaoImgs;
     ShouyeListener mListener;
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View viewRoot = inflater.inflate(R.layout.frag_shouye, container, false);
-        FinalActivity.initInjectedView(this, viewRoot);
-        mContext = ListDemoActivity.mIntails;
-        imageLoader = ImageLoaderFactory.create(mContext);
-        mDatas = new ArrayList<String>();
-        mListener = new ShouyeListener(this, mContext);
-        for (int i = 'A'; i < 'H'; i++) {
-            mDatas.add("" + (char) i);
-        }
-        initData();
-
-//        HotClick(0, ImageDemo.getSmallImages());
-        hot_good_adapter = new DataAdapterBase<String>(mContext, R.layout.item_main_hot_good, ImageDemo.getSmallImages()) {
-            @Override
-            public void convert(ViewHolderBase holder, String url, int position) {
-                holder.loadImage(R.id.good_iv, imageLoader, url);
-            }
-        };
-        good_list.setNumColumns(2);
-        good_list.setAdapter(hot_good_adapter);
-        good_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                ListDemoActivity.mIntails.mUtils.IntentPost(GoodDetailActivity.class, new Utils.putListener() {
-                    @Override
-                    public void put(Intent intent) {
-                        intent.putExtra("goodid", position);//商品id
-                    }
-                });//跳转到商品详细页面
-            }
-        });
-        hot_good_adapter.notifyDataSetChanged();
-
-
-        return viewRoot;
-    }
 
     DataAdapterBase good_type_adapter;
     DataAdapterBase hot_good_adapter;
     DataAdapterBase guang_gao_adapter;
     List<ChangeItemModel> mItemList;
     List<ItemModel> mItems;
+    List list[];
+    ChangeItemModel normalModel;
+    ChangeItemModel pressedModel;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View viewRoot = inflater.inflate(R.layout.frag_shouye, container, false);
+        FinalActivity.initInjectedView(this, viewRoot);
+        mContext = MainActivity.mIntails;
+        imageLoader = ImageLoaderFactory.create(mContext);
+        mListener = new ShouyeListener(this, mContext);
+        initData();
+        return viewRoot;
+    }
 
     public void onClick(View view) {
         switch (view.getId()) {
@@ -186,9 +149,6 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
         mItems.add(new ItemModel("我的", R.mipmap.wode_normal, R.mipmap.wode_normal_pressed));
     }
 
-    private ChangeItemModel normalModel;
-    private ChangeItemModel pressedModel;
-
     private void HotClick(int position, List mList) {
         normalModel = mItemList.get(clickItem);
         pressedModel = mItemList.get(position);
@@ -208,6 +168,12 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
             @Override
             public void convert(ViewHolderBase holder, ProductModel model, int position) {
                 holder.loadImage(R.id.good_iv, imageLoader, model.getImage());
+                if (model.getName().length() > 8) {
+                    holder.setText(R.id.good_name_tv, model.getName().substring(0, 8) + "..");
+                } else {
+                    holder.setText(R.id.good_name_tv, model.getName());
+                }
+                holder.setText(R.id.good_price_tv, model.getPrice());
             }
         };
         good_list.setNumColumns(2);
@@ -215,7 +181,7 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
         good_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                ListDemoActivity.mIntails.mUtils.IntentPost(GoodDetailActivity.class, new Utils.putListener() {
+                MainActivity.mIntails.mUtils.IntentPost(GoodDetailActivity.class, new Utils.putListener() {
                     @Override
                     public void put(Intent intent) {
                         intent.putExtra("goodid", position);//商品id
@@ -243,12 +209,10 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
         guang_gao_gv.setAdapter(guang_gao_adapter);
     }
 
-    private List list[];
-
     @Override
     public void OnGoodList(List list[]) {
         this.list = list;
-        HotClick(0,list[0]);
+        HotClick(0, list[0]);
     }
 
     //商品分类
@@ -258,6 +222,9 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
             @Override
             public void convert(ViewHolderBase holder, GoodTypeModel model, int position) {
                 holder.loadImage(R.id.type_iv, imageLoader, model.getImage());
+                holder.setText(R.id.type_title_tv, model.getTitle());
+                holder.setText(R.id.type_desc1_tv, model.getT1());
+                holder.setText(R.id.type_desc2_tv, model.getT2());
             }
         };
         good_type_gv.setNumColumns(2);
@@ -273,13 +240,10 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
         mClick = click;
     }
 
-//    private void initHotGoods(List list) {
-//
-//    }
     /*------广告布局管理---------*/
 
     //加载广告布局
-    private void loadGG(Context context, int type, ViewHolderBase holder, List<TopImage> list, int position) {
+    private void loadGG(Context context, int type, ViewHolderBase holder, final List<TopImage> list, int position) {
         int width = Utils.getScannerWidth(context);//获得屏幕宽度
         switch (type) {
             case 1:
@@ -314,18 +278,18 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
             case 3:
                 if (position == 0) {
                     holder.setHeight(R.id.total_left_ll, (width - 15) / 2);
-                    holder.loadImage(R.id.total_left_one_iv, imageLoader, list.get(0).getImg());
-                    holder.loadImage(R.id.total_right_two_iv, imageLoader, list.get(3).getImg());
-                    holder.loadImage(R.id.total_right_three_iv, imageLoader, list.get(4).getImg());
+                    holder.loadImageByUrl(R.id.total_left_one_iv, imageLoader, list.get(0));
+                    holder.loadImageByUrl(R.id.total_right_two_iv, imageLoader, list.get(3));
+                    holder.loadImageByUrl(R.id.total_right_three_iv, imageLoader, list.get(4));
                     holder.setMargin(R.id.total_right_ll_right, 0, 0, 0, 0);
                     holder.setVisible(R.id.total_right_ll_right, View.VISIBLE);
                 } else if (position == 1) {
                     holder.setHeight(R.id.total_left_ll, 170);
                     holder.setVisible(R.id.total_right_ll_right, View.VISIBLE);
-                    holder.loadImage(R.id.total_left_one_iv, imageLoader, list.get(0).getImg());
-                    holder.loadImage(R.id.total_left_two_iv, imageLoader, list.get(2).getImg());
-                    holder.loadImage(R.id.total_right_one_iv, imageLoader, list.get(5).getImg());
-                    holder.loadImage(R.id.total_right_two_iv, imageLoader, list.get(6).getImg());
+                    holder.loadImageByUrl(R.id.total_left_one_iv, imageLoader, list.get(1));
+                    holder.loadImageByUrl(R.id.total_left_two_iv, imageLoader, list.get(2));
+                    holder.loadImageByUrl(R.id.total_right_one_iv, imageLoader, list.get(5));
+                    holder.loadImageByUrl(R.id.total_right_two_iv, imageLoader, list.get(6));
                 } else {
                     setOtherGone(holder);
                 }
