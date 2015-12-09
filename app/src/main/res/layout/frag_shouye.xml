@@ -316,17 +316,20 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/fenlei_xiangqing_ll"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
-                    android:paddingRight="10dp">
+                    android:paddingRight="10dp"
+                    >
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="详情>"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:layout_marginLeft="10dp"/>
                 </LinearLayout>
 
             </RelativeLayout>

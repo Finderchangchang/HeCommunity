@@ -9,14 +9,12 @@ import android.widget.TextView;
 
 import net.tsz.afinal.FinalActivity;
 import net.tsz.afinal.annotation.view.CodeNote;
-
-import liuliu.custom.method.Utils;
 import liuliu.he.community.R;
 import liuliu.he.community.base.BaseFragment;
 import liuliu.he.community.control.wode.IWodeView;
 import liuliu.he.community.control.wode.WodeListener;
 import liuliu.he.community.model.WoDeModel;
-import liuliu.he.community.ui.activity.ListDemoActivity;
+import liuliu.he.community.ui.activity.MainActivity;
 import liuliu.he.community.view.MyItemView;
 
 /**
@@ -53,7 +51,7 @@ public class WodeFragment extends BaseFragment implements IWodeView {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.frag_wode, container, false);
         FinalActivity.initInjectedView(this, viewRoot);
-        mContext = ListDemoActivity.mIntails;
+        mContext = MainActivity.mIntails;
         mListener = new WodeListener(mContext, this);
         return viewRoot;
     }

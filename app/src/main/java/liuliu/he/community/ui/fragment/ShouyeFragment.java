@@ -37,6 +37,7 @@ import liuliu.he.community.model.ProductModel;
 import liuliu.he.community.model.TopImage;
 import liuliu.he.community.test.DataAdapterBase;
 import liuliu.he.community.test.ViewHolderBase;
+import liuliu.he.community.ui.activity.DingDanActivity;
 import liuliu.he.community.ui.activity.GoodDetailActivity;
 import liuliu.he.community.ui.activity.MainActivity;
 
@@ -51,6 +52,8 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
     MyGridView good_type_gv;
     @CodeNote(id = R.id.guang_gao_grid_view)
     GridView guang_gao_gv;
+    @CodeNote(id = R.id.fenlei_xiangqing_ll, click = "onClick")
+    LinearLayout xiangqing_ll;
     Context mContext;
     OnItemClick mClick;
     @CodeNote(id = R.id.main_good_type_ll, click = "onClick")
@@ -116,7 +119,8 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
             case R.id.main_good_type_ll:
                 mClick.onItemClick(1);
                 break;
-            case R.id.main_my_order_ll:
+            case R.id.main_my_order_ll://跳转到订单列表
+                MainActivity.mIntails.mUtils.IntentPost(DingDanActivity.class);
                 break;
             case R.id.main_user_unit_ll:
                 mClick.onItemClick(2);
@@ -132,6 +136,9 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
                 break;
             case R.id.hot_zuixin_rl:
                 HotClick(2, list[2]);
+                break;
+            case R.id.fenlei_xiangqing_ll://点击跳转到商品类型
+                mClick.onItemClick(1);
                 break;
         }
     }

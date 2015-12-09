@@ -28,6 +28,7 @@ import liuliu.he.community.adapter.RecycleViewHolder;
 import liuliu.he.community.base.BaseFragment;
 import liuliu.he.community.control.fenlei.FenLeiListener;
 import liuliu.he.community.control.fenlei.IFenLeiView;
+import liuliu.he.community.model.GoodTypeModel;
 import liuliu.he.community.model.ImageDemo;
 import liuliu.he.community.model.MyGridView;
 import liuliu.he.community.test.DataAdapterBase;
@@ -65,42 +66,6 @@ public class FenleiFragment extends BaseFragment implements IFenLeiView {
         //设置布局管理器
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         good_type_list = new ArrayList<>();
-        mDatas = new ArrayList<String>();
-        String[] s = {"米面粮油", "生鲜蔬菜", "新鲜水果", "干果炒货", "鱼肉蛋禽", "豆制品"
-                , "乳品饮料", "日化美护", "休闲食品", "馈赠礼包"};
-        for (int i = 0; i < s.length; i++) {
-            mDatas.add(s[i]);
-        }
-
-        //设置adapter
-        recyclerView.setAdapter(
-                new RecycleAdapter(mContext, mDatas,
-                        R.layout.recycle_view_item_good_type) {
-                    @Override
-                    public void convert(RecycleViewHolder holder, final List list, final int position) {
-                        Button btn = holder.getView(R.id.good_type_rv_button);
-                        btn.setText(mDatas.get(position).toString());
-                        btn.setBackgroundResource(R.mipmap.good_type_item);
-                        good_type_list.add(btn);//将所有按钮添加到list中
-                        if (position == mGoodTypeClick) {//设置置顶按钮被点击
-                            btn.setBackgroundResource(R.mipmap.good_type_item_pressed);
-                        }
-                        holder.setOnClickListener(R.id.good_type_rv_button, new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        refreshList(position);
-                                        good_type_list.get(mGoodTypeClick).setBackgroundResource(R.mipmap.good_type_item);
-                                        good_type_list.get(position).setBackgroundResource(R.mipmap.good_type_item_pressed);
-                                        mGoodTypeClick = position;
-                                    }
-                                }
-                        );
-                    }
-                }
-
-        );
-        recyclerView.setLayoutManager(new GridLayoutManager(mContext, 4));
-        refreshList(mGoodTypeClick);
         return viewRoot;
     }
 
@@ -124,21 +89,44 @@ public class FenleiFragment extends BaseFragment implements IFenLeiView {
         gridview.setAdapter(adapterBase);
         gridview.setNumColumns(3);
         adapterBase.notifyDataSetChanged();
-//        good_type_detail.setLayoutManager(new FullyLinearLayoutManager(mContext));
-//        good_type_detail.setAdapter(new RecycleAdapter<String>(mContext, ImageDemo.getImages(), R.layout.item_fenlei_detail) {
-//            @Override
-//            public void convert(RecycleViewHolder holder, final List<String> list, final int position) {
-//                holder.setText(R.id.item_fenlei_detail_tv, mTypeDetailList.get(position).toString());
-//                ImageLoader.ImageListener listener = ImageLoader.getImageListener((ImageView) holder.getView(R.id.item_fenlei_detail_iv), 0, R.mipmap.ic_launcher);
-////                mImageLoader.get("http://pic24.nipic.com/20120920/10361578_112230424175_2.jpg", listener);
-//                mImageLoader.get(list.get(position), listener);
-//            }
-//        });
-//        good_type_detail.setLayoutManager(new FullyGridLayoutManager(mContext, 3));
     }
 
+    /**
+     * 加载所有数据
+     * @param list 所有类型集合
+     * @param type 顶部分类
+     */
     @Override
-    public void loadFenLei(List list) {
+    public void loadFenLei(List list[], final List type) {
+//设置adapter
+        recyclerView.setAdapter(
+                new RecycleAdapter(mContext, type,
+                        R.layout.recycle_view_item_good_type) {
+                    @Override
+                    public void convert(RecycleViewHolder holder, final List list, final int position) {
+                        GoodTypeModel model= (GoodTypeModel) type.get(position);
+                        Button btn = holder.getView(R.id.good_type_rv_button);
+                        btn.setText(model.getTitle().toString());
+                        btn.setBackgroundResource(R.mipmap.good_type_item);
+                        good_type_list.add(btn);//将所有按钮添加到list中
+                        if (position == mGoodTypeClick) {//设置置顶按钮被点击
+                            btn.setBackgroundResource(R.mipmap.good_type_item_pressed);
+                        }
+                        holder.setOnClickListener(R.id.good_type_rv_button, new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        refreshList(position);
+                                        good_type_list.get(mGoodTypeClick).setBackgroundResource(R.mipmap.good_type_item);
+                                        good_type_list.get(position).setBackgroundResource(R.mipmap.good_type_item_pressed);
+                                        mGoodTypeClick = position;
+                                    }
+                                }
+                        );
+                    }
+                }
 
+        );
+        recyclerView.setLayoutManager(new GridLayoutManager(mContext, 4));
+        refreshList(mGoodTypeClick);
     }
 }

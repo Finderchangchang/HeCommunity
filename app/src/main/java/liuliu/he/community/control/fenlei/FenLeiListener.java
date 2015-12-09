@@ -35,37 +35,43 @@ public class FenLeiListener {
                 @Override
                 public void onResult(TitleImagesModel model) {//获得头部图片集合
                     List lists[];
+                    List type;
                     if (model.isReturnX()) {
                         JSONArray array = (JSONArray) model.getData();
-                        lists = new List[array.length()];
+                        lists = new List[array.length() + 1];
+                        type = new ArrayList();
                         for (int i = 0; i < array.length(); i++) {
                             mList = new ArrayList<>();
                             try {
-                                mList.add(getModel(array.getJSONObject(i)));
+                                type.add(getModel(array.getJSONObject(i), 0));
+                                mList.add(getModel(array.getJSONObject(i), 1));
                                 JSONArray a = array.getJSONObject(i).getJSONArray("small");
                                 for (int j = 0; j < a.length(); j++) {
-                                    mList.add(getModel(array.getJSONObject(j)));
+                                    mList.add(getModel(a.getJSONObject(j), 1));
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                             lists[i] = mList;
                         }
-                        int lis = mList.size();
-                        int le = lists.length;
-                        mView.loadFenLei(mList);
+                        mView.loadFenLei(lists, type);
                     }
                 }
             }, "http://www.hesq.com.cn/fresh/fore/logic/app/product/category.php");
         }
     }
 
-    public GoodTypeModel getModel(JSONObject object) {
+    public GoodTypeModel getModel(JSONObject object, int num) {
         GoodTypeModel image = new GoodTypeModel();
         try {
             image.setId(object.getInt("id"));
             image.setBid(object.getInt("bid"));
-            image.setTitle(object.getString("name"));
+            if (num != 0) {
+                image.setTitle(object.getString("name"));
+            } else {
+                image.setTitle("全部商品");
+            }
+
             image.setImage(object.getString("image"));
             image.setIsPreferential(object.getBoolean("isPreferential"));
             image.setIsPresent(object.getBoolean("isPresent"));
