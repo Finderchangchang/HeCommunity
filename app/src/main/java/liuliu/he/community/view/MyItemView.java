@@ -53,6 +53,10 @@ public class MyItemView extends RelativeLayout {
         setLine();
     }
 
+    public void setRightNumber(String mes) {
+        rightText.setText(mes);
+    }
+
     private void setLine() {
         if (isTop) {//顶部有短的
             setVisible(true, false, false, true);
