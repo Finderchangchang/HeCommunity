@@ -158,7 +158,7 @@
             android:layout_marginTop="10dp"
             app:myitem_leftimage="@mipmap/person_center_lipinicon"
             app:myitem_lefttext="礼包兑换"
-            app:myitem_rightimage="@mipmap/person_center_wenbenkuangyoucejiantou" />
+            />
 
         <liuliu.he.community.view.MyItemView
             android:id="@+id/wode_item_dingdan"
@@ -167,7 +167,6 @@
             android:layout_marginTop="10dp"
             app:myitem_leftimage="@mipmap/person_center_dingdan"
             app:myitem_lefttext="我的订单"
-            app:myitem_rightimage="@mipmap/person_center_wenbenkuangyoucejiantou"
             app:myitem_righttext="1月内2条" />
 
         <liuliu.he.community.view.MyItemView
@@ -177,7 +176,6 @@
             android:layout_marginTop="10dp"
             app:myitem_leftimage="@mipmap/person_center_daishouhuo"
             app:myitem_lefttext="收货地址"
-            app:myitem_rightimage="@mipmap/person_center_wenbenkuangyoucejiantou"
             app:myitem_righttext="1条" />
 
         <liuliu.he.community.view.MyItemView
@@ -187,7 +185,6 @@
             android:layout_marginTop="10dp"
             app:myitem_leftimage="@mipmap/person_center_youhuiquan"
             app:myitem_lefttext="代金券"
-            app:myitem_rightimage="@mipmap/person_center_wenbenkuangyoucejiantou"
             app:myitem_righttext="0条" />
 
         <liuliu.he.community.view.MyItemView
@@ -197,7 +194,6 @@
             android:layout_marginTop="10dp"
             app:myitem_leftimage="@mipmap/person_center_xiaoxi"
             app:myitem_lefttext="站内消息"
-            app:myitem_rightimage="@mipmap/person_center_wenbenkuangyoucejiantou"
             app:myitem_righttext="未读0条" />
 
         <liuliu.he.community.view.MyItemView
@@ -208,7 +204,7 @@
             app:is_top="true"
             app:myitem_leftimage="@mipmap/person_center_bangzhuzhongxin"
             app:myitem_lefttext="帮助中心"
-            app:myitem_rightimage="@mipmap/person_center_wenbenkuangyoucejiantou" />
+            />
 
         <liuliu.he.community.view.MyItemView
             android:id="@+id/wode_item_yijian"
@@ -217,7 +213,7 @@
             app:is_center="true"
             app:myitem_leftimage="@mipmap/person_center_yijian"
             app:myitem_lefttext="意见反馈"
-            app:myitem_rightimage="@mipmap/person_center_wenbenkuangyoucejiantou" />
+            />
 
         <liuliu.he.community.view.MyItemView
             android:id="@+id/wode_item_women"
@@ -227,6 +223,6 @@
             app:is_bottom="true"
             app:myitem_leftimage="@mipmap/person_center_guanyuwomen"
             app:myitem_lefttext="关于我们"
-            app:myitem_rightimage="@mipmap/person_center_wenbenkuangyoucejiantou" />
+            />
     </LinearLayout>
 </ScrollView>

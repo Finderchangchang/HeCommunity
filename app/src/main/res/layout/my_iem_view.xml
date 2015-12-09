@@ -4,13 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:background="#fff"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/linear_my_item_view">
 
     <LinearLayout
         android:id="@+id/item_view_top_big_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#E2E2E2" />
+        android:background="#E2E2E2"
+        android:orientation="vertical"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -60,7 +62,8 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_alignParentRight="true"
-                    android:layout_marginLeft="20dp" />
+                    android:layout_marginLeft="20dp"
+                    />
             </RelativeLayout>
 
             <LinearLayout

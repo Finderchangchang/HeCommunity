@@ -23,7 +23,6 @@ public class WodeListener {
     public WodeListener(Context context,IWodeView view){
         this.mContext=context;
         this.iWodeView=view;
-        woDeModel=new WoDeModel();
         new Thread(new loadWodeNumber()).start();
     }
 
@@ -37,8 +36,9 @@ public class WodeListener {
                     if (model.isReturnX()) {
 
                         JSONObject object = (JSONObject) model.getData();
-
+                        woDeModel=new WoDeModel();
                         try {
+                            System.out.println("address::" + object.getInt("address"));
                             woDeModel.setAddress(object.getInt("address"));
                             woDeModel.setCash(object.getDouble("cash"));
                             woDeModel.setPoint(object.getInt("point"));
