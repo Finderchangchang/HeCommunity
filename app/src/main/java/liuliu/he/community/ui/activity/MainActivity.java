@@ -73,7 +73,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initViews() {
-        setContentView(R.layout.activity_demo);
+        setContentView(R.layout.activity_main);
         mIntails = this;
         listbtn = new ArrayList<>();
         mItems = new ArrayList();

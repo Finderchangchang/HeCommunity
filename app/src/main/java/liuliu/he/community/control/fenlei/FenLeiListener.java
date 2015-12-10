@@ -12,7 +12,6 @@ import java.util.List;
 import liuliu.he.community.base.VolloyTask;
 import liuliu.he.community.model.GoodTypeModel;
 import liuliu.he.community.model.TitleImagesModel;
-import liuliu.he.community.model.TopImage;
 
 /**
  * Created by Administrator on 2015/12/9.
@@ -35,15 +34,12 @@ public class FenLeiListener {
                 @Override
                 public void onResult(TitleImagesModel model) {//获得头部图片集合
                     List lists[];
-                    List type;
                     if (model.isReturnX()) {
                         JSONArray array = (JSONArray) model.getData();
-                        lists = new List[array.length() + 1];
-                        type = new ArrayList();
+                        lists = new List[array.length()];
                         for (int i = 0; i < array.length(); i++) {
                             mList = new ArrayList<>();
                             try {
-                                type.add(getModel(array.getJSONObject(i), 0));
                                 mList.add(getModel(array.getJSONObject(i), 1));
                                 JSONArray a = array.getJSONObject(i).getJSONArray("small");
                                 for (int j = 0; j < a.length(); j++) {
@@ -54,7 +50,7 @@ public class FenLeiListener {
                             }
                             lists[i] = mList;
                         }
-                        mView.loadFenLei(lists, type);
+                        mView.loadFenLei(lists);
                     }
                 }
             }, "http://www.hesq.com.cn/fresh/fore/logic/app/product/category.php");
@@ -66,12 +62,7 @@ public class FenLeiListener {
         try {
             image.setId(object.getInt("id"));
             image.setBid(object.getInt("bid"));
-            if (num != 0) {
-                image.setTitle(object.getString("name"));
-            } else {
-                image.setTitle("全部商品");
-            }
-
+            image.setTitle(object.getString("name"));
             image.setImage(object.getString("image"));
             image.setIsPreferential(object.getBoolean("isPreferential"));
             image.setIsPresent(object.getBoolean("isPresent"));

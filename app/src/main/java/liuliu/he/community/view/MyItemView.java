@@ -38,7 +38,6 @@ public class MyItemView extends RelativeLayout {
     public MyItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
         imageDemoTest = new ImageDemoTest(context);
-
         View view = LayoutInflater.from(context).inflate(R.layout.my_iem_view, this, true);
         leftImage = (ImageView) view.findViewById(R.id.my_item_left_image);
         rightImage = (ImageView) view.findViewById(R.id.my_item_right_image);
@@ -51,11 +50,8 @@ public class MyItemView extends RelativeLayout {
         bottom_small_line = (LinearLayout) view.findViewById(R.id.item_view_bottom_small_line);
 
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.MyItemView);
-//        Drawable d = array.getDrawable(R.styleable.MyItemView_myitem_leftimage);
-//        leftImage.setImageDrawable(d);
-        rightImage.setImageBitmap(getBitmeap(R.mipmap.person_center_wenbenkuangyoucejiantou));
-        //d = array.getDrawable(R.styleable.MyItemView_myitem_rightimage);
-        //int id = array.getInteger(R.styleable.MyItemView_myitem_rightimage, R.mipmap.person_center_bangzhuzhongxin);
+        int rightid = array.getResourceId(R.styleable.MyItemView_myitem_rightimage, R.mipmap.person_center_wenbenkuangyoucejiantou);
+        rightImage.setImageBitmap(getBitmeap(rightid));
         int id = array.getResourceId(R.styleable.MyItemView_myitem_leftimage, R.mipmap.person_center_bangzhuzhongxin);
         leftImage.setImageBitmap(getBitmeap(id));
         leftText.setText(array.getText(R.styleable.MyItemView_myitem_lefttext));

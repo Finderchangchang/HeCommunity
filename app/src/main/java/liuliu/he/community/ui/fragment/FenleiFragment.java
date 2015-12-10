@@ -45,15 +45,9 @@ public class FenleiFragment extends BaseFragment implements IFenLeiView {
     @CodeNote(id = R.id.fenlei_grid_view)
     MyGridView gridview;
     Context mContext;
-    List mDatas;
     int mGoodTypeClick;//被点击的项
     List<Button> good_type_list;
     FenLeiListener mListener;
-
-
-    //商品分类详细
-    List<String> mTypeDetailList;
-    String[] detail = {"全部商品", "精选大米"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,52 +55,34 @@ public class FenleiFragment extends BaseFragment implements IFenLeiView {
         FinalActivity.initInjectedView(this, viewRoot);
         mContext = MainActivity.mIntails;
         mListener = new FenLeiListener(mContext, this);
-        mQueue = Volley.newRequestQueue(mContext);
-        mImageLoader = new ImageLoader(mQueue, new BitmapCache());
         //设置布局管理器
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         good_type_list = new ArrayList<>();
         return viewRoot;
     }
-
-    ImageLoader mImageLoader;
-    private RequestQueue mQueue;
     DataAdapterBase adapterBase;
     in.srain.cube.image.ImageLoader imageLoader = null;
 
-    private void refreshList(int position) {
-        mTypeDetailList = new ArrayList<>();
-        for (int s = 0; s < detail.length; s++) {
-            mTypeDetailList.add(detail[s] + position);
-        }
-        imageLoader = ImageLoaderFactory.create(mContext);
-        adapterBase = new DataAdapterBase<String>(mContext, R.layout.item_main_hot_good, ImageDemo.getSmallImages()) {
-            @Override
-            public void convert(ViewHolderBase holder, String url, int position) {
-                holder.loadImage(R.id.good_iv, imageLoader, url);
-            }
-        };
-        gridview.setAdapter(adapterBase);
-        gridview.setNumColumns(3);
-        adapterBase.notifyDataSetChanged();
-    }
-
     /**
      * 加载所有数据
+     *
      * @param list 所有类型集合
-     * @param type 顶部分类
      */
     @Override
-    public void loadFenLei(List list[], final List type) {
-//设置adapter
+    public void loadFenLei(final List list[]) {
+        List<String> title = new ArrayList();
+        for (int i = 0; i < list.length; i++) {
+            GoodTypeModel model = (GoodTypeModel) list[i].get(0);
+            title.add(model.getTitle());
+        }
+        //设置adapter
         recyclerView.setAdapter(
-                new RecycleAdapter(mContext, type,
+                new RecycleAdapter(mContext, title,
                         R.layout.recycle_view_item_good_type) {
                     @Override
-                    public void convert(RecycleViewHolder holder, final List list, final int position) {
-                        GoodTypeModel model= (GoodTypeModel) type.get(position);
+                    public void convert(RecycleViewHolder holder, final List l, final int position) {
                         Button btn = holder.getView(R.id.good_type_rv_button);
-                        btn.setText(model.getTitle().toString());
+                        btn.setText(l.get(position).toString());
                         btn.setBackgroundResource(R.mipmap.good_type_item);
                         good_type_list.add(btn);//将所有按钮添加到list中
                         if (position == mGoodTypeClick) {//设置置顶按钮被点击
@@ -115,7 +91,7 @@ public class FenleiFragment extends BaseFragment implements IFenLeiView {
                         holder.setOnClickListener(R.id.good_type_rv_button, new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        refreshList(position);
+                                        refreshList(list[position]);
                                         good_type_list.get(mGoodTypeClick).setBackgroundResource(R.mipmap.good_type_item);
                                         good_type_list.get(position).setBackgroundResource(R.mipmap.good_type_item_pressed);
                                         mGoodTypeClick = position;
@@ -127,6 +103,24 @@ public class FenleiFragment extends BaseFragment implements IFenLeiView {
 
         );
         recyclerView.setLayoutManager(new GridLayoutManager(mContext, 4));
-        refreshList(mGoodTypeClick);
+        refreshList(list[mGoodTypeClick]);
+    }
+
+    private void refreshList(List list) {
+        imageLoader = ImageLoaderFactory.create(mContext);
+        adapterBase = new DataAdapterBase<GoodTypeModel>(mContext, R.layout.item_good_types, list) {
+            @Override
+            public void convert(ViewHolderBase holder, GoodTypeModel model, int position) {
+                holder.loadImage(R.id.good_iv, imageLoader, model.getImage());
+                String title = "全部商品";
+                if (position != 0) {
+                    title = model.getTitle();
+                }
+                holder.setText(R.id.good_name_tv, title);
+            }
+        };
+        gridview.setAdapter(adapterBase);
+        gridview.setNumColumns(3);
+        adapterBase.notifyDataSetChanged();
     }
 }

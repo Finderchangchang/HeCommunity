@@ -14,12 +14,17 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.activity.LoginActivity"></activity>
         <activity android:name=".ui.activity.RegUserActivity" />
-        <activity android:name=".ui.activity.GoodTypeActivity"/>
-        <activity android:name=".ui.activity.HelpActivity"/>
-        <activity android:name=".ui.activity.GoodDetailActivity"/>
-        <activity android:name=".ui.activity.GoodListActivity"/>
+        <activity android:name=".ui.activity.GoodTypeActivity" />
+        <activity android:name=".ui.activity.HelpActivity" />
+        <activity android:name=".ui.activity.GoodDetailActivity" />
+        <activity android:name=".ui.activity.GoodListActivity" />
         <activity android:name=".ui.activity.CartList" />
         <activity android:name=".ui.activity.MainActivity">
+
+        </activity>
+
+        <activity android:name=".ui.activity.DingDanActivity" />
+        <activity android:name=".ui.activity.DetailListsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
