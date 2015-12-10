@@ -2,6 +2,7 @@ package liuliu.he.community.ui.activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -76,6 +77,15 @@ public class MainActivity extends BaseActivity {
         mIntails = this;
         listbtn = new ArrayList<>();
         mItems = new ArrayList();
+        Intent intent = getIntent();
+        if (intent != null) {
+            mUtils = new Utils(this);
+            String bottomId = mUtils.IntentGet(intent, "BottomId");
+            if (!bottomId.equals("")) {
+                mClick = Integer.parseInt(bottomId);
+
+            }
+        }
     }
 
     @Override

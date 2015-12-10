@@ -771,7 +771,12 @@ public class Utils {
 
     //intent=getIntent();name=标识符
     public String IntentGet(Intent intent, String name) {
-        return intent.getStringExtra(name);
+        String value=intent.getStringExtra(name);
+        if(value==null){
+            return "";
+        }else {
+            return value;
+        }
     }
 
     //鑾峰緱鎵嬫満璁惧鐨勭浉鍏充俊鎭�

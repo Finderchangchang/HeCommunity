@@ -50,7 +50,7 @@ public class ImageDemoTest {
         BitmapFactory.Options options = new BitmapFactory.Options();
 
         //BitmapFactory.decodeResource(res, iId, options);
-        options.inSampleSize =10;
+        options.inSampleSize =9;
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeResource(res, iId, options);
     }

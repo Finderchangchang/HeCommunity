@@ -28,5 +28,9 @@
         </activity>
 
         <activity android:name=".ui.activity.DingDanActivity"/>
+
+        <activity android:name=".ui.activity.GuanYuWoMenActivity" />
+        <activity android:name=".ui.activity.BalanceDetailActivity" />
+        <activity android:name=".ui.activity.JiFenDetailActivity" />
     </application>
 </manifest>

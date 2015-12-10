@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <liuliu.he.community.view.MyItemView
+        android:id="@+id/women_detail_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:myitem_leftimage="@mipmap/iconfont_jiaruwomen"
+        app:myitem_lefttext="关于我们"
+        app:myitem_righttext="返回用户中心"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/guyuwomen"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#fff"/>
+</LinearLayout>

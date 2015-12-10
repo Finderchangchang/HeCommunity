@@ -66,8 +66,16 @@ public class MyItemView extends RelativeLayout {
         setLine();
     }
 
+    public void setRightImageGone() {
+        rightImage.setVisibility(GONE);
+    }
+
+    public void setRightTextOnClickListener(OnClickListener listener) {
+        rightText.setOnClickListener(listener);
+    }
+
     private Bitmap getBitmeap(int Rid) {
-        return imageDemoTest.decodeSampledBitmapFromResourse(Rid, 20, 20);
+        return imageDemoTest.decodeSampledBitmapFromResourse(Rid, 25, 35);
     }
 
     public void setOnClickListener(OnClickListener listener) {

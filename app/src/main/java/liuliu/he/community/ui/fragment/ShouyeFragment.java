@@ -118,6 +118,7 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
         switch (view.getId()) {
             case R.id.main_good_type_ll:
                 mClick.onItemClick(1);
+
                 break;
             case R.id.main_my_order_ll://跳转到订单列表
                 MainActivity.mIntails.mUtils.IntentPost(DingDanActivity.class);

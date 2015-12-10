@@ -37,6 +37,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/wode_ll_yue"
                     android:layout_width="0dp"
                     android:layout_height="80dp"
                     android:layout_weight="1"
@@ -53,7 +54,7 @@
                             android:id="@+id/person_center_balance_num"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="34.00"
+                            android:text="0.00"
                             android:textColor="#F2A205"
                             android:textSize="22dp" />
 
@@ -73,6 +74,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/wode_ll_libao"
                     android:layout_width="0dp"
                     android:layout_height="80dp"
                     android:layout_marginLeft="1dp"
@@ -90,7 +92,7 @@
                             android:id="@+id/person_center_package_num"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="3"
+                            android:text="0"
                             android:textColor="#FF5A43"
                             android:textSize="22dp" />
 
@@ -110,6 +112,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/wode_ll_jifen"
                     android:layout_width="0dp"
                     android:layout_height="80dp"
                     android:layout_marginLeft="1dp"
@@ -127,7 +130,7 @@
                             android:id="@+id/person_center_integral_num"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="3"
+                            android:text="0"
                             android:textColor="#70AD34"
                             android:textSize="22dp" />
 
@@ -168,7 +171,7 @@
             android:layout_marginTop="10dp"
             app:myitem_leftimage="@mipmap/person_center_dingdan"
             app:myitem_lefttext="我的订单"
-            app:myitem_righttext="1月内2条" />
+            app:myitem_righttext="1月内0条" />
 
         <liuliu.he.community.view.MyItemView
             android:id="@+id/wode_item_dizhi"
@@ -177,7 +180,7 @@
             android:layout_marginTop="10dp"
             app:myitem_leftimage="@mipmap/person_center_daishouhuo"
             app:myitem_lefttext="收货地址"
-            app:myitem_righttext="1条" />
+            app:myitem_righttext="0条" />
 
         <liuliu.he.community.view.MyItemView
             android:id="@+id/wode_item_daijinquan"
@@ -213,8 +216,7 @@
             android:layout_height="wrap_content"
             app:is_center="true"
             app:myitem_leftimage="@mipmap/person_center_yijian"
-            app:myitem_lefttext="意见反馈"
-            />
+            app:myitem_lefttext="意见反馈" />
 
         <liuliu.he.community.view.MyItemView
             android:id="@+id/wode_item_women"
@@ -222,8 +224,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             app:is_bottom="true"
-            app:myitem_leftimage="@mipmap/person_center_guanyuwomen"
-            app:myitem_lefttext="关于我们"
-            />
+            app:myitem_leftimage="@mipmap/iconfont_jiaruwomen"
+            app:myitem_lefttext="关于我们" />
     </LinearLayout>
 </ScrollView>
