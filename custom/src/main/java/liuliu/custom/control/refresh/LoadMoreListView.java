@@ -37,8 +37,6 @@ public class LoadMoreListView extends ListView implements OnScrollListener {
     public final int Footer_LoadEnd = 3;//加载结束
     boolean Footer_isLoading = false;//是否正在加载
     public boolean Footer_noMore = true;
-//    public boolean isFullScanner=true;//是否能布满全屏
-//    public boolean isToasting;
 
     public LoadMoreListView(Context context) {
         super(context);
@@ -63,6 +61,7 @@ public class LoadMoreListView extends ListView implements OnScrollListener {
         bar = (ProgressBar) bottomView.findViewById(R.id.footer_pb);
         load_more_ll = (LinearLayout) bottomView.findViewById(R.id.load_more_layout);
         this.addFooterView(bottomView);//添加View到主布局
+        this.setOnScrollListener(this);
         setFooterVisible(Footer_LoadEnd, 0);//隐藏底部布局
     }
 
@@ -111,9 +110,9 @@ public class LoadMoreListView extends ListView implements OnScrollListener {
                 startY = (int) ev.getY();
                 break;
             case MotionEvent.ACTION_MOVE://移动
-                if (!Footer_isLoading) {
-                    onMove(ev);
-                }
+//                if (!Footer_isLoading) {
+                onMove(ev);
+//                }
                 break;
         }
         return super.onTouchEvent(ev);
@@ -186,5 +185,12 @@ public class LoadMoreListView extends ListView implements OnScrollListener {
             textView.setTextSize(14);
             textView.setText(txt_val);
         }
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2,
+                MeasureSpec.AT_MOST);
+        super.onMeasure(widthMeasureSpec, expandSpec);
     }
 }

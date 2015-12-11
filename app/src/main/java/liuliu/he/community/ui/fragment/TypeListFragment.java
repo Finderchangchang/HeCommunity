@@ -9,21 +9,19 @@ import android.view.ViewGroup;
 import net.tsz.afinal.FinalActivity;
 import net.tsz.afinal.annotation.view.CodeNote;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import in.srain.cube.image.ImageLoader;
 import in.srain.cube.image.ImageLoaderFactory;
+import liuliu.custom.control.refresh.LoadListView;
+import liuliu.custom.control.refresh.LoadMoreListView;
 import liuliu.he.community.R;
+import liuliu.he.community.adapter.CommonAdapter;
+import liuliu.he.community.adapter.CommonViewHolder;
 import liuliu.he.community.base.BaseFragment;
 import liuliu.he.community.control.typelist.ITypeListView;
 import liuliu.he.community.control.typelist.TypeListListener;
-import liuliu.he.community.model.GoodListModel;
 import liuliu.he.community.model.GoodModel;
-import liuliu.he.community.model.GoodTypeModel;
-import liuliu.he.community.model.MyGridView;
-import liuliu.he.community.test.DataAdapterBase;
-import liuliu.he.community.test.ViewHolderBase;
 import liuliu.he.community.ui.activity.DetailListsActivity;
 import liuliu.he.community.view.MyItemView;
 
@@ -33,10 +31,10 @@ import liuliu.he.community.view.MyItemView;
  */
 public class TypeListFragment extends BaseFragment implements ITypeListView {
     @CodeNote(id = R.id.type_list_grid_view)
-    MyGridView gridview;
+    LoadListView listView;
     @CodeNote(id = R.id.type_list_iv)
     MyItemView title;
-    DataAdapterBase adapterBase;
+    CommonAdapter adapterBase;
     ImageLoader imageLoader = null;
     Context mContext;
     TypeListListener listListener;
@@ -47,35 +45,41 @@ public class TypeListFragment extends BaseFragment implements ITypeListView {
         FinalActivity.initInjectedView(this, viewRoot);
         mContext = DetailListsActivity.mIntails;
         listListener = new TypeListListener(this, mContext);
+        listListener.loadList(term);
         imageLoader = ImageLoaderFactory.create(mContext);
         return viewRoot;
     }
 
-    private void refreshList(List list) {
-        adapterBase = new DataAdapterBase<GoodTypeModel>(mContext, R.layout.item_good_types, list) {
-            @Override
-            public void convert(ViewHolderBase holder, GoodTypeModel model, int position) {
-                holder.loadImage(R.id.good_iv, imageLoader, model.getImage());
-                String title = "全部商品";
-                if (position != 0) {
-                    title = model.getTitle();
-                }
-                holder.setText(R.id.good_name_tv, title);
-            }
-        };
-        gridview.setAdapter(adapterBase);
-        gridview.setNumColumns(3);
-        adapterBase.notifyDataSetChanged();
-    }
-
+    String term = "?page=1&number=5&bid=14";//查询显示的
     List<GoodModel> mGoods;
     private boolean isBottom = false;//是否滑动到最底部
+
+    boolean isFirst;
 
     @Override
     public void loadGoodList(boolean result, List<GoodModel> list) {
         isBottom = result;
-        for (GoodModel model : list) {//执行数据刷新操作
-            mGoods.add(model);
-        }
+        refreshList(list);
+//        listView.loadComplete();//关闭底部进度条
+        isFirst = false;
+    }
+
+    private void refreshList(final List<GoodModel> list) {
+        adapterBase = new CommonAdapter<GoodModel>(mContext, list, R.layout.item_good_desc) {
+
+            @Override
+            public void convert(CommonViewHolder holder, GoodModel goodModel, int position) {
+                holder.loadImage(R.id.good_iv, imageLoader, goodModel.getImage());
+                holder.setText(R.id.item_good_list_name, goodModel.getName());
+            }
+        };
+        listView.setAdapter(adapterBase);
+        listView.setOnLoadListener(new LoadListView.onLoadListener() {
+            @Override
+            public void onLoad() {
+                listListener.loadList("?page=2&number=5&bid=14");
+            }
+        });
+        adapterBase.notifyDataSetChanged();
     }
 }

@@ -13,6 +13,8 @@ public class GoodTypeModel {
      * t1 : 字符串(第一行灰文字) 速冻水饺
      * t2 : 字符串(第二行灰文字) 馄饨 方便面
      * link :字符串(链接地址)  ../product/list.php?bid=69
+     * isPreferential: bool(是否满就优惠)
+     * isPresent: bool(是否满就送)
      */
     private int id;
     private int bid;
@@ -23,6 +25,11 @@ public class GoodTypeModel {
     private String link;
     private boolean isPreferential;
     private boolean isPresent;
+
+    //获得查询的条件
+//    public String getTerms() {
+//        return
+//    }
 
     public void setImage(String image) {
         this.image = image;

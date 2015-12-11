@@ -15,6 +15,7 @@ import liuliu.he.community.ui.fragment.TypeListFragment;
 import liuliu.he.community.ui.fragment.WodeFragment;
 
 /**
+ * 商品列表
  * Created by Administrator on 2015/12/10.
  */
 public class DetailListsActivity extends BaseActivity {

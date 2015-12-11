@@ -12,8 +12,7 @@
     <LinearLayout
         android:id="@+id/item_good_list_type_ll"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@color/blue">
+        android:layout_height="20dp">
 
         <Button
             android:layout_width="45dp"
@@ -27,18 +26,17 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="110dp"
         android:layout_marginTop="5dp"
         android:background="@color/white"
         android:orientation="horizontal"
         android:paddingBottom="5dp">
-
-        <ImageView
-            android:id="@+id/item_good_list_img"
+        <in.srain.cube.image.CubeImageView
+            android:id="@+id/good_iv"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@mipmap/title_bg" />
+            android:background="@mipmap/title_bg"/>
 
         <LinearLayout
             android:layout_width="match_parent"

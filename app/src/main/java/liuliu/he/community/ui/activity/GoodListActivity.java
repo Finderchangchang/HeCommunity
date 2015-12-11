@@ -17,7 +17,7 @@ public class GoodListActivity extends BaseActivity {
 
     @Override
     public void initViews() {
-        setContentView(R.layout.item_good_list);
+        setContentView(R.layout.item_good_desc);
 
     }
 

@@ -29,8 +29,8 @@ public class GoodModel {
     private String feature;
     private String sales;
     private String stock;
-    private double price;
-    private double priceSales;
+    private String price;
+    private String priceSales;
     private boolean isSales;
     private boolean isRecom;
     private boolean isNew;
@@ -39,6 +39,22 @@ public class GoodModel {
     private boolean isArea;
     private boolean isPresent;
     private boolean isDrive;
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getPriceSales() {
+        return priceSales;
+    }
+
+    public void setPriceSales(String priceSales) {
+        this.priceSales = priceSales;
+    }
 
     public void setId(String id) {
         this.id = id;
@@ -62,14 +78,6 @@ public class GoodModel {
 
     public void setStock(String stock) {
         this.stock = stock;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public void setPriceSales(double priceSales) {
-        this.priceSales = priceSales;
     }
 
     public void setIsSales(boolean isSales) {
@@ -128,14 +136,6 @@ public class GoodModel {
         return stock;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public double getPriceSales() {
-        return priceSales;
-    }
-
     public boolean isIsSales() {
         return isSales;
     }
@@ -167,4 +167,5 @@ public class GoodModel {
     public boolean isIsDrive() {
         return isDrive;
     }
+
 }
