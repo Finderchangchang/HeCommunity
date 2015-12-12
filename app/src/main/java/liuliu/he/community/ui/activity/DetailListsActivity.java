@@ -22,11 +22,13 @@ public class DetailListsActivity extends BaseActivity {
     public static DetailListsActivity mIntails;
     @CodeNote(id = R.id.frag_ll)
     FrameLayout frameLayout;
+    String param;
 
     @Override
     public void initViews() {
         setContentView(R.layout.activity_detail_lists);
         mIntails = this;
+        param = mUtils.IntentGet(getIntent(), "param");//获得传递过来的参数
     }
 
     @Override
@@ -46,5 +48,9 @@ public class DetailListsActivity extends BaseActivity {
                 break;
         }
         transaction.commit();
+    }
+
+    public String getParam() {
+        return param;
     }
 }

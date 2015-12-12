@@ -18,6 +18,7 @@ import liuliu.he.community.model.WoDeModel;
 import liuliu.he.community.view.MyItemView;
 
 /**
+ * 积分详细页面显示
  * Created by Administrator on 2015/12/10.
  */
 public class JiFenDetailActivity extends BaseActivity {
@@ -50,7 +51,6 @@ public class JiFenDetailActivity extends BaseActivity {
     }
 
 
-
     class loadfifenNumber implements Runnable {
 
         @Override
@@ -60,7 +60,7 @@ public class JiFenDetailActivity extends BaseActivity {
                 public void onResult(TitleImagesModel model) {
                     if (model.isReturnX()) {
                         String jifen = model.getData().toString();
-                        System.out.println("jifen:"+jifen);
+                        System.out.println("jifen:" + jifen);
                         number.setText(jifen);
                     }
                 }

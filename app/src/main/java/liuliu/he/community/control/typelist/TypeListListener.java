@@ -6,11 +6,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import liuliu.custom.method.Utils;
 import liuliu.he.community.base.VolloyTask;
 import liuliu.he.community.model.GoodModel;
 import liuliu.he.community.model.TitleImagesModel;
@@ -19,7 +21,7 @@ import liuliu.he.community.model.TitleImagesModel;
  * 商品列表信息
  * Created by Administrator on 2015/12/10.
  */
-public class TypeListListener {
+public class TypeListListener<T> {
     ITypeListView mView;
     Context mContext;
 
@@ -28,15 +30,17 @@ public class TypeListListener {
         this.mContext = mContext;
     }
 
-    public void loadList(String link) {
-        new Thread(new loadWodeNumber(link)).start();
+    public void loadList(String link, String tClass) {
+        new Thread(new loadWodeNumber(link, tClass)).start();
     }
 
     class loadWodeNumber implements Runnable {
         String mResult;
+        String mClass;
 
-        public loadWodeNumber(String mResult) {
+        public loadWodeNumber(String mResult, String mClass) {
             this.mResult = mResult;
+            this.mClass = mClass;
         }
 
         @Override
@@ -48,37 +52,19 @@ public class TypeListListener {
                         JSONObject object = (JSONObject) model.getData();
                         try {
                             JSONArray array = object.getJSONArray("data");
-                            List<GoodModel> goods = new ArrayList<GoodModel>();
+                            List<T> goods = new ArrayList<T>();
                             for (int i = 0; i < array.length(); i++) {
-                                GoodModel good = new GoodModel();
-                                JSONObject obj = (JSONObject) array.getJSONObject(i);
-                                good.setId(obj.getString("id"));
-                                good.setName(obj.getString("name"));
-                                good.setImage(obj.getString("image"));
-                                good.setFeature(obj.getString("feature"));
-                                good.setSales(obj.getString("sales"));
-                                good.setStock(obj.getString("stock"));
-                                good.setPrice(obj.getString("price"));
-                                good.setPriceSales(obj.getString("priceSales"));
-                                good.setIsSales(obj.getBoolean("isSales"));
-                                good.setIsRecom(obj.getBoolean("isRecom"));
-                                good.setIsNew(obj.getBoolean("isNew"));
-                                good.setIsLimit(obj.getBoolean("isLimit"));
-                                good.setIsRush(obj.getBoolean("isRush"));
-                                good.setIsArea(obj.getBoolean("isArea"));
-                                good.setIsPresent(obj.getBoolean("isPresent"));
-                                good.setIsDrive(obj.getBoolean("isDrive"));
-                                goods.add(good);
+                                goods.add((T) Utils.getObject(mClass, array.getJSONObject(i)));
                             }
                             mView.loadGoodList(object.getBoolean("tail"), goods);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    } else {
-
                     }
                 }
             }, "http://www.hesq.com.cn/fresh/fore/logic/app/product/list.php" + mResult);
         }
     }
+
+
 }

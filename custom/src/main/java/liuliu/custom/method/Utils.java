@@ -36,6 +36,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -134,7 +135,7 @@ public class Utils {
     public static Object getBean(String className) throws Exception {
         Class cls = null;
         try {
-            cls = Class.forName("liuliu.throughwaring.model." + className);
+            cls = Class.forName("liuliu.he.community.model." + className);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             throw new Exception("类错误");
@@ -153,17 +154,47 @@ public class Utils {
 
     }
 
-    //创建的model对象，字段名，字段值
-    public static void setProperty(Object bean, String propertyName, Object propertyValue) throws Exception {
-        Class cls = bean.getClass();
-        Method[] methos = cls.getMethods();//得到所有的方法
-        for (Method m : methos) {
-            if (m.getName().equalsIgnoreCase("set" + propertyName)) {
-                //找到方法就注入
-                m.invoke(bean, propertyValue);
-                break;
+    /**
+     * 解析json返回model集合
+     *
+     * @param modelName  模型名称
+     * @param jsonObject 需要解析的json
+     * @return 解析以后的Model
+     */
+    public static Object getObject(String modelName, JSONObject jsonObject) {
+        Field[] fields;//返回模型字段
+        Object objectModel = new Object();
+        if (jsonObject != null) {
+            if (!modelName.equals("")) {
+                try {
+                    objectModel = Utils.getBean(modelName);
+                    fields = objectModel.getClass().getDeclaredFields();
+                    for (Field field : fields) {
+                        String propertyValue = Utils.getJsonString(jsonObject, field.getName());//解析出来的内容
+                        String type = field.getType().getSimpleName();//字段的类型
+                        Class cls = objectModel.getClass();//数据的类
+                        Method[] methos = cls.getMethods();//得到所有的方法
+                        for (Method m : methos) {
+                            if (m.getName().equalsIgnoreCase("set" + field.getName())) {
+                                //找到方法就注入
+                                if (type.equals("int")) {
+                                    m.invoke(objectModel, new Integer(propertyValue.toString()));
+                                } else if (type.equals("boolean")) {
+                                    m.invoke(objectModel, new Boolean(propertyValue.toString()));
+                                } else {
+                                    m.invoke(objectModel, propertyValue);
+                                }
+                                break;
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
         }
+        return objectModel;
     }
 
     public static String URLEncode(String text) {
@@ -699,6 +730,12 @@ public class Utils {
         }
     }
 
+    /**
+     * 从jsonobject中解析出指定内容
+     *
+     * @param object 需要解析的json
+     * @param name   需要读取的内容
+     */
     public static String getJsonString(JSONObject object, String name) {
         try {
             return object.getString(name);
@@ -771,10 +808,10 @@ public class Utils {
 
     //intent=getIntent();name=标识符
     public String IntentGet(Intent intent, String name) {
-        String value=intent.getStringExtra(name);
-        if(value==null){
+        String value = intent.getStringExtra(name);
+        if (value == null) {
             return "";
-        }else {
+        } else {
             return value;
         }
     }

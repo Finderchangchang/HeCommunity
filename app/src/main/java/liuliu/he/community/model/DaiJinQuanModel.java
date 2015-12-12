@@ -3,9 +3,10 @@ package liuliu.he.community.model;
 import java.io.Serializable;
 
 /**
- * 代金券 by Administrator on 2015/12/10.
+ * 代金券
+ * by Administrator on 2015/12/10.
  */
-public class DaiJinQuanModel implements Serializable{
+public class DaiJinQuanModel implements Serializable {
     private int cid;//如果没有类别限制则为0, 注:cid为0时, 为全站通用代金券)
     private String cname;//类别名称
     private String color;//代金券背景色

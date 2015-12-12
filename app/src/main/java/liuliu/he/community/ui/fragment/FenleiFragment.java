@@ -1,6 +1,7 @@
 package liuliu.he.community.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,7 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.srain.cube.image.ImageLoaderFactory;
+import liuliu.custom.method.Utils;
 import liuliu.custom.method.volley.BitmapCache;
 import liuliu.he.community.R;
 import liuliu.he.community.adapter.RecycleAdapter;
@@ -33,6 +37,7 @@ import liuliu.he.community.model.ImageDemo;
 import liuliu.he.community.model.MyGridView;
 import liuliu.he.community.test.DataAdapterBase;
 import liuliu.he.community.test.ViewHolderBase;
+import liuliu.he.community.ui.activity.DetailListsActivity;
 import liuliu.he.community.ui.activity.MainActivity;
 
 /**
@@ -48,18 +53,21 @@ public class FenleiFragment extends BaseFragment implements IFenLeiView {
     int mGoodTypeClick;//被点击的项
     List<Button> good_type_list;
     FenLeiListener mListener;
+    MainActivity mActivity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View viewRoot = inflater.inflate(R.layout.frag_fenlei, container, false);
         FinalActivity.initInjectedView(this, viewRoot);
         mContext = MainActivity.mIntails;
+        mActivity = MainActivity.mIntails;
         mListener = new FenLeiListener(mContext, this);
         //设置布局管理器
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         good_type_list = new ArrayList<>();
         return viewRoot;
     }
+
     DataAdapterBase adapterBase;
     in.srain.cube.image.ImageLoader imageLoader = null;
 
@@ -121,6 +129,18 @@ public class FenleiFragment extends BaseFragment implements IFenLeiView {
         };
         gridview.setAdapter(adapterBase);
         gridview.setNumColumns(3);
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(mContext, "position:" + position, Toast.LENGTH_SHORT).show();
+                mActivity.mUtils.IntentPost(DetailListsActivity.class, new Utils.putListener() {
+                    @Override
+                    public void put(Intent intent) {
+                        intent.putExtra("param", "17");
+                    }
+                });
+            }
+        });
         adapterBase.notifyDataSetChanged();
     }
 }
