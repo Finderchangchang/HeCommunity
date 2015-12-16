@@ -1,4 +1,4 @@
-package liuliu.he.community.ui.fragment;
+package liuliu.he.community.ui.first_frag;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -35,9 +35,8 @@ public class GouwucheFragment extends BaseFragment {
     DataAdapterBase adapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View viewRoot = inflater.inflate(R.layout.frag_gouwuche, container, false);
-        FinalActivity.initInjectedView(this, viewRoot);
+    public void initViews() {
+        setContentView(R.layout.frag_gouwuche);
         mDatas = new ArrayList<GoodModelss>();
         mDatas.add(new GoodModelss(0, "中秋礼品", "http://img4.duitang.com/uploads/blog/201311/04/20131104193715_NCexN.thumb.jpeg"
                 , "$110.00", "101KG", 2));
@@ -46,6 +45,10 @@ public class GouwucheFragment extends BaseFragment {
         mDatas.add(new GoodModelss(0, "生鲜蔬菜", "http://img5.duitang.com/uploads/item/201405/09/20140509222156_kVexJ.thumb.jpeg"
                 , "$130.00", "103KG", 2));
         mContext = MainActivity.mIntails;
+    }
+
+    @Override
+    public void initEvents() {
         final ImageLoader imageLoader = ImageLoaderFactory.create(mContext);
         adapter = new DataAdapterBase<GoodModelss>(mContext, R.layout.item_gouwuche, mDatas) {
             @Override
@@ -63,6 +66,5 @@ public class GouwucheFragment extends BaseFragment {
         good_list.setNumColumns(1);
         good_list.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-        return viewRoot;
     }
 }

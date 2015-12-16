@@ -1,4 +1,4 @@
-package liuliu.he.community.ui.fragment;
+package liuliu.he.community.ui.first_frag;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,19 +13,15 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.Volley;
-
 import net.tsz.afinal.FinalActivity;
 import net.tsz.afinal.annotation.view.CodeNote;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import in.srain.cube.image.ImageLoader;
 import in.srain.cube.image.ImageLoaderFactory;
 import liuliu.custom.method.Utils;
-import liuliu.custom.method.volley.BitmapCache;
 import liuliu.he.community.R;
 import liuliu.he.community.adapter.RecycleAdapter;
 import liuliu.he.community.adapter.RecycleViewHolder;
@@ -33,7 +29,6 @@ import liuliu.he.community.base.BaseFragment;
 import liuliu.he.community.control.fenlei.FenLeiListener;
 import liuliu.he.community.control.fenlei.IFenLeiView;
 import liuliu.he.community.model.GoodTypeModel;
-import liuliu.he.community.model.ImageDemo;
 import liuliu.he.community.model.MyGridView;
 import liuliu.he.community.test.DataAdapterBase;
 import liuliu.he.community.test.ViewHolderBase;
@@ -49,27 +44,27 @@ public class FenleiFragment extends BaseFragment implements IFenLeiView {
     RecyclerView recyclerView;//商品分类
     @CodeNote(id = R.id.fenlei_grid_view)
     MyGridView gridview;
-    Context mContext;
     int mGoodTypeClick;//被点击的项
     List<Button> good_type_list;
     FenLeiListener mListener;
     MainActivity mActivity;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View viewRoot = inflater.inflate(R.layout.frag_fenlei, container, false);
-        FinalActivity.initInjectedView(this, viewRoot);
-        mContext = MainActivity.mIntails;
+    public void initViews() {
+        setContentView(R.layout.frag_fenlei);
         mActivity = MainActivity.mIntails;
-        mListener = new FenLeiListener(mContext, this);
+        mListener = new FenLeiListener(mActivity, this);
         //设置布局管理器
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         good_type_list = new ArrayList<>();
-        return viewRoot;
+    }
+
+    @Override
+    public void initEvents() {
+
     }
 
     DataAdapterBase adapterBase;
-    in.srain.cube.image.ImageLoader imageLoader = null;
+    ImageLoader imageLoader = null;
 
     /**
      * 加载所有数据
@@ -85,7 +80,7 @@ public class FenleiFragment extends BaseFragment implements IFenLeiView {
         }
         //设置adapter
         recyclerView.setAdapter(
-                new RecycleAdapter(mContext, title,
+                new RecycleAdapter(mActivity, title,
                         R.layout.recycle_view_item_good_type) {
                     @Override
                     public void convert(RecycleViewHolder holder, final List l, final int position) {
@@ -110,13 +105,13 @@ public class FenleiFragment extends BaseFragment implements IFenLeiView {
                 }
 
         );
-        recyclerView.setLayoutManager(new GridLayoutManager(mContext, 4));
+        recyclerView.setLayoutManager(new GridLayoutManager(mActivity, 4));
         refreshList(list[mGoodTypeClick]);
     }
 
     private void refreshList(List list) {
-        imageLoader = ImageLoaderFactory.create(mContext);
-        adapterBase = new DataAdapterBase<GoodTypeModel>(mContext, R.layout.item_good_types, list) {
+        imageLoader = ImageLoaderFactory.create(mActivity);
+        adapterBase = new DataAdapterBase<GoodTypeModel>(mActivity, R.layout.item_good_types, list) {
             @Override
             public void convert(ViewHolderBase holder, GoodTypeModel model, int position) {
                 holder.loadImage(R.id.good_iv, imageLoader, model.getImage());
@@ -132,7 +127,6 @@ public class FenleiFragment extends BaseFragment implements IFenLeiView {
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(mContext, "position:" + position, Toast.LENGTH_SHORT).show();
                 mActivity.mUtils.IntentPost(DetailListsActivity.class, new Utils.putListener() {
                     @Override
                     public void put(Intent intent) {

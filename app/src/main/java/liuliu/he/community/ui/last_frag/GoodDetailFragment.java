@@ -1,20 +1,21 @@
-package liuliu.he.community.ui.activity;
+package liuliu.he.community.ui.last_frag;
 
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import net.tsz.afinal.annotation.view.CodeNote;
 
 import liuliu.he.community.R;
-import liuliu.he.community.base.BaseActivity;
+import liuliu.he.community.base.BaseFragment;
+import liuliu.he.community.ui.activity.DetailListsActivity;
 
 /**
  * 商品详情
  * Created by Administrator on 2015/12/2.
  */
-public class GoodDetailActivity extends BaseActivity {
-    public static GoodDetailActivity mIntails;
+public class GoodDetailFragment extends BaseFragment {
     @CodeNote(id = R.id.count_jia_btn, click = "onClick")
     Button count_jia_btn;
     @CodeNote(id = R.id.count_jian_btn, click = "onClick")
@@ -23,18 +24,21 @@ public class GoodDetailActivity extends BaseActivity {
     Button count_gouwuche_btn;
     @CodeNote(id = R.id.num_count_et)
     EditText num_count;
+    @CodeNote(id = R.id.good_name_tv)
+    TextView name_tv;//商品名称
     int count;
     String good_id;//需要显示的商品编码
+    DetailListsActivity mIntails = DetailListsActivity.mIntails;
 
     @Override
     public void initViews() {
         setContentView(R.layout.activity_good_detail);
-        mIntails = this;
     }
 
     @Override
     public void initEvents() {
-        good_id = mUtils.IntentGet(getIntent(), "id");
+        good_id = mIntails.getDesc().split("\\?")[1];//解析出商品id
+        name_tv.setText(good_id);
     }
 
     public void onClick(View view) {

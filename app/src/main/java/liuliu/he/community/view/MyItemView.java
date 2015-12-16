@@ -50,8 +50,12 @@ public class MyItemView extends RelativeLayout {
         bottom_small_line = (LinearLayout) view.findViewById(R.id.item_view_bottom_small_line);
 
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.MyItemView);
-        int rightid = array.getResourceId(R.styleable.MyItemView_myitem_rightimage, R.mipmap.person_center_wenbenkuangyoucejiantou);
-        rightImage.setImageBitmap(getBitmeap(rightid));
+        int rightid = array.getResourceId(R.styleable.MyItemView_myitem_rightimage, 0);
+        if (rightid != 0) {
+            rightImage.setImageBitmap(getBitmeap(rightid));
+        } else {
+            rightImage.setVisibility(GONE);
+        }
         int id = array.getResourceId(R.styleable.MyItemView_myitem_leftimage, R.mipmap.person_center_bangzhuzhongxin);
         leftImage.setImageBitmap(getBitmeap(id));
         leftText.setText(array.getText(R.styleable.MyItemView_myitem_lefttext));

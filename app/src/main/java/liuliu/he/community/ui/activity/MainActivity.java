@@ -22,10 +22,10 @@ import liuliu.he.community.R;
 import liuliu.he.community.base.BaseActivity;
 import liuliu.he.community.model.ChangeItemModel;
 import liuliu.he.community.model.ItemModel;
-import liuliu.he.community.ui.fragment.FenleiFragment;
-import liuliu.he.community.ui.fragment.GouwucheFragment;
-import liuliu.he.community.ui.fragment.ShouyeFragment;
-import liuliu.he.community.ui.fragment.WodeFragment;
+import liuliu.he.community.ui.first_frag.FenleiFragment;
+import liuliu.he.community.ui.first_frag.GouwucheFragment;
+import liuliu.he.community.ui.first_frag.ShouyeFragment;
+import liuliu.he.community.ui.first_frag.WodeFragment;
 
 /**
  * Created by liuliu on 2015/11/28   9:50

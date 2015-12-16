@@ -1,20 +1,15 @@
-package liuliu.he.community.ui.fragment;
+package liuliu.he.community.ui.first_frag;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import net.tsz.afinal.FinalActivity;
 import net.tsz.afinal.annotation.view.CodeNote;
 
 import java.util.ArrayList;
@@ -30,15 +25,14 @@ import liuliu.he.community.control.shouye.IShouyeView;
 import liuliu.he.community.control.shouye.ShouyeListener;
 import liuliu.he.community.model.ChangeItemModel;
 import liuliu.he.community.model.GoodTypeModel;
-import liuliu.he.community.model.ImageDemo;
 import liuliu.he.community.model.ItemModel;
 import liuliu.he.community.model.MyGridView;
 import liuliu.he.community.model.ProductModel;
 import liuliu.he.community.model.TopImage;
 import liuliu.he.community.test.DataAdapterBase;
 import liuliu.he.community.test.ViewHolderBase;
+import liuliu.he.community.ui.activity.DetailListsActivity;
 import liuliu.he.community.ui.activity.DingDanActivity;
-import liuliu.he.community.ui.activity.GoodDetailActivity;
 import liuliu.he.community.ui.activity.MainActivity;
 
 /**
@@ -104,21 +98,30 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
     ChangeItemModel pressedModel;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View viewRoot = inflater.inflate(R.layout.frag_shouye, container, false);
-        FinalActivity.initInjectedView(this, viewRoot);
+    public void initViews() {
+        setContentView(R.layout.frag_shouye);
         mContext = MainActivity.mIntails;
         imageLoader = ImageLoaderFactory.create(mContext);
         mListener = new ShouyeListener(this, mContext);
-        initData();
-        return viewRoot;
+    }
+
+    @Override
+    public void initEvents() {
+        mItemList = new ArrayList<>();
+        mItems = new ArrayList<>();
+        mItemList.add(new ChangeItemModel(hot_tejia_rl, hot_tejia_ll, hot_tejia_tv, hot_tejia_iv));
+        mItemList.add(new ChangeItemModel(hot_jingpin_rl, hot_jingpin_ll, hot_jingpin_tv, hot_jingpin_iv));
+        mItemList.add(new ChangeItemModel(hot_zuixin_rl, hot_zuixin_ll, hot_zuixin_tv, hot_zuixin_iv));
+
+        mItems.add(new ItemModel("首页", R.mipmap.shouye_normal, R.mipmap.shouye_normal_pressed));
+        mItems.add(new ItemModel("分类", R.mipmap.fenlei_normal, R.mipmap.fenlei_normal_pressed));
+        mItems.add(new ItemModel("我的", R.mipmap.wode_normal, R.mipmap.wode_normal_pressed));
     }
 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.main_good_type_ll:
                 mClick.onItemClick(1);
-
                 break;
             case R.id.main_my_order_ll://跳转到订单列表
                 MainActivity.mIntails.mUtils.IntentPost(DingDanActivity.class);
@@ -144,18 +147,10 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
         }
     }
 
-    //加载所需数据
-    private void initData() {
-        mItemList = new ArrayList<>();
-        mItems = new ArrayList<>();
-        mItemList.add(new ChangeItemModel(hot_tejia_rl, hot_tejia_ll, hot_tejia_tv, hot_tejia_iv));
-        mItemList.add(new ChangeItemModel(hot_jingpin_rl, hot_jingpin_ll, hot_jingpin_tv, hot_jingpin_iv));
-        mItemList.add(new ChangeItemModel(hot_zuixin_rl, hot_zuixin_ll, hot_zuixin_tv, hot_zuixin_iv));
-
-        mItems.add(new ItemModel("首页", R.mipmap.shouye_normal, R.mipmap.shouye_normal_pressed));
-        mItems.add(new ItemModel("分类", R.mipmap.fenlei_normal, R.mipmap.fenlei_normal_pressed));
-        mItems.add(new ItemModel("我的", R.mipmap.wode_normal, R.mipmap.wode_normal_pressed));
-    }
+//    //加载所需数据
+//    private void initData() {
+//
+//    }
 
     private void HotClick(int position, List mList) {
         normalModel = mItemList.get(clickItem);
@@ -189,10 +184,10 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
         good_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                MainActivity.mIntails.mUtils.IntentPost(GoodDetailActivity.class, new Utils.putListener() {
+                MainActivity.mIntails.mUtils.IntentPost(DetailListsActivity.class, new Utils.putListener() {
                     @Override
                     public void put(Intent intent) {
-                        intent.putExtra("goodid", position);//商品id
+                        intent.putExtra("desc", "xq=" + position);//商品id
                     }
                 });//跳转到商品详细页面
             }

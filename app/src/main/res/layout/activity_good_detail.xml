@@ -5,15 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <liuliu.custom.control.toolbar.TToolbar
-        android:id="@+id/main_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:center_et_hint="请输入搜索关键字"
-        app:left_img="@mipmap/ic_arrow_drop_down_black_24dp"
-        app:left_title="竞秀"
-        app:right_img="@mipmap/ttoolbar_message" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -47,7 +38,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="$"
+                        android:text="￥"
                         android:textSize="22sp"
                         android:textStyle="bold" />
 
@@ -61,6 +52,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/good_name_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -69,6 +61,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/good_small_desc_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
@@ -85,7 +78,7 @@
                 android:background="@color/white">
 
                 <Button
-                    android:id="@+id/biaoqian"
+                    android:id="@+id/good_biaoqian"
                     style="@style/ButtonStyle"
                     android:layout_width="80dp"
                     android:layout_height="35dp"
@@ -256,10 +249,10 @@
                     android:id="@+id/total_bottom_shouye_ll"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="20dp"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="20dp">
 
                     <ImageView
                         android:id="@+id/total_bottom_shouye_iv"

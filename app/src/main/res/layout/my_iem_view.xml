@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/linear_my_item_view"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="match_parent"
     android:background="#fff"
     android:orientation="vertical">
 
@@ -16,18 +16,24 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/my_item_left_image"
-            android:layout_width="25dp"
-            android:layout_height="35dp"
-            android:layout_margin="14dp" />
+        <LinearLayout
+            android:id="@+id/my_item_left_img_ll"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/my_item_left_image"
+                android:layout_width="25dp"
+                android:layout_height="25dp"/>
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/my_item_left_image">
+            android:layout_toRightOf="@+id/my_item_left_img_ll">
 
             <LinearLayout
                 android:id="@+id/item_view_top_small_line"
@@ -38,7 +44,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="match_parent"
                 android:layout_marginRight="20dp"
                 android:gravity="center_vertical">
 
@@ -75,6 +81,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentBottom="true"
+                android:layout_marginTop="-1dp"
                 android:background="#E2E2E2"
                 android:orientation="horizontal"
                 android:visibility="gone" />
@@ -84,6 +91,7 @@
     <LinearLayout
         android:id="@+id/item_view_bottom_big_line"
         android:layout_width="match_parent"
+        android:layout_marginTop="-1dp"
         android:layout_height="1dp"
         android:background="#E2E2E2"
         android:orientation="horizontal"

@@ -1,6 +1,5 @@
-package liuliu.he.community.ui.fragment;
+package liuliu.he.community.ui.last_frag;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -37,30 +36,29 @@ public class TypeListFragment extends BaseFragment implements ITypeListView<Good
     MyItemView title;
     CommonAdapter adapterBase;
     ImageLoader imageLoader = null;
-    //    Context mContext;
     TypeListListener<GoodModel> listListener;
-    String number = "";//需要查询的参数
-    String big = "";//需要查询的参数
     int page = 1;
     DetailListsActivity mIntails;
+    String term = "";//查询显示的
+    List<GoodModel> mGoods;
+    private boolean isBottom = false;//是否滑动到最底部
+
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View viewRoot = inflater.inflate(R.layout.frag_type_list, container, false);
-        FinalActivity.initInjectedView(this, viewRoot);
+    public void initViews() {
+        setContentView(R.layout.frag_type_list);
         mIntails = DetailListsActivity.mIntails;
         listListener = new TypeListListener(this, mIntails);
+        term = "?page=" + page + "&number=10&" + mIntails.getDesc().split("\\?")[1];
         listListener.loadList(term, "GoodModel");//页面加载的时候加载数据
         mGoods = new ArrayList<>();
         imageLoader = ImageLoaderFactory.create(mIntails);
-        number = mIntails.mUtils.IntentGet(DetailListsActivity.mIntails.getIntent(), "");
-        String s = mIntails.getParam();//获得Activity的需要的内容
-        return viewRoot;
     }
 
-    String term = "?page=" + page + "&number=5&bid=14";//查询显示的
-    List<GoodModel> mGoods;
-    private boolean isBottom = false;//是否滑动到最底部
+    @Override
+    public void initEvents() {
+
+    }
 
     /**
      * 加载商品信息集合
@@ -81,7 +79,6 @@ public class TypeListFragment extends BaseFragment implements ITypeListView<Good
                 listView.loadComplete(isBottom);//关闭底部进度条
             }
         }, 3000);
-
     }
 
     /**
@@ -108,7 +105,7 @@ public class TypeListFragment extends BaseFragment implements ITypeListView<Good
                 @Override
                 public void onLoad() {
                     if (!isBottom) {
-                        listListener.loadList("?page=" + page + "&number=5&bid=14", "GoodModel");
+                        listListener.loadList("?page=" + page + "&number=10&" + mIntails.getDesc().split("\\?")[1], "GoodModel");
                     }
                 }
             });

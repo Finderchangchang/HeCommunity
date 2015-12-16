@@ -21,10 +21,10 @@ public abstract class BaseActivity extends FinalActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         finalDb = FinalDb.create(BaseActivity.this);
-        initViews();
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         mUtils = new Utils(this);
+        initViews();
         initEvents();
     }
 

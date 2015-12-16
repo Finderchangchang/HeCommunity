@@ -1,4 +1,4 @@
-package liuliu.he.community.ui.fragment;
+package liuliu.he.community.ui.first_frag;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -61,13 +61,16 @@ public class WodeFragment extends BaseFragment implements IWodeView {
     LinearLayout ll_libao;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View viewRoot = inflater.inflate(R.layout.frag_wode, container, false);
-        FinalActivity.initInjectedView(this, viewRoot);
+    public void initViews() {
+        setContentView(R.layout.frag_wode);
         mContext = MainActivity.mIntails;
         mListener = new WodeListener(mContext, this);
         mUtils = new Utils(mContext);
-        return viewRoot;
+    }
+
+    @Override
+    public void initEvents() {
+
     }
 
     private void setText(WoDeModel model) {

@@ -12,9 +12,7 @@ import in.srain.cube.image.CubeImageView;
 import in.srain.cube.image.ImageLoader;
 import liuliu.custom.method.Utils;
 import liuliu.he.community.model.TopImage;
-import liuliu.he.community.ui.activity.GoodDetailActivity;
-import liuliu.he.community.ui.activity.GoodListActivity;
-import liuliu.he.community.ui.activity.HelpActivity;
+import liuliu.he.community.ui.activity.DetailListsActivity;
 import liuliu.he.community.ui.activity.MainActivity;
 
 /**
@@ -102,27 +100,45 @@ public class ViewHolderBase<T> {
      * @param link = "../product/detail.php?id=852";
      */
     private void jiexiLink(final String link) {
-        if (link.contains("product")) {
-            if (link.contains("detail.php")) {//跳转到商品的详细页面
-                MainActivity.mIntails.mUtils.IntentPost(GoodDetailActivity.class, new Utils.putListener() {
-                    @Override
-                    public void put(Intent intent) {
-                        intent.putExtra("id", link.split("=")[1]);
+        MainActivity.mIntails.mUtils.IntentPost(DetailListsActivity.class, new Utils.putListener() {
+            @Override
+            public void put(Intent intent) {
+                String desc = "";
+                if (link.contains("product")) {
+                    if (link.contains("detail.php")) {//跳转到商品的详细页面
+                        desc = "xq?" + link.split("=")[1];
+                    } else if (link.contains("list.php")) {//跳转到商品分类
+                        desc = "spfl?" + link.split("\\?")[1];
                     }
-                });
-            } else if (link.contains("list.php")) {//跳转到商品列表
-                MainActivity.mIntails.mUtils.IntentPost(GoodListActivity.class, new Utils.putListener() {
-                    @Override
-                    public void put(Intent intent) {
-                        intent.putExtra("type", link.split("=")[1]);
+                } else if (link.contains("user")) {//跳转到帮助中心
+                    if (link.contains("help.php")) {
+                        desc = "help?";
                     }
-                });
+                }
+                intent.putExtra("desc", desc);
             }
-        } else if (link.contains("user")) {//跳转到帮助中心
-            if (link.contains("help.php")) {
-                MainActivity.mIntails.mUtils.IntentPost(HelpActivity.class);
-            }
-        }
+        });
+//        if (link.contains("product")) {
+//            if (link.contains("detail.php")) {//跳转到商品的详细页面
+//                MainActivity.mIntails.mUtils.IntentPost(DetailListsActivity.class, new Utils.putListener() {
+//                    @Override
+//                    public void put(Intent intent) {
+//                        intent.putExtra("desc", "xq=" + link.split("=")[1]);
+//                    }
+//                });
+//            } else if (link.contains("list.php")) {//跳转到商品列表
+//                MainActivity.mIntails.mUtils.IntentPost(GoodListActivity.class, new Utils.putListener() {
+//                    @Override
+//                    public void put(Intent intent) {
+//                        intent.putExtra("type", link.split("=")[1]);
+//                    }
+//                });
+//            }
+//        } else if (link.contains("user")) {//跳转到帮助中心
+//            if (link.contains("help.php")) {
+//                MainActivity.mIntails.mUtils.IntentPost(HelpActivity.class);
+//            }
+//        }
     }
 
     public interface OnImageClick {
