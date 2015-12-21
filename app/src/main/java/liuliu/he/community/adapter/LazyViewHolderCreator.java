@@ -1,4 +1,4 @@
-package liuliu.he.community.test;
+package liuliu.he.community.adapter;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;

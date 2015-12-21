@@ -60,8 +60,8 @@ public class FenLeiListener {
     public GoodTypeModel getModel(JSONObject object, int num) {
         GoodTypeModel image = new GoodTypeModel();
         try {
-            image.setId(object.getInt("id"));
-            image.setBid(object.getInt("bid"));
+            image.setId(object.getInt("bid"));
+            image.setBid(object.getInt("id"));
             image.setTitle(object.getString("name"));
             image.setImage(object.getString("image"));
             image.setIsPreferential(object.getBoolean("isPreferential"));

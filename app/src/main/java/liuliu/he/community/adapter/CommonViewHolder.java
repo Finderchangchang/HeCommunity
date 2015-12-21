@@ -7,6 +7,7 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -143,15 +144,18 @@ public class CommonViewHolder {
     }
 
     /**
-     * 为ImageView设置图片
+     * 设置控件显示隐藏
      *
-     * @param viewId
-     * @param url
-     * @return
+     * @param viewId（控件id）
+     * @param result(控件显示隐藏)
      */
-    public CommonViewHolder setImageByUrl(int viewId, String url) {
-//        ImageLoader.getInstance(3, Type.LIFO).loadImage(url,
-//                (ImageView) getView(viewId));
+    public CommonViewHolder setVisible(int viewId, boolean result) {
+        View view = getView(viewId);
+        if (result) {
+            view.setVisibility(View.VISIBLE);
+        } else {
+            view.setVisibility(View.GONE);
+        }
         return this;
     }
 

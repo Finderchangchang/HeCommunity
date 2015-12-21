@@ -1,4 +1,4 @@
-package liuliu.he.community.test;
+package liuliu.he.community.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,10 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import java.util.List;
-
-import liuliu.he.community.test.LazyViewHolderCreator;
-import liuliu.he.community.test.ViewHolderBase;
-import liuliu.he.community.test.ViewHolderCreator;
 
 /**
  * Created by liuliu on 2015/12/01   9:19

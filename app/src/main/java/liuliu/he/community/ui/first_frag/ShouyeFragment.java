@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import net.tsz.afinal.annotation.view.CodeNote;
 
 import java.util.ArrayList;
@@ -29,8 +30,8 @@ import liuliu.he.community.model.ItemModel;
 import liuliu.he.community.model.MyGridView;
 import liuliu.he.community.model.ProductModel;
 import liuliu.he.community.model.TopImage;
-import liuliu.he.community.test.DataAdapterBase;
-import liuliu.he.community.test.ViewHolderBase;
+import liuliu.he.community.adapter.DataAdapterBase;
+import liuliu.he.community.adapter.ViewHolderBase;
 import liuliu.he.community.ui.activity.DetailListsActivity;
 import liuliu.he.community.ui.activity.DingDanActivity;
 import liuliu.he.community.ui.activity.MainActivity;
@@ -96,6 +97,7 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
     List list[];
     ChangeItemModel normalModel;
     ChangeItemModel pressedModel;
+    int now_preaaed = -1;//当前点击的底部菜单
 
     @Override
     public void initViews() {
@@ -147,12 +149,13 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
         }
     }
 
-//    //加载所需数据
-//    private void initData() {
-//
-//    }
-
-    private void HotClick(int position, List mList) {
+    /**
+     * 热门商品选择
+     *
+     * @param position 选中的位置
+     * @param mList    商品信息集合
+     */
+    private void HotClick(int position, final List mList) {
         normalModel = mItemList.get(clickItem);
         pressedModel = mItemList.get(position);
         //恢复成未点击状态
@@ -187,7 +190,8 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
                 MainActivity.mIntails.mUtils.IntentPost(DetailListsActivity.class, new Utils.putListener() {
                     @Override
                     public void put(Intent intent) {
-                        intent.putExtra("desc", "xq=" + position);//商品id
+                        ProductModel model = (ProductModel) mList.get(position);
+                        intent.putExtra("desc", "xq?" + model.getGid());//商品id
                     }
                 });//跳转到商品详细页面
             }
@@ -216,6 +220,7 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
     public void OnGoodList(List list[]) {
         this.list = list;
         HotClick(0, list[0]);
+        now_preaaed = 0;
     }
 
     //商品分类
@@ -223,11 +228,22 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
     public void OnGoodType(List list) {
         good_type_adapter = new DataAdapterBase<GoodTypeModel>(mContext, R.layout.item_main_fenlei, list) {
             @Override
-            public void convert(ViewHolderBase holder, GoodTypeModel model, int position) {
+            public void convert(ViewHolderBase holder, final GoodTypeModel model, int position) {
                 holder.loadImage(R.id.type_iv, imageLoader, model.getImage());
                 holder.setText(R.id.type_title_tv, model.getTitle());
                 holder.setText(R.id.type_desc1_tv, model.getT1());
                 holder.setText(R.id.type_desc2_tv, model.getT2());
+                holder.setOnClick(R.id.item_fenlei_ll, new ViewHolderBase.OnImageClick() {
+                    @Override
+                    public void click() {
+                        MainActivity.mIntails.mUtils.IntentPost(DetailListsActivity.class, new Utils.putListener() {
+                            @Override
+                            public void put(Intent intent) {
+                                intent.putExtra("desc", "spfl?" + model.getLink().split("\\?")[1]);
+                            }
+                        });
+                    }
+                });
             }
         };
         good_type_gv.setNumColumns(2);
@@ -398,5 +414,4 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
         holder.setVisible(R.id.total_left_ll, View.GONE);
         holder.setVisible(R.id.total_right_ll, View.GONE);
     }
-
 }

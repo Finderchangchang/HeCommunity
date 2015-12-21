@@ -20,6 +20,7 @@ import liuliu.he.community.model.ImageDemo;
 
 
 /**
+ * 头部自定义控件
  * Created by Administrator on 2015/11/17.
  */
 public class MyItemView extends RelativeLayout {

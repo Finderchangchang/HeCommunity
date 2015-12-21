@@ -31,15 +31,15 @@ public class ShouyeListener {
         this.mView = mView;
         this.mContext = mContext;
         new Thread(new loadTitleThread()).start();
-        new Thread(new loadGuanggaoThread()).start();
-        new Thread(new loadGoodListsThread()).start();
-        new Thread(new loadGoodTypesThread()).start();
+
+
     }
 
     class loadTitleThread implements Runnable {
 
         @Override
         public void run() {
+            new Thread(new loadGuanggaoThread()).start();
             new VolloyTask(mContext).getJson(new VolloyTask.OnReturn() {
                 @Override
                 public void onResult(TitleImagesModel model) {//获得头部图片集合
@@ -67,6 +67,7 @@ public class ShouyeListener {
 
         @Override
         public void run() {
+            new Thread(new loadGoodListsThread()).start();
             new VolloyTask(mContext).getJson(new VolloyTask.OnReturn() {//八种分类的一种（热门消息）
                 @Override
                 public void onResult(TitleImagesModel model) {
@@ -99,6 +100,7 @@ public class ShouyeListener {
     class loadGoodListsThread implements Runnable {
         @Override
         public void run() {
+            new Thread(new loadGoodTypesThread()).start();
             new VolloyTask(mContext).getJson(new VolloyTask.OnReturn() {
                 @Override
                 public void onResult(TitleImagesModel model) {//获得头部图片集合

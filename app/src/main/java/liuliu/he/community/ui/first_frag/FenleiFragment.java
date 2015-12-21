@@ -1,19 +1,12 @@
 package liuliu.he.community.ui.first_frag;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.Toast;
 
-import net.tsz.afinal.FinalActivity;
 import net.tsz.afinal.annotation.view.CodeNote;
 
 import java.util.ArrayList;
@@ -30,8 +23,8 @@ import liuliu.he.community.control.fenlei.FenLeiListener;
 import liuliu.he.community.control.fenlei.IFenLeiView;
 import liuliu.he.community.model.GoodTypeModel;
 import liuliu.he.community.model.MyGridView;
-import liuliu.he.community.test.DataAdapterBase;
-import liuliu.he.community.test.ViewHolderBase;
+import liuliu.he.community.adapter.DataAdapterBase;
+import liuliu.he.community.adapter.ViewHolderBase;
 import liuliu.he.community.ui.activity.DetailListsActivity;
 import liuliu.he.community.ui.activity.MainActivity;
 
@@ -48,6 +41,8 @@ public class FenleiFragment extends BaseFragment implements IFenLeiView {
     List<Button> good_type_list;
     FenLeiListener mListener;
     MainActivity mActivity;
+    DataAdapterBase adapterBase;
+    ImageLoader imageLoader = null;
 
     @Override
     public void initViews() {
@@ -62,9 +57,6 @@ public class FenleiFragment extends BaseFragment implements IFenLeiView {
     public void initEvents() {
 
     }
-
-    DataAdapterBase adapterBase;
-    ImageLoader imageLoader = null;
 
     /**
      * 加载所有数据
@@ -109,7 +101,7 @@ public class FenleiFragment extends BaseFragment implements IFenLeiView {
         refreshList(list[mGoodTypeClick]);
     }
 
-    private void refreshList(List list) {
+    private void refreshList(final List list) {
         imageLoader = ImageLoaderFactory.create(mActivity);
         adapterBase = new DataAdapterBase<GoodTypeModel>(mActivity, R.layout.item_good_types, list) {
             @Override
@@ -126,11 +118,19 @@ public class FenleiFragment extends BaseFragment implements IFenLeiView {
         gridview.setNumColumns(3);
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, final int position, final long id) {
                 mActivity.mUtils.IntentPost(DetailListsActivity.class, new Utils.putListener() {
                     @Override
                     public void put(Intent intent) {
-                        intent.putExtra("param", "17");
+                        GoodTypeModel model = (GoodTypeModel) list.get(position);
+                        GoodTypeModel first = (GoodTypeModel) list.get(0);
+                        String link = "";
+                        if (position > 0) {
+                            link = "bid=" + first.getBid() + "&sid=" + model.getBid();
+                        } else {
+                            link = "bid=" + first.getBid();
+                        }
+                        intent.putExtra("desc", "spfl?" + link);
                     }
                 });
             }

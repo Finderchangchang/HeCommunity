@@ -23,7 +23,6 @@ import liuliu.he.community.base.BaseActivity;
 import liuliu.he.community.model.ChangeItemModel;
 import liuliu.he.community.model.ItemModel;
 import liuliu.he.community.ui.first_frag.FenleiFragment;
-import liuliu.he.community.ui.first_frag.GouwucheFragment;
 import liuliu.he.community.ui.first_frag.ShouyeFragment;
 import liuliu.he.community.ui.first_frag.WodeFragment;
 
@@ -83,7 +82,7 @@ public class MainActivity extends BaseActivity {
             String bottomId = mUtils.IntentGet(intent, "BottomId");
             if (!bottomId.equals("")) {
                 mClick = Integer.parseInt(bottomId);
-
+                now_pressed = mClick;
             }
         }
     }
@@ -100,6 +99,7 @@ public class MainActivity extends BaseActivity {
         listbtn.add(new ChangeItemModel(gouwuche_tv, gouwuche_iv));//添加组件到listview
         //加载第一个显示页面
         setItem(mClick);
+        now_pressed = mClick;
         toolbar.setLeftOnClick(new TToolbar.LeftOnClickListener() {
             @Override
             public void leftclick() {
@@ -120,19 +120,38 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    private int now_pressed = -1;
+
+    /**
+     * @param view
+     */
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.total_bottom_shouye_ll:
-                setItem(0);
+                if (now_pressed != 0) {
+                    setItem(0);
+                    now_pressed = 0;
+                }
                 break;
             case R.id.total_bottom_fenlei_ll:
-                setItem(1);
+                if (now_pressed != 1) {
+                    setItem(1);
+                    now_pressed = 1;
+                }
                 break;
             case R.id.total_bottom_wode_ll:
-                setItem(2);
+                if (now_pressed != 2) {
+                    setItem(2);
+                    now_pressed = 2;
+                }
                 break;
             case R.id.total_bottom_gouwuche_ll:
-                setItem(3);
+                mUtils.IntentPost(DetailListsActivity.class, new Utils.putListener() {
+                    @Override
+                    public void put(Intent intent) {
+                        intent.putExtra("desc", "gwc?");
+                    }
+                });
                 break;
         }
     }
@@ -156,7 +175,8 @@ public class MainActivity extends BaseActivity {
                 shouye.setOnItemClick(new ShouyeFragment.OnItemClick() {
                     @Override
                     public void onItemClick(Object value) {
-                        setItem((Integer) value);
+                        now_pressed = (Integer) value;
+                        setItem(now_pressed);
                     }
                 });
                 break;
@@ -165,9 +185,6 @@ public class MainActivity extends BaseActivity {
                 break;
             case 2:
                 transaction.replace(R.id.frag_ll, new WodeFragment());
-                break;
-            case 3:
-                transaction.replace(R.id.frag_ll, new GouwucheFragment());
                 break;
         }
         transaction.commit();

@@ -6,6 +6,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
+ * 需要进行改变的组件集合
  * Created by liuliu on 2015/11/25   15:24
  *
  * @author 柳伟杰

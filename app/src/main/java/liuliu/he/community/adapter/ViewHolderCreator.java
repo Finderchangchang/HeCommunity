@@ -1,4 +1,4 @@
-package liuliu.he.community.test;
+package liuliu.he.community.adapter;
 
 import in.srain.cube.views.list.*;
 

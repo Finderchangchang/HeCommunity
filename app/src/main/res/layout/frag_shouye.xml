@@ -119,9 +119,9 @@
             android:id="@+id/guang_gao_grid_view"
             android:layout_width="match_parent"
             android:layout_height="290dp"
+            android:layout_marginTop="5dp"
             android:fadingEdge="none"
             android:horizontalSpacing="10dp"
-            android:layout_marginTop="5dp"
             android:listSelector="@android:color/transparent"
             android:scrollbarStyle="outsideOverlay"
             android:stretchMode="columnWidth" />
@@ -321,15 +321,14 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:gravity="center_vertical"
-                    android:paddingRight="10dp"
-                    >
+                    android:paddingRight="10dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
                         android:text="详情>"
-                        android:textSize="14sp"
-                        android:layout_marginLeft="10dp"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
             </RelativeLayout>

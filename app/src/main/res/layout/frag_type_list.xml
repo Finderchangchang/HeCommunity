@@ -16,30 +16,27 @@
         app:myitem_righttext="返回分类" />
 
     <LinearLayout
+        android:id="@+id/is_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="正在加载商品，请稍后" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <liuliu.he.community.model.MyGridView
-            android:id="@+id/fenlei_grid_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/total_botton"
-            android:layout_marginTop="10dp"
-            android:fadingEdge="none"
-            android:horizontalSpacing="10dp"
-            android:listSelector="@android:color/transparent"
-            android:numColumns="2"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:scrollbarStyle="outsideOverlay"
-            android:stretchMode="columnWidth" />
-
         <liuliu.custom.control.refresh.LoadListView
             android:id="@+id/type_list_grid_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:divider="@null" />
     </LinearLayout>
-
-
 </LinearLayout>

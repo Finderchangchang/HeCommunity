@@ -40,6 +40,11 @@ public class GoodModel {
     private boolean isPresent;
     private boolean isDrive;
 
+//    public GoodModel(String name, String image) {
+//        this.name = name;
+//        this.image = image;
+//    }
+
     public String getPrice() {
         return price;
     }
@@ -136,36 +141,35 @@ public class GoodModel {
         return stock;
     }
 
-    public boolean isIsSales() {
+    public boolean isSales() {
         return isSales;
     }
 
-    public boolean isIsRecom() {
+    public boolean isRecom() {
         return isRecom;
     }
 
-    public boolean isIsNew() {
+    public boolean isNew() {
         return isNew;
     }
 
-    public boolean isIsLimit() {
+    public boolean isLimit() {
         return isLimit;
     }
 
-    public boolean isIsRush() {
+    public boolean isRush() {
         return isRush;
     }
 
-    public boolean isIsArea() {
+    public boolean isArea() {
         return isArea;
     }
 
-    public boolean isIsPresent() {
+    public boolean isPresent() {
         return isPresent;
     }
 
-    public boolean isIsDrive() {
+    public boolean isDrive() {
         return isDrive;
     }
-
 }

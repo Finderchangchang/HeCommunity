@@ -1,7 +1,5 @@
 package liuliu.he.community.model;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 /**
  * 头部图片

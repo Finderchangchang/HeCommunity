@@ -62,20 +62,13 @@ public class LoadListView extends ListView implements AbsListView.OnScrollListen
     public void onScrollStateChanged(AbsListView view, int scrollState) {
         footerView.setVisibility(VISIBLE);
         if (totalItemCount == lastVisibleItem && scrollState == SCROLL_STATE_IDLE) {//滚动停止，且滚动到底部
-            if (!isLoading) {//活动到最下面
+            if (!isLoading && !isBottom) {//活动到最下面
                 isLoading = true;
                 listener.onLoad();
-                if (isBottom) {
-                    bar.setVisibility(GONE);
-                    tv.setText("没有更多数据");
-                } else {
-                    bar.setVisibility(VISIBLE);
-                    tv.setText("载入中，请稍候...");
-                }
-
+                bar.setVisibility(VISIBLE);
+                tv.setText("载入中，请稍候...");
             }
         }
-
     }
 
     @Override
@@ -93,10 +86,15 @@ public class LoadListView extends ListView implements AbsListView.OnScrollListen
     public void loadComplete(boolean result) {
         isLoading = false;
         footerView.setVisibility(GONE);
-        this.isBottom = result;
+        if (result) {
+            footerView.setVisibility(VISIBLE);
+            bar.setVisibility(GONE);
+            tv.setText("没有更多数据");
+        }
+        isBottom = result;
     }
 
-    boolean isBottom;
+    private boolean isBottom;
 
     public void setOnLoadListener(onLoadListener listener) {
         this.listener = listener;

@@ -25,6 +25,8 @@ public abstract class AjaxCallBack<T> {
         return this;
     }
 
+    protected abstract void onSuccess(String t);
+
     public void onStart() {
     }
 
@@ -36,4 +38,6 @@ public abstract class AjaxCallBack<T> {
 
     public void onFailure(Throwable t, int errorNo, String strMsg) {
     }
+
+    public abstract void onFailure(Throwable t, String strMsg);
 }

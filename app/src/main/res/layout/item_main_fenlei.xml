@@ -4,6 +4,7 @@
     android:layout_height="85dp">
 
     <LinearLayout
+        android:id="@+id/item_fenlei_ll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="2dp"

@@ -1,6 +1,7 @@
 package liuliu.he.community.model;
 
 /**
+ *
  * Created by liuliu on 2015/11/25   14:15
  *
  * @author 柳伟杰

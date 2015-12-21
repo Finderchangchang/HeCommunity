@@ -26,11 +26,6 @@ public class GoodTypeModel {
     private boolean isPreferential;
     private boolean isPresent;
 
-    //获得查询的条件
-//    public String getTerms() {
-//        return
-//    }
-
     public void setImage(String image) {
         this.image = image;
     }

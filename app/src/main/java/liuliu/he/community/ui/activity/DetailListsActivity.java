@@ -1,6 +1,5 @@
 package liuliu.he.community.ui.activity;
 
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -10,9 +9,10 @@ import net.tsz.afinal.annotation.view.CodeNote;
 
 import liuliu.he.community.R;
 import liuliu.he.community.base.BaseActivity;
+import liuliu.he.community.ui.last_frag.GouwucheFragment;
 import liuliu.he.community.ui.last_frag.GoodDetailFragment;
 import liuliu.he.community.ui.last_frag.HelpFragment;
-import liuliu.he.community.ui.last_frag.TypeListFragment;
+import liuliu.he.community.ui.last_frag.FenLeiListFragment;
 
 /**
  * 点击进入的页面的Fragment
@@ -37,17 +37,21 @@ public class DetailListsActivity extends BaseActivity {
     public void initEvents() {
         // 开启Fragment事务
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        bottom_ll.setVisibility(View.VISIBLE);
+//        bottom_ll.setVisibility(View.VISIBLE);
         switch (mDesc.split("\\?")[0]) {
-            case "spfl"://跳转到商品分类列表
-                transaction.replace(R.id.frag_ll, new TypeListFragment());
+            case "spfl"://跳转到商品分类列表（结果-- ../product/list.php?type=2）
+                transaction.replace(R.id.frag_ll, new FenLeiListFragment());
                 break;
             case "xq"://跳转到商品详情页面
                 transaction.replace(R.id.frag_ll, new GoodDetailFragment());
-                bottom_ll.setVisibility(View.GONE);
+//                bottom_ll.setVisibility(View.GONE);
                 break;
             case "help"://跳转到帮助中心页面
                 transaction.replace(R.id.frag_ll, new HelpFragment());
+                break;
+            case "gwc"://购物车
+                transaction.replace(R.id.frag_ll, new GouwucheFragment());
+//                bottom_ll.setVisibility(View.GONE);
                 break;
 
         }

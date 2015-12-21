@@ -51,7 +51,7 @@
                     android:id="@+id/total_bottom_shouye_iv"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@mipmap/shouye_normal_pressed" />
+                    android:src="@mipmap/shouye_normal" />
 
                 <TextView
                     android:id="@+id/total_bottom_shouye_tv"

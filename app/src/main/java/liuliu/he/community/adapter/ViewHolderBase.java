@@ -1,4 +1,4 @@
-package liuliu.he.community.test;
+package liuliu.he.community.adapter;
 
 import android.content.Intent;
 import android.util.SparseArray;
@@ -53,7 +53,7 @@ public class ViewHolderBase<T> {
     }
 
     public ViewHolderBase setMargin(int viewId, int left, int right, int top, int bottom) {
-        LinearLayout ll = (LinearLayout) getView(viewId);
+        LinearLayout ll = getView(viewId);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) ll.getLayoutParams();
         layoutParams.setMargins(left, right, top, bottom);//4个参数按顺序分别是左上右下
         ll.setLayoutParams(layoutParams);
@@ -64,11 +64,6 @@ public class ViewHolderBase<T> {
         getView(viewId).setVisibility(visible);
         return this;
     }
-
-//    public ViewHolderBase loadImage(int viewId, ImageLoader loader, String url) {
-//        loadImage(viewId, loader, url, null);
-//        return this;
-//    }
 
     public ViewHolderBase loadImageByUrl(int viewId, ImageLoader loader, final TopImage model) {
         CubeImageView view = getView(viewId);
@@ -118,35 +113,21 @@ public class ViewHolderBase<T> {
                 intent.putExtra("desc", desc);
             }
         });
-//        if (link.contains("product")) {
-//            if (link.contains("detail.php")) {//跳转到商品的详细页面
-//                MainActivity.mIntails.mUtils.IntentPost(DetailListsActivity.class, new Utils.putListener() {
-//                    @Override
-//                    public void put(Intent intent) {
-//                        intent.putExtra("desc", "xq=" + link.split("=")[1]);
-//                    }
-//                });
-//            } else if (link.contains("list.php")) {//跳转到商品列表
-//                MainActivity.mIntails.mUtils.IntentPost(GoodListActivity.class, new Utils.putListener() {
-//                    @Override
-//                    public void put(Intent intent) {
-//                        intent.putExtra("type", link.split("=")[1]);
-//                    }
-//                });
-//            }
-//        } else if (link.contains("user")) {//跳转到帮助中心
-//            if (link.contains("help.php")) {
-//                MainActivity.mIntails.mUtils.IntentPost(HelpActivity.class);
-//            }
-//        }
     }
 
     public interface OnImageClick {
         void click();
     }
 
-    public void loadClick(OnImageClick click) {
-
+    public ViewHolderBase setOnClick(int viewId, final OnImageClick click) {
+        View view = getView(viewId);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                click.click();
+            }
+        });
+        return this;
     }
 
     public ViewHolderBase setText(int viewId, String val) {
