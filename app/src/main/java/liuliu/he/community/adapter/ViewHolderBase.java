@@ -1,12 +1,15 @@
 package liuliu.he.community.adapter;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import net.tsz.afinal.FinalBitmap;
 
 import in.srain.cube.image.CubeImageView;
 import in.srain.cube.image.ImageLoader;
@@ -80,12 +83,32 @@ public class ViewHolderBase<T> {
         return this;
     }
 
+    public ViewHolderBase loadImageByUrl(int viewId, FinalBitmap loader, final TopImage model) {
+        ImageView view = getView(viewId);
+        loader.display(view, model.getImg());
+        view.setVisibility(View.VISIBLE);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                jiexiLink(model.getLink());
+            }
+        });
+
+        return this;
+    }
+
     public ViewHolderBase loadImage(int viewId, ImageLoader loader, String url) {
         CubeImageView view = getView(viewId);
         view.loadImage(loader, url);
         view.setScaleType(ImageView.ScaleType.CENTER_CROP);
         view.setVisibility(View.VISIBLE);
+        return this;
+    }
 
+    public ViewHolderBase loadImage(int viewId, FinalBitmap bitmap, String url) {
+        ImageView view = getView(viewId);
+        bitmap.display(view, url);
+        view.setVisibility(View.VISIBLE);
         return this;
     }
 

@@ -33,9 +33,14 @@ public class WodeListener {
             new VolloyTask(mContext).getJson(new VolloyTask.OnReturn() {
                 @Override
                 public void onResult(TitleImagesModel model) {//获得头部图片集合
-                    if (model.isReturnX()) {
+                    if (model.getReturnX().equals("OK")) {
 
-                        JSONObject object = (JSONObject) model.getData();
+                        JSONObject object = null;
+                        try {
+                            object = new JSONObject(model.getData());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         woDeModel=new WoDeModel();
                         try {
                             System.out.println("address::" + object.getInt("address"));

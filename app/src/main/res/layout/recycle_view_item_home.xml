@@ -16,13 +16,13 @@
         android:layout_marginTop="5dp"
         android:layout_weight="1">
 
-        <in.srain.cube.image.CubeImageView
+        <ImageView
             android:id="@+id/total_left_one_iv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
-        <in.srain.cube.image.CubeImageView
+        <ImageView
             android:id="@+id/total_left_two_iv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -42,7 +42,7 @@
         android:orientation="horizontal">
 
 
-        <in.srain.cube.image.CubeImageView
+        <ImageView
             android:id="@+id/total_right_one_iv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -59,14 +59,14 @@
             android:visibility="gone">
 
 
-            <in.srain.cube.image.CubeImageView
+            <ImageView
                 android:id="@+id/total_right_two_iv"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:visibility="gone" />
 
-            <in.srain.cube.image.CubeImageView
+            <ImageView
                 android:id="@+id/total_right_three_iv"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -74,7 +74,7 @@
                 android:layout_weight="1"
                 android:visibility="gone" />
 
-            <in.srain.cube.image.CubeImageView
+            <ImageView
                 android:id="@+id/total_right_four_iv"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"

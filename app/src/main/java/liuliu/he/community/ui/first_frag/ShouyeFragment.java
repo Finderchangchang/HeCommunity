@@ -98,17 +98,19 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
     ChangeItemModel normalModel;
     ChangeItemModel pressedModel;
     int now_preaaed = -1;//当前点击的底部菜单
+    MainActivity mIntails;
 
     @Override
     public void initViews() {
         setContentView(R.layout.frag_shouye);
-        mContext = MainActivity.mIntails;
-        imageLoader = ImageLoaderFactory.create(mContext);
-        mListener = new ShouyeListener(this, mContext);
     }
 
     @Override
     public void initEvents() {
+        mContext = MainActivity.mIntails;
+        mIntails = MainActivity.mIntails;
+        imageLoader = ImageLoaderFactory.create(mContext);
+        mListener = new ShouyeListener(this, mContext);
         mItemList = new ArrayList<>();
         mItems = new ArrayList<>();
         mItemList.add(new ChangeItemModel(hot_tejia_rl, hot_tejia_ll, hot_tejia_tv, hot_tejia_iv));
@@ -118,6 +120,10 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
         mItems.add(new ItemModel("首页", R.mipmap.shouye_normal, R.mipmap.shouye_normal_pressed));
         mItems.add(new ItemModel("分类", R.mipmap.fenlei_normal, R.mipmap.fenlei_normal_pressed));
         mItems.add(new ItemModel("我的", R.mipmap.wode_normal, R.mipmap.wode_normal_pressed));
+        mListener.loadGuangGao(true);//加载缓存（广告）
+        mListener.loadGoodLists(true);//加载缓存(商品列表)
+        mListener.loadTypes(true);//加载缓存(商品分类)
+        mListener.loadTitle(true);//加载缓存(顶部图片集合)
     }
 
     public void onClick(View view) {
@@ -297,18 +303,18 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
             case 3:
                 if (position == 0) {
                     holder.setHeight(R.id.total_left_ll, (width - 15) / 2);
-                    holder.loadImageByUrl(R.id.total_left_one_iv, imageLoader, list.get(0));
-                    holder.loadImageByUrl(R.id.total_right_two_iv, imageLoader, list.get(3));
-                    holder.loadImageByUrl(R.id.total_right_three_iv, imageLoader, list.get(4));
+                    holder.loadImageByUrl(R.id.total_left_one_iv, mIntails.finalBitmap, list.get(0));
+                    holder.loadImageByUrl(R.id.total_right_two_iv, mIntails.finalBitmap, list.get(3));
+                    holder.loadImageByUrl(R.id.total_right_three_iv, mIntails.finalBitmap, list.get(4));
                     holder.setMargin(R.id.total_right_ll_right, 0, 0, 0, 0);
                     holder.setVisible(R.id.total_right_ll_right, View.VISIBLE);
                 } else if (position == 1) {
                     holder.setHeight(R.id.total_left_ll, 170);
                     holder.setVisible(R.id.total_right_ll_right, View.VISIBLE);
-                    holder.loadImageByUrl(R.id.total_left_one_iv, imageLoader, list.get(1));
-                    holder.loadImageByUrl(R.id.total_left_two_iv, imageLoader, list.get(2));
-                    holder.loadImageByUrl(R.id.total_right_one_iv, imageLoader, list.get(5));
-                    holder.loadImageByUrl(R.id.total_right_two_iv, imageLoader, list.get(6));
+                    holder.loadImageByUrl(R.id.total_left_one_iv, mIntails.finalBitmap, list.get(1));
+                    holder.loadImageByUrl(R.id.total_left_two_iv, mIntails.finalBitmap, list.get(2));
+                    holder.loadImageByUrl(R.id.total_right_one_iv, mIntails.finalBitmap, list.get(5));
+                    holder.loadImageByUrl(R.id.total_right_two_iv, mIntails.finalBitmap, list.get(6));
                 } else {
                     setOtherGone(holder);
                 }

@@ -44,7 +44,7 @@ public class VolloyTask {
                         try {
                             model.setError(response.getString("error"));//错误信息
                             model.setReturnX(response.getString("return"));
-                            model.setData(response.get("data"));//结果为true，返回结果
+                            model.setData(response.getString("data"));//结果为true，返回结果
                             on.onResult(model);
                         } catch (JSONException e) {
                             e.printStackTrace();

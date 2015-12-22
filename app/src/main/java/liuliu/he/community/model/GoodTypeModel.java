@@ -17,6 +17,7 @@ public class GoodTypeModel {
      * isPresent: bool(是否满就送)
      */
     private int id;
+    private String sid;
     private int bid;
     private String image;
     private String title;
@@ -25,6 +26,14 @@ public class GoodTypeModel {
     private String link;
     private boolean isPreferential;
     private boolean isPresent;
+
+    public String getSid() {
+        return sid;
+    }
+
+    public void setSid(String sid) {
+        this.sid = sid;
+    }
 
     public void setImage(String image) {
         this.image = image;

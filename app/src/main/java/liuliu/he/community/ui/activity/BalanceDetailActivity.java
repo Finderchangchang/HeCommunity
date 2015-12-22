@@ -52,7 +52,7 @@ public class BalanceDetailActivity extends BaseActivity {
             new VolloyTask(BalanceDetailActivity.this).getJson(new VolloyTask.OnReturn() {
                 @Override
                 public void onResult(TitleImagesModel model) {
-                    if (model.isReturnX()) {
+                    if (model.getReturnX().equals("OK")) {
                         String yue = model.getData().toString();
                         System.out.println("yue:" + yue);
                         number.setText(yue);

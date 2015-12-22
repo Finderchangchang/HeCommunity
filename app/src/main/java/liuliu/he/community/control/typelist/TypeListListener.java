@@ -48,8 +48,13 @@ public class TypeListListener<T> {
             new VolloyTask(mContext).getJson(new VolloyTask.OnReturn() {
                 @Override
                 public void onResult(TitleImagesModel model) {//获得头部图片集合
-                    if (model.isReturnX()) {
-                        JSONObject object = (JSONObject) model.getData();
+                    if (model.getReturnX().equals("OK")) {
+                        JSONObject object = null;
+                        try {
+                            object = new JSONObject(model.getData());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         try {
                             JSONArray array = object.getJSONArray("data");
                             List<T> goods = new ArrayList<T>();

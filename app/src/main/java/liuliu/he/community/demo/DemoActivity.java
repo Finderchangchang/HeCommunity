@@ -11,10 +11,8 @@ import liuliu.he.community.base.BaseActivity;
  * Created by Administrator on 2015/12/21.
  */
 public class DemoActivity extends BaseActivity {
-    @CodeNote(id = R.id.tv)
+    @CodeNote(id = R.id.iv)
     ImageView iv;
-    @CodeNote(id = R.id.tt)
-    TextView tv;
 
     String url = "http://www.iteye.com/upload/logo/blog_wiki/658539/b7c2eb31-a8ea-3973-a517-d00141f39b89.jpg?1333197277";
 

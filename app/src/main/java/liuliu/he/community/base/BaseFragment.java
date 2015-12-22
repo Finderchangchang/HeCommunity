@@ -22,6 +22,7 @@ public abstract class BaseFragment extends Fragment {
         initViews();
         View viewRoot = inflater.inflate(mLayId, container, false);
         FinalActivity.initInjectedView(this, viewRoot);
+
         initEvents();
         return viewRoot;
     }

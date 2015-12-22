@@ -47,15 +47,14 @@ public class FenleiFragment extends BaseFragment implements IFenLeiView {
     @Override
     public void initViews() {
         setContentView(R.layout.frag_fenlei);
-        mActivity = MainActivity.mIntails;
-        mListener = new FenLeiListener(mActivity, this);
-        //设置布局管理器
-        good_type_list = new ArrayList<>();
     }
 
     @Override
     public void initEvents() {
-
+        mActivity = MainActivity.mIntails;
+        mListener = new FenLeiListener(mActivity, this);
+        //设置布局管理器
+        good_type_list = new ArrayList<>();
     }
 
     /**
@@ -95,7 +94,6 @@ public class FenleiFragment extends BaseFragment implements IFenLeiView {
                         );
                     }
                 }
-
         );
         recyclerView.setLayoutManager(new GridLayoutManager(mActivity, 4));
         refreshList(list[mGoodTypeClick]);
@@ -124,11 +122,11 @@ public class FenleiFragment extends BaseFragment implements IFenLeiView {
                     public void put(Intent intent) {
                         GoodTypeModel model = (GoodTypeModel) list.get(position);
                         GoodTypeModel first = (GoodTypeModel) list.get(0);
-                        String link = "";
+                        String link;
                         if (position > 0) {
-                            link = "bid=" + first.getBid() + "&sid=" + model.getBid();
+                            link = "bid=" + first.getSid() + "&sid=" + model.getSid();
                         } else {
-                            link = "bid=" + first.getBid();
+                            link = "bid=" + first.getSid();
                         }
                         intent.putExtra("desc", "spfl?" + link);
                     }

@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.tsz.afinal.annotation.view.CodeNote;
+import net.tsz.afinal.cache.ACache;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +69,7 @@ public class MainActivity extends BaseActivity {
     ShouyeFragment shouye = null;
     @CodeNote(id = R.id.main_toolbar)
     TToolbar toolbar;
+    ACache mCache;
 
 
     @Override
@@ -85,6 +87,8 @@ public class MainActivity extends BaseActivity {
                 now_pressed = mClick;
             }
         }
+        mCache = ACache.get(this);
+        mCache.clear();//清空所有缓存
     }
 
     @Override

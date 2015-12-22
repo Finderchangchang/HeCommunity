@@ -4,7 +4,7 @@ package liuliu.he.community.model;
  * Created by Administrator on 2015/12/7.
  */
 public class TopImage {
-
+    private int id;
     /**
      * img : http://img.hesq.com.cn/fresh/upload/ad/20151130/1448835823156.jpg
      * link : #

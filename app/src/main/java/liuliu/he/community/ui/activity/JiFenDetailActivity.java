@@ -58,7 +58,7 @@ public class JiFenDetailActivity extends BaseActivity {
             new VolloyTask(JiFenDetailActivity.this).getJson(new VolloyTask.OnReturn() {
                 @Override
                 public void onResult(TitleImagesModel model) {
-                    if (model.isReturnX()) {
+                    if (model.getReturnX().equals("OK")) {
                         String jifen = model.getData().toString();
                         System.out.println("jifen:" + jifen);
                         number.setText(jifen);
