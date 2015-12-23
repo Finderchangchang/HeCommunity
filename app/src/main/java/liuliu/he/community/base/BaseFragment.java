@@ -16,13 +16,19 @@ import liuliu.he.community.R;
  */
 public abstract class BaseFragment extends Fragment {
     int mLayId;
+    private View viewRoot = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         initViews();
-        View viewRoot = inflater.inflate(mLayId, container, false);
+        if (viewRoot == null) {
+            viewRoot = inflater.inflate(mLayId, container, false);
+        }
+        ViewGroup parent = (ViewGroup) viewRoot.getParent();
+        if (parent != null) {
+            parent.removeView(viewRoot);
+        }
         FinalActivity.initInjectedView(this, viewRoot);
-
         initEvents();
         return viewRoot;
     }

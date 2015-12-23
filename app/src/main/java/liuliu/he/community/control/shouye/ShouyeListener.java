@@ -54,12 +54,12 @@ public class ShouyeListener {
         public void run() {
             List<TitleImagesModel> list = mDB.findAllByWhere(TitleImagesModel.class, "type='" + mType + "'");
             if (list.size() > 0) {//加载缓存，且有缓存
-                mLoad.load(list.get(0));
+                mLoad.load(list.get(0), true);
             } else {
                 new VolloyTask(mContext).getJson(new VolloyTask.OnReturn() {
                     @Override
                     public void onResult(TitleImagesModel model) {//获得头部图片集合
-                        mLoad.load(model);
+                        mLoad.load(model, false);
                     }
                 }, mUrl);
             }
@@ -67,20 +67,18 @@ public class ShouyeListener {
     }
 
     private interface OnLoad {
-        void load(TitleImagesModel model);
+        void load(TitleImagesModel model, boolean result);
     }
 
     /**
      * 加载顶部图片集合
-     *
-     * @param cache 加载缓存（true,加载缓存。false,访问网络）
      */
-    public void loadTitle(final boolean cache) {
+    public void loadTitle() {
         new Thread(new loadThread("titleimg", new OnLoad() {
             @Override
-            public void load(TitleImagesModel model) {
+            public void load(TitleImagesModel model, boolean result) {
                 if (model.getReturnX().equals("OK")) {
-                    if (!cache) {//加载网络数据
+                    if (!result) {//加载网络数据
                         model.setType("titleimg");//设置缓存的内容为广告
                         saveCache(model);
                     }
@@ -110,14 +108,13 @@ public class ShouyeListener {
     /**
      * 加载广告信息集合
      *
-     * @param cache 加载缓存（true,加载缓存。false,访问网络）
      */
-    public void loadGuangGao(final boolean cache) {
+    public void loadGuangGao() {
         new Thread(new loadThread("guanggao", new OnLoad() {
             @Override
-            public void load(TitleImagesModel model) {
+            public void load(TitleImagesModel model, boolean result) {
                 if (model.getReturnX().equals("OK")) {
-                    if (!cache) {
+                    if (!result) {
                         model.setType("guanggao");//设置缓存的内容为广告
                         saveCache(model);
                     }
@@ -153,15 +150,14 @@ public class ShouyeListener {
     /**
      * 加载商品分类集合信息
      *
-     * @param cache 加载缓存（true,加载缓存。false,访问网络）
      */
-    public void loadGoodLists(final boolean cache) {
+    public void loadGoodLists() {
         new Thread(new loadThread("goodlists", new OnLoad() {
             @Override
-            public void load(TitleImagesModel model) {
+            public void load(TitleImagesModel model, boolean result) {
                 List mList[] = new List[3];
                 if (model.getReturnX().equals("OK")) {
-                    if (!cache) {
+                    if (!result) {
                         model.setType("goodlists");//设置缓存的内容为广告
                         saveCache(model);
                     }
@@ -201,14 +197,13 @@ public class ShouyeListener {
     /**
      * 加载商品分类集合信息
      *
-     * @param cache 加载缓存（true,加载缓存。false,访问网络）
      */
-    public void loadTypes(final boolean cache) {
+    public void loadTypes() {
         new Thread(new loadThread("goodtypes", new OnLoad() {
             @Override
-            public void load(TitleImagesModel model) {
+            public void load(TitleImagesModel model, boolean result) {
                 if (model.getReturnX().equals("OK")) {
-                    if (!cache) {
+                    if (!result) {
                         model.setType("goodtypes");//设置缓存的内容为广告
                         saveCache(model);
                     }

@@ -3,6 +3,9 @@ package liuliu.he.community.ui.first_frag;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Message;
+import android.util.LruCache;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -99,6 +102,10 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
     ChangeItemModel pressedModel;
     int now_preaaed = -1;//当前点击的底部菜单
     MainActivity mIntails;
+    @CodeNote(id = R.id.good_lists_ll)
+    LinearLayout good_lists_ll;
+    @CodeNote(id = R.id.main_good_classify_ll)
+    LinearLayout good_classify_ll;
 
     @Override
     public void initViews() {
@@ -120,10 +127,11 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
         mItems.add(new ItemModel("首页", R.mipmap.shouye_normal, R.mipmap.shouye_normal_pressed));
         mItems.add(new ItemModel("分类", R.mipmap.fenlei_normal, R.mipmap.fenlei_normal_pressed));
         mItems.add(new ItemModel("我的", R.mipmap.wode_normal, R.mipmap.wode_normal_pressed));
-        mListener.loadGuangGao(true);//加载缓存（广告）
-        mListener.loadGoodLists(true);//加载缓存(商品列表)
-        mListener.loadTypes(true);//加载缓存(商品分类)
-        mListener.loadTitle(true);//加载缓存(顶部图片集合)
+        mListener.loadTitle();//加载缓存(顶部图片集合)
+        mListener.loadGuangGao();//加载缓存（广告）
+        mListener.loadGoodLists();//加载缓存(商品列表)
+        mListener.loadTypes();//加载缓存(商品分类)
+        handler = new Handler();
     }
 
     public void onClick(View view) {
@@ -210,24 +218,61 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
 
     }
 
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.obj.toString()) {
+                case "guanggao":
+                    guang_gao_adapter = new DataAdapterBase<TopImage>(mContext, R.layout.recycle_view_item_home, mList) {
+                        @Override
+                        public void convert(ViewHolderBase holder, TopImage model, int position) {
+                            loadGG(mContext, mType, holder, mList, position);
+                        }
+                    };
+                    if (guang_gao_gv != null) {
+                        guang_gao_gv.setNumColumns(1);
+                        guang_gao_gv.setAdapter(guang_gao_adapter);
+//                        guang_gao_gv.setVisibility(View.VISIBLE);
+                    }
+                    break;
+                case "goodlist":
+                    good_lists_ll.setVisibility(View.VISIBLE);
+                    now_preaaed = 0;
+                    HotClick(0, list[0]);
+                    break;
+                case "goodtype":
+                    if (good_type_adapter != null) {
+                        good_classify_ll.setVisibility(View.VISIBLE);
+                        good_type_gv.setNumColumns(2);
+                        good_type_gv.setAdapter(good_type_adapter);
+                        good_type_adapter.notifyDataSetChanged();
+                    }
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
+    private int mType;
+    private List mList;
+
     @Override
     public void OnGuanggao(final int type, final List list) {
-        guang_gao_adapter = new DataAdapterBase<TopImage>(mContext, R.layout.recycle_view_item_home, list) {
-            @Override
-            public void convert(ViewHolderBase holder, TopImage model, int position) {
-                loadGG(mContext, type, holder, list, position);
-            }
-        };
-        guang_gao_gv.setNumColumns(1);
-        guang_gao_gv.setAdapter(guang_gao_adapter);
+        mType = type;
+        mList = list;
+        Message message = Message.obtain();
+        message.obj = "guanggao";
+        mHandler.sendMessage(message);
     }
 
     @Override
-    public void OnGoodList(List list[]) {
+    public void OnGoodList(final List list[]) {
         this.list = list;
-        HotClick(0, list[0]);
-        now_preaaed = 0;
+        Message message = Message.obtain();
+        message.obj = "goodlist";
+        mHandler.sendMessage(message);
     }
+
+    Handler handler = null;
 
     //商品分类
     @Override
@@ -252,9 +297,9 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
                 });
             }
         };
-        good_type_gv.setNumColumns(2);
-        good_type_gv.setAdapter(good_type_adapter);
-        good_type_adapter.notifyDataSetChanged();
+        Message message = Message.obtain();
+        message.obj = "goodtype";
+        mHandler.sendMessage(message);
     }
 
     public interface OnItemClick {

@@ -1,5 +1,6 @@
 package liuliu.he.community.ui.activity;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -70,7 +71,7 @@ public class MainActivity extends BaseActivity {
     @CodeNote(id = R.id.main_toolbar)
     TToolbar toolbar;
     ACache mCache;
-
+    List<Fragment> mContent = new ArrayList<>();
 
     @Override
     public void initViews() {
@@ -125,6 +126,30 @@ public class MainActivity extends BaseActivity {
     }
 
     private int now_pressed = -1;
+    private Fragment mFrom = null;
+
+    public void switchContent(Fragment to) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.addToBackStack(null);
+        if (mFrom != null) {//第一次加载的时候添加需要切换的fragment
+            transaction.hide(mFrom);
+        }
+        boolean isShow = false;
+        for (int i = 0; i < mContent.size(); i++) {
+            if (!mContent.get(i).getClass().equals(to.getClass())) {//不相同全部隐藏
+                transaction.hide(mContent.get(i));
+            } else {
+                transaction.show(to);
+                isShow = true;
+            }
+        }
+        if (!isShow) {
+            transaction.add(R.id.frag_ll, to);
+            mContent.add(to);
+        }
+        mFrom = to;
+        transaction.commit();
+    }
 
     /**
      * @param view
@@ -169,13 +194,13 @@ public class MainActivity extends BaseActivity {
         listbtn.get(position).getTv().setTextColor(mIntails.getResources().getColor(R.color.main_item_pressed));
         listbtn.get(position).getIv().setImageBitmap(Utils.readBitMap(mIntails, mItems.get(position).getPressed_img()));
         mClick = position;
-        FragmentManager fm = getFragmentManager();
-        // 开启Fragment事务
-        final FragmentTransaction transaction = fm.beginTransaction();
+//        FragmentManager fm = getFragmentManager();
+//        // 开启Fragment事务
+//        final FragmentTransaction transaction = fm.beginTransaction();
         switch (position) {
             case 0:
                 shouye = new ShouyeFragment();
-                transaction.replace(R.id.frag_ll, shouye);
+//                transaction.replace(R.id.frag_ll, shouye);
                 shouye.setOnItemClick(new ShouyeFragment.OnItemClick() {
                     @Override
                     public void onItemClick(Object value) {
@@ -183,14 +208,17 @@ public class MainActivity extends BaseActivity {
                         setItem(now_pressed);
                     }
                 });
+                switchContent(shouye);
                 break;
             case 1:
-                transaction.replace(R.id.frag_ll, new FenleiFragment());
+//                transaction.replace(R.id.frag_ll, new FenleiFragment());
+                switchContent(new FenleiFragment());
                 break;
             case 2:
-                transaction.replace(R.id.frag_ll, new WodeFragment());
+//                transaction.replace(R.id.frag_ll, new WodeFragment());
+                switchContent(new WodeFragment());
                 break;
         }
-        transaction.commit();
+//        transaction.commit();
     }
 }
