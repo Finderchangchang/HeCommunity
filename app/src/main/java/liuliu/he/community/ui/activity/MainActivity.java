@@ -68,6 +68,8 @@ public class MainActivity extends BaseActivity {
     List<ChangeItemModel> listbtn;//生成的按钮集合（需要颜色改变的view）
     List<ItemModel> mItems;
     ShouyeFragment shouye = null;
+    FenleiFragment fenlei = null;
+    WodeFragment wode = null;
     @CodeNote(id = R.id.main_toolbar)
     TToolbar toolbar;
     ACache mCache;
@@ -130,6 +132,7 @@ public class MainActivity extends BaseActivity {
 
     public void switchContent(Fragment to) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        hideFragments(transaction);//隐藏所有加载出来的fragment
         transaction.addToBackStack(null);
         if (mFrom != null) {//第一次加载的时候添加需要切换的fragment
             transaction.hide(mFrom);
@@ -139,16 +142,34 @@ public class MainActivity extends BaseActivity {
             if (!mContent.get(i).getClass().equals(to.getClass())) {//不相同全部隐藏
                 transaction.hide(mContent.get(i));
             } else {
-                transaction.show(to);
+                transaction.show(to).commit();
                 isShow = true;
             }
         }
         if (!isShow) {
             transaction.add(R.id.frag_ll, to);
             mContent.add(to);
+            transaction.commit();
         }
         mFrom = to;
-        transaction.commit();
+
+    }
+
+    /**
+     * 将所有的Fragment都置为隐藏状态。
+     *
+     * @param transaction 用于对Fragment执行操作的事务
+     */
+    private void hideFragments(FragmentTransaction transaction) {
+        if (shouye != null) {
+            transaction.hide(shouye);
+        }
+        if (fenlei != null) {
+            transaction.hide(fenlei);
+        }
+        if (wode != null) {
+            transaction.hide(wode);
+        }
     }
 
     /**
@@ -194,31 +215,48 @@ public class MainActivity extends BaseActivity {
         listbtn.get(position).getTv().setTextColor(mIntails.getResources().getColor(R.color.main_item_pressed));
         listbtn.get(position).getIv().setImageBitmap(Utils.readBitMap(mIntails, mItems.get(position).getPressed_img()));
         mClick = position;
-//        FragmentManager fm = getFragmentManager();
-//        // 开启Fragment事务
-//        final FragmentTransaction transaction = fm.beginTransaction();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        hideFragments(transaction);//隐藏所有加载出来的fragment
+        transaction.addToBackStack(null);
         switch (position) {
             case 0:
-                shouye = new ShouyeFragment();
-//                transaction.replace(R.id.frag_ll, shouye);
-                shouye.setOnItemClick(new ShouyeFragment.OnItemClick() {
-                    @Override
-                    public void onItemClick(Object value) {
-                        now_pressed = (Integer) value;
-                        setItem(now_pressed);
-                    }
-                });
-                switchContent(shouye);
+                if (shouye == null) {
+                    // 如果MessageFragment为空，则创建一个并添加到界面上
+                    shouye = new ShouyeFragment();
+                    shouye.setOnItemClick(new ShouyeFragment.OnItemClick() {
+                        @Override
+                        public void onItemClick(Object value) {
+                            now_pressed = (Integer) value;
+                            setItem(now_pressed);
+                        }
+                    });
+                    transaction.add(R.id.frag_ll, shouye);
+                } else {
+                    // 如果MessageFragment不为空，则直接将它显示出来
+                    transaction.show(shouye);
+                }
                 break;
             case 1:
-//                transaction.replace(R.id.frag_ll, new FenleiFragment());
-                switchContent(new FenleiFragment());
+                if (fenlei == null) {
+                    // 如果MessageFragment为空，则创建一个并添加到界面上
+                    fenlei = new FenleiFragment();
+                    transaction.add(R.id.frag_ll, fenlei);
+                } else {
+                    // 如果MessageFragment不为空，则直接将它显示出来
+                    transaction.show(fenlei);
+                }
                 break;
             case 2:
-//                transaction.replace(R.id.frag_ll, new WodeFragment());
-                switchContent(new WodeFragment());
+                if (wode == null) {
+                    // 如果MessageFragment为空，则创建一个并添加到界面上
+                    wode = new WodeFragment();
+                    transaction.add(R.id.frag_ll, wode);
+                } else {
+                    // 如果MessageFragment不为空，则直接将它显示出来
+                    transaction.show(wode);
+                }
                 break;
         }
-//        transaction.commit();
+        transaction.commit();
     }
 }
