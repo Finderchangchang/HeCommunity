@@ -12,6 +12,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import net.tsz.afinal.annotation.view.CodeNote;
@@ -62,8 +63,6 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
     LinearLayout main_user_unit_ll;
     @CodeNote(id = R.id.main_shoppingcar_ll, click = "onClick")
     LinearLayout main_shoppingcar_ll;
-    @CodeNote(id = R.id.cub_img)
-    CubeImageView mImg;
     @CodeNote(id = R.id.hot_tejia_rl, click = "onClick")
     RelativeLayout hot_tejia_rl;
     @CodeNote(id = R.id.hot_tejia_ll)
@@ -106,6 +105,8 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
     LinearLayout good_lists_ll;
     @CodeNote(id = R.id.main_good_classify_ll)
     LinearLayout good_classify_ll;
+    @CodeNote(id = R.id.shouye_scroll)
+    ScrollView shouye_scroll;
 
     @Override
     public void initViews() {
@@ -131,7 +132,6 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
         mListener.loadGuangGao();//加载缓存（广告）
         mListener.loadGoodLists();//加载缓存(商品列表)
         mListener.loadTypes();//加载缓存(商品分类)
-        handler = new Handler();
     }
 
     public void onClick(View view) {
@@ -232,7 +232,7 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
                     if (guang_gao_gv != null) {
                         guang_gao_gv.setNumColumns(1);
                         guang_gao_gv.setAdapter(guang_gao_adapter);
-//                        guang_gao_gv.setVisibility(View.VISIBLE);
+                        shouye_scroll.smoothScrollTo(0, 20);
                     }
                     break;
                 case "goodlist":
@@ -271,8 +271,6 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
         message.obj = "goodlist";
         mHandler.sendMessage(message);
     }
-
-    Handler handler = null;
 
     //商品分类
     @Override
