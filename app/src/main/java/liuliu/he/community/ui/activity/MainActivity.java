@@ -67,11 +67,8 @@ public class MainActivity extends BaseActivity {
     int mClick;//被点击的项
     List<ChangeItemModel> listbtn;//生成的按钮集合（需要颜色改变的view）
     List<ItemModel> mItems;
-    ShouyeFragment shouye = null;
-    FenleiFragment fenlei = null;
-    WodeFragment wode = null;
-    @CodeNote(id = R.id.main_toolbar)
-    TToolbar toolbar;
+//    @CodeNote(id = R.id.main_toolbar)
+//    TToolbar toolbar;
     ACache mCache;
     List<Fragment> mContent = new ArrayList<>();
 
@@ -107,24 +104,24 @@ public class MainActivity extends BaseActivity {
         //加载第一个显示页面
         setItem(mClick);
         now_pressed = mClick;
-        toolbar.setLeftOnClick(new TToolbar.LeftOnClickListener() {
-            @Override
-            public void leftclick() {
-
-            }
-        });
-        toolbar.setCenterOnClick(new TToolbar.CenterOnClickListener() {
-            @Override
-            public void centerclick() {
-
-            }
-        });
-        toolbar.setRightOnClick(new TToolbar.RightOnClickListener() {
-            @Override
-            public void rightclick() {
-
-            }
-        });
+//        toolbar.setLeftOnClick(new TToolbar.LeftOnClickListener() {
+//            @Override
+//            public void leftclick() {
+//
+//            }
+//        });
+//        toolbar.setCenterOnClick(new TToolbar.CenterOnClickListener() {
+//            @Override
+//            public void centerclick() {
+//
+//            }
+//        });
+//        toolbar.setRightOnClick(new TToolbar.RightOnClickListener() {
+//            @Override
+//            public void rightclick() {
+//
+//            }
+//        });
     }
 
     private int now_pressed = -1;
@@ -132,7 +129,6 @@ public class MainActivity extends BaseActivity {
 
     public void switchContent(Fragment to) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        hideFragments(transaction);//隐藏所有加载出来的fragment
         transaction.addToBackStack(null);
         if (mFrom != null) {//第一次加载的时候添加需要切换的fragment
             transaction.hide(mFrom);
@@ -142,34 +138,16 @@ public class MainActivity extends BaseActivity {
             if (!mContent.get(i).getClass().equals(to.getClass())) {//不相同全部隐藏
                 transaction.hide(mContent.get(i));
             } else {
-                transaction.show(to).commit();
+                transaction.show(to);
                 isShow = true;
             }
         }
         if (!isShow) {
             transaction.add(R.id.frag_ll, to);
             mContent.add(to);
-            transaction.commit();
         }
         mFrom = to;
-
-    }
-
-    /**
-     * 将所有的Fragment都置为隐藏状态。
-     *
-     * @param transaction 用于对Fragment执行操作的事务
-     */
-    private void hideFragments(FragmentTransaction transaction) {
-        if (shouye != null) {
-            transaction.hide(shouye);
-        }
-        if (fenlei != null) {
-            transaction.hide(fenlei);
-        }
-        if (wode != null) {
-            transaction.hide(wode);
-        }
+        transaction.commit();
     }
 
     /**
@@ -215,9 +193,10 @@ public class MainActivity extends BaseActivity {
         listbtn.get(position).getTv().setTextColor(mIntails.getResources().getColor(R.color.main_item_pressed));
         listbtn.get(position).getIv().setImageBitmap(Utils.readBitMap(mIntails, mItems.get(position).getPressed_img()));
         mClick = position;
+        // 开启一个Fragment事务
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        hideFragments(transaction);//隐藏所有加载出来的fragment
-        transaction.addToBackStack(null);
+        hideFragments(transaction);
+
         switch (position) {
             case 0:
                 if (shouye == null) {
@@ -258,5 +237,26 @@ public class MainActivity extends BaseActivity {
                 break;
         }
         transaction.commit();
+    }
+
+    private ShouyeFragment shouye;
+    private FenleiFragment fenlei;
+    private WodeFragment wode;
+
+    /**
+     * 将所有的Fragment都置为隐藏状态。
+     *
+     * @param transaction 用于对Fragment执行操作的事务
+     */
+    private void hideFragments(FragmentTransaction transaction) {
+        if (shouye != null) {
+            transaction.hide(shouye);
+        }
+        if (fenlei != null) {
+            transaction.hide(fenlei);
+        }
+        if (wode != null) {
+            transaction.hide(wode);
+        }
     }
 }
