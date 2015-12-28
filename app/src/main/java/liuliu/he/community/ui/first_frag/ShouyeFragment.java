@@ -1,8 +1,10 @@
 package liuliu.he.community.ui.first_frag;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.LruCache;
@@ -111,6 +113,16 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
     @Override
     public void initViews() {
         setContentView(R.layout.frag_shouye);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -232,7 +244,7 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
                     if (guang_gao_gv != null) {
                         guang_gao_gv.setNumColumns(1);
                         guang_gao_gv.setAdapter(guang_gao_adapter);
-                        shouye_scroll.smoothScrollTo(0, 20);
+                        shouye_scroll.smoothScrollTo(0, 0);
                     }
                     break;
                 case "goodlist":
