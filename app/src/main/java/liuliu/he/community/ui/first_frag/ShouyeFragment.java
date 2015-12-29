@@ -9,10 +9,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.LruCache;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -48,9 +50,9 @@ import liuliu.he.community.ui.activity.MainActivity;
  */
 public class ShouyeFragment extends BaseFragment implements IShouyeView {
     @CodeNote(id = R.id.good_list_grid_view)
-    MyGridView good_list;
+    GridView good_list;
     @CodeNote(id = R.id.good_type_grid_view)
-    MyGridView good_type_gv;
+    GridView good_type_gv;
     @CodeNote(id = R.id.guang_gao_grid_view)
     GridView guang_gao_gv;
     @CodeNote(id = R.id.fenlei_xiangqing_ll, click = "onClick")
@@ -199,7 +201,11 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
         hot_good_adapter = new DataAdapterBase<ProductModel>(mContext, R.layout.item_main_hot_good, mList) {
             @Override
             public void convert(ViewHolderBase holder, ProductModel model, int position) {
-                holder.loadImage(R.id.good_iv, imageLoader, model.getImage());
+                TopImage m = new TopImage();
+                m.setImg(model.getImage());
+                m.setLink(model.getGid());
+                holder.loadImageByUrl(R.id.good_iv, mIntails.finalBitmap, m);
+//                holder.loadImage(R.id.good_iv, imageLoader, model.getImage());
                 if (model.getName().length() > 8) {
                     holder.setText(R.id.good_name_tv, model.getName().substring(0, 8) + "..");
                 } else {
@@ -222,7 +228,7 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
                 });//跳转到商品详细页面
             }
         });
-        hot_good_adapter.notifyDataSetChanged();
+        setListViewHeightBasedOnChildren(good_list, 2);
     }
 
     @Override
@@ -245,6 +251,7 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
                         guang_gao_gv.setNumColumns(1);
                         guang_gao_gv.setAdapter(guang_gao_adapter);
                         shouye_scroll.smoothScrollTo(0, 0);
+                        setListViewHeightBasedOnChildren(guang_gao_gv,1);
                     }
                     break;
                 case "goodlist":
@@ -257,7 +264,7 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
                         good_classify_ll.setVisibility(View.VISIBLE);
                         good_type_gv.setNumColumns(2);
                         good_type_gv.setAdapter(good_type_adapter);
-                        good_type_adapter.notifyDataSetChanged();
+                        setListViewHeightBasedOnChildren(good_type_gv,2);
                     }
                     break;
             }
@@ -290,7 +297,10 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
         good_type_adapter = new DataAdapterBase<GoodTypeModel>(mContext, R.layout.item_main_fenlei, list) {
             @Override
             public void convert(ViewHolderBase holder, final GoodTypeModel model, int position) {
-                holder.loadImage(R.id.type_iv, imageLoader, model.getImage());
+                TopImage m = new TopImage();
+                m.setImg(model.getImage());
+                m.setLink(model.getLink());
+                holder.loadImageByUrl(R.id.type_iv, mIntails.finalBitmap, m);
                 holder.setText(R.id.type_title_tv, model.getTitle());
                 holder.setText(R.id.type_desc1_tv, model.getT1());
                 holder.setText(R.id.type_desc2_tv, model.getT2());
@@ -474,5 +484,33 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
         holder.setVisible(R.id.totalItem_ll, View.GONE);
         holder.setVisible(R.id.total_left_ll, View.GONE);
         holder.setVisible(R.id.total_right_ll, View.GONE);
+    }
+
+    public static void setListViewHeightBasedOnChildren(GridView listView, int col) {
+        // 获取listview的adapter
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            return;
+        }
+        // 固定列宽，有多少列
+//        int col = 2;// listView.getNumColumns();
+        int totalHeight = 0;
+        // i每次加4，相当于listAdapter.getCount()小于等于4时 循环一次，计算一次item的高度，
+        // listAdapter.getCount()小于等于8时计算两次高度相加
+        for (int i = 0; i < listAdapter.getCount(); i += col) {
+            // 获取listview的每一个item
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(0, 0);
+            // 获取item的高度和
+            totalHeight += listItem.getMeasuredHeight();
+        }
+        // 获取listview的布局参数
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        // 设置高度
+        params.height = totalHeight;
+        // 设置margin
+        ((ViewGroup.MarginLayoutParams) params).setMargins(10, 10, 10, 10);
+        // 设置参数
+        listView.setLayoutParams(params);
     }
 }

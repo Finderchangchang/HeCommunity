@@ -12,8 +12,8 @@ import in.srain.cube.image.ImageLoader;
 import in.srain.cube.image.ImageLoaderFactory;
 import liuliu.custom.control.refresh.LoadListView;
 import liuliu.he.community.R;
-import liuliu.he.community.adapter.CommonAdapter;
-import liuliu.he.community.adapter.CommonViewHolder;
+import liuliu.he.community.adapter.CommonAdapters;
+import liuliu.he.community.adapter.CommonViewHolders;
 import liuliu.he.community.base.BaseFragment;
 import liuliu.he.community.control.typelist.ITypeListView;
 import liuliu.he.community.control.typelist.TypeListListener;
@@ -30,7 +30,7 @@ public class FenLeiListFragment extends BaseFragment implements ITypeListView<Go
     LoadListView listView;
     @CodeNote(id = R.id.type_list_iv)
     MyItemView title;
-    CommonAdapter adapterBase;
+    CommonAdapters adapterBase;
     ImageLoader imageLoader = null;
     TypeListListener<GoodModel> listListener;
     int page = 1;
@@ -81,9 +81,9 @@ public class FenLeiListFragment extends BaseFragment implements ITypeListView<Go
     private void showList(List<GoodModel> list) {
         is_loading.setVisibility(View.GONE);
         if (adapterBase == null) {
-            adapterBase = new CommonAdapter<GoodModel>(mIntails, list, R.layout.item_good_desc) {
+            adapterBase = new CommonAdapters<GoodModel>(mIntails, list, R.layout.item_good_desc) {
                 @Override
-                public void convert(CommonViewHolder holder, GoodModel goodModel, int position) {
+                public void convert(CommonViewHolders holder, GoodModel goodModel, int position) {
                     holder.loadImage(R.id.good_iv, imageLoader, goodModel.getImage());
                     holder.setText(R.id.item_good_list_name, goodModel.getName());
                     holder.setText(R.id.item_good_list_desc, goodModel.getFeature());

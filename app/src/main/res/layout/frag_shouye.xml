@@ -19,13 +19,7 @@
                 android:id="@+id/main_title_imgs"
                 android:layout_width="match_parent"
                 android:layout_height="125dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="123123" />
-            </LinearLayout>
+                android:orientation="horizontal"></LinearLayout>
 
             <LinearLayout
                 android:id="@+id/main_styles_ll"
@@ -125,10 +119,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+
                 <GridView
                     android:id="@+id/guang_gao_grid_view"
                     android:layout_width="match_parent"
-                    android:layout_height="290dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:focusable="false" />
             </LinearLayout>
@@ -271,16 +266,21 @@
                     </RelativeLayout>
                 </LinearLayout>
 
-                <liuliu.he.community.model.MyGridView
-                    android:id="@+id/good_list_grid_view"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp"
-                    android:focusable="false"
-                    android:horizontalSpacing="10dp"
-                    android:numColumns="2"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp" />
+                    android:layout_height="wrap_content">
+
+                    <GridView
+                        android:id="@+id/good_list_grid_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:focusable="false"
+                        android:horizontalSpacing="10dp"
+                        android:numColumns="2"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -347,7 +347,7 @@
                     android:layout_marginTop="1dp"
                     android:background="@color/white">
 
-                    <liuliu.he.community.model.MyGridView
+                    <GridView
                         android:id="@+id/good_type_grid_view"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

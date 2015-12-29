@@ -8,10 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import liuliu.custom.control.manager.ImageLoader;
+import in.srain.cube.image.CubeImageView;
+import in.srain.cube.image.ImageLoader;
 
 /**
  * Created by liuliu on 2015/11/16   16:29
@@ -19,36 +19,18 @@ import liuliu.custom.control.manager.ImageLoader;
  * @author 柳伟杰
  * @Email 1031066280@qq.com
  */
-public class CommonViewHolder {
+public class CommonViewHolders {
     private final SparseArray<View> mViews;
     private int mPosition;
     private View mConvertView;
-    private ImageLoader mImageLoader;
 
-    private CommonViewHolder(Context context, ViewGroup parent, int layoutId,
-                             int position) {
+    private CommonViewHolders(Context context, ViewGroup parent, int layoutId,
+                              int position) {
         this.mPosition = position;
         this.mViews = new SparseArray<View>();
         mConvertView = LayoutInflater.from(context).inflate(layoutId, parent,
                 false);
         mConvertView.setTag(this);
-        mImageLoader = new ImageLoader();
-    }
-
-    public CommonViewHolder setHeight(int viewId, int height) {
-        LinearLayout view = getView(viewId);
-        ViewGroup.LayoutParams lp = view.getLayoutParams();
-        lp.height = height;
-        view.setLayoutParams(lp);
-        return this;
-    }
-
-    public CommonViewHolder setMargin(int viewId, int left, int right, int top, int bottom) {
-        LinearLayout ll = getView(viewId);
-        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) ll.getLayoutParams();
-        layoutParams.setMargins(left, right, top, bottom);//4个参数按顺序分别是左上右下
-        ll.setLayoutParams(layoutParams);
-        return this;
     }
 
     /**
@@ -61,12 +43,12 @@ public class CommonViewHolder {
      * @param position
      * @return
      */
-    public static CommonViewHolder get(Context context, View convertView,
+    public static CommonViewHolders get(Context context, View convertView,
                                        ViewGroup parent, int layoutId, int position) {
         if (convertView == null) {
-            return new CommonViewHolder(context, parent, layoutId, position);
+            return new CommonViewHolders(context, parent, layoutId, position);
         }
-        return (CommonViewHolder) convertView.getTag();
+        return (CommonViewHolders) convertView.getTag();
     }
 
     public View getConvertView() {
@@ -95,9 +77,15 @@ public class CommonViewHolder {
      * @param text
      * @return
      */
-    public CommonViewHolder setText(int viewId, Object text) {
+    public CommonViewHolders setText(int viewId, String text) {
         TextView view = getView(viewId);
-        view.setText(text + "");
+        view.setText(text);
+        return this;
+    }
+
+    public CommonViewHolders loadImage(int viewId, ImageLoader loader, String url) {
+        CubeImageView view = getView(viewId);
+        view.loadImage(loader, url);
         return this;
     }
 
@@ -114,7 +102,7 @@ public class CommonViewHolder {
      * @param listener
      * @return
      */
-    public CommonViewHolder setOnClickListener(int viewId, View.OnClickListener listener) {
+    public CommonViewHolders setOnClickListener(int viewId, View.OnClickListener listener) {
         View view = getView(viewId);
         view.setOnClickListener(listener);
         return this;
@@ -129,7 +117,7 @@ public class CommonViewHolder {
      * @param drawableId
      * @return
      */
-    public CommonViewHolder setImageResource(int viewId, int drawableId) {
+    public CommonViewHolders setImageResource(int viewId, int drawableId) {
         ImageView view = getView(viewId);
         view.setImageResource(drawableId);
         return this;
@@ -142,51 +130,16 @@ public class CommonViewHolder {
      * @param bm
      * @return
      */
-    public CommonViewHolder setImageBitmap(int viewId, Bitmap bm) {
+    public CommonViewHolders setImageBitmap(int viewId, Bitmap bm) {
         ImageView view = getView(viewId);
         view.setImageBitmap(bm);
         return this;
     }
 
-    public CommonViewHolder setImageDrawable(int viewId, Drawable bm) {
+    public CommonViewHolders setImageDrawable(int viewId, Drawable bm) {
         ImageView view = getView(viewId);
         view.setImageDrawable(bm);
         return this;
-    }
-
-    public CommonViewHolder setImageByUrl(int viewId, String url) {
-        mImageLoader.showImageBuThread(setImageTag(viewId, url), url, 0);
-        return this;
-    }
-
-    /**
-     * 通过url设置图片显示
-     *
-     * @param viewId   ImageView组件Id
-     * @param url      图片路径
-     * @param def_view 默认图片id
-     */
-    public CommonViewHolder setImageByUrl(int viewId, String url, int def_view) {
-        mImageLoader.showImageBuThread(setImageTag(viewId, url), url, def_view);
-        return this;
-    }
-
-    /**
-     * 通过url设置图片显示
-     *
-     * @param viewId  ImageView组件Id
-     * @param url     图片路径
-     * @param def_url 默认图片路径
-     */
-    public CommonViewHolder setImageByUrl(int viewId, String url, String def_url) {
-        mImageLoader.showImageBuThread(setImageTag(viewId, url), url, def_url);
-        return this;
-    }
-
-    private ImageView setImageTag(int viewId, String url) {
-        ImageView view = getView(viewId);
-        view.setTag(url);
-        return view;
     }
 
     /**
@@ -195,7 +148,7 @@ public class CommonViewHolder {
      * @param viewId（控件id）
      * @param result(控件显示隐藏)
      */
-    public CommonViewHolder setVisible(int viewId, boolean result) {
+    public CommonViewHolders setVisible(int viewId, boolean result) {
         View view = getView(viewId);
         if (result) {
             view.setVisibility(View.VISIBLE);

@@ -43,7 +43,7 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
-        <in.srain.cube.image.CubeImageView
+        <ImageView
             android:id="@+id/type_iv"
             android:layout_width="60dp"
             android:layout_height="60dp"
