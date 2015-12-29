@@ -27,8 +27,11 @@ import java.util.List;
 import in.srain.cube.image.CubeImageView;
 import in.srain.cube.image.ImageLoader;
 import in.srain.cube.image.ImageLoaderFactory;
+import liuliu.custom.control.view.GridLinearLayout;
 import liuliu.custom.method.Utils;
 import liuliu.he.community.R;
+import liuliu.he.community.adapter.CommonAdapter;
+import liuliu.he.community.adapter.CommonViewHolder;
 import liuliu.he.community.base.BaseFragment;
 import liuliu.he.community.control.shouye.IShouyeView;
 import liuliu.he.community.control.shouye.ShouyeListener;
@@ -50,11 +53,11 @@ import liuliu.he.community.ui.activity.MainActivity;
  */
 public class ShouyeFragment extends BaseFragment implements IShouyeView {
     @CodeNote(id = R.id.good_list_grid_view)
-    GridView good_list;
+    GridLinearLayout good_list;
     @CodeNote(id = R.id.good_type_grid_view)
-    GridView good_type_gv;
+    GridLinearLayout good_type_gv;
     @CodeNote(id = R.id.guang_gao_grid_view)
-    GridView guang_gao_gv;
+    GridLinearLayout guang_gao_gv;
     @CodeNote(id = R.id.fenlei_xiangqing_ll, click = "onClick")
     LinearLayout xiangqing_ll;
     Context mContext;
@@ -183,7 +186,7 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
      * @param position 选中的位置
      * @param mList    商品信息集合
      */
-    private void HotClick(int position, final List mList) {
+    private void HotClick(final int position, final List mList) {
         normalModel = mItemList.get(clickItem);
         pressedModel = mItemList.get(position);
         //恢复成未点击状态
@@ -214,21 +217,23 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
                 holder.setText(R.id.good_price_tv, model.getPrice());
             }
         };
-        good_list.setNumColumns(2);
+//        good_list.setNumColumns(2);
         good_list.setAdapter(hot_good_adapter);
-        good_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        good_list.setOnCellClickListener(new GridLinearLayout.OnCellClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+            public void onCellClick(final int index) {
                 MainActivity.mIntails.mUtils.IntentPost(DetailListsActivity.class, new Utils.putListener() {
                     @Override
                     public void put(Intent intent) {
-                        ProductModel model = (ProductModel) mList.get(position);
+                        ProductModel model = (ProductModel) mList.get(index);
                         intent.putExtra("desc", "xq?" + model.getGid());//商品id
                     }
                 });//跳转到商品详细页面
             }
         });
-        setListViewHeightBasedOnChildren(good_list, 2);
+        good_list.setColumns(2);
+        good_list.bindLinearLayout();
+//        setListViewHeightBasedOnChildren(good_list, 2);
     }
 
     @Override
@@ -236,6 +241,7 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
 
     }
 
+    CommonAdapter<GoodTypeModel> mAdapters;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -248,10 +254,11 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
                         }
                     };
                     if (guang_gao_gv != null) {
-                        guang_gao_gv.setNumColumns(1);
+//                        guang_gao_gv.setNumColumns(1);
                         guang_gao_gv.setAdapter(guang_gao_adapter);
                         shouye_scroll.smoothScrollTo(0, 0);
-                        setListViewHeightBasedOnChildren(guang_gao_gv,1);
+                        guang_gao_gv.setColumns(1);
+//                        guang_gao_gv.bindLinearLayout();
                     }
                     break;
                 case "goodlist":
@@ -260,11 +267,13 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
                     HotClick(0, list[0]);
                     break;
                 case "goodtype":
-                    if (good_type_adapter != null) {
+                    if (mAdapters != null) {
                         good_classify_ll.setVisibility(View.VISIBLE);
-                        good_type_gv.setNumColumns(2);
-                        good_type_gv.setAdapter(good_type_adapter);
-                        setListViewHeightBasedOnChildren(good_type_gv,2);
+//                        good_type_gv.setNumColumns(2);
+                        good_type_gv.setAdapter(mAdapters);
+                        good_type_gv.setColumns(2);
+                        good_type_gv.bindLinearLayout();
+//                        setListViewHeightBasedOnChildren(good_type_gv, 2);
                     }
                     break;
             }
@@ -315,6 +324,29 @@ public class ShouyeFragment extends BaseFragment implements IShouyeView {
                         });
                     }
                 });
+            }
+        };
+        mAdapters = new CommonAdapter<GoodTypeModel>(mIntails, list, R.layout.item_main_fenlei) {
+            @Override
+            public void convert(CommonViewHolder holder, GoodTypeModel model, int position) {
+                TopImage m = new TopImage();
+                m.setImg(model.getImage());
+                m.setLink(model.getLink());
+                holder.loadImageByUrl(R.id.type_iv, mIntails.finalBitmap, m);
+                holder.setText(R.id.type_title_tv, model.getTitle());
+                holder.setText(R.id.type_desc1_tv, model.getT1());
+                holder.setText(R.id.type_desc2_tv, model.getT2());
+//                holder.setOnClick(R.id.item_fenlei_ll, new ViewHolderBase.OnImageClick() {
+//                    @Override
+//                    public void click() {
+//                        MainActivity.mIntails.mUtils.IntentPost(DetailListsActivity.class, new Utils.putListener() {
+//                            @Override
+//                            public void put(Intent intent) {
+//                                intent.putExtra("desc", "spfl?" + model.getLink().split("\\?")[1]);
+//                            }
+//                        });
+//                    }
+//                });
             }
         };
         Message message = Message.obtain();

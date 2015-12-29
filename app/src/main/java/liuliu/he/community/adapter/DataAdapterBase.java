@@ -37,7 +37,7 @@ public abstract class DataAdapterBase<ItemDataType> extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolderBase holderBase = this.createViewHolder();
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        LayoutInflater inflater = LayoutInflater.from(mContext);
         if (holderBase != null) {
             convertView = inflater.inflate(mLayoutId, null);
             if (convertView != null) {

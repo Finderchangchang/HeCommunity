@@ -20,11 +20,11 @@ import liuliu.he.community.model.TitleImagesModel;
  */
 public class FenLeiListener {
     private Context mContext;
-    private IFenLeiView mView;
+    private IFenleiView mView;
     List<GoodTypeModel> mList;
     FinalDb mDB;
 
-    public FenLeiListener(Context mContext, IFenLeiView mView) {
+    public FenLeiListener(Context mContext, IFenleiView mView) {
         this.mContext = mContext;
         this.mView = mView;
         mDB = FinalDb.create(mContext);

@@ -11,7 +11,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import net.tsz.afinal.FinalBitmap;
+
 import liuliu.custom.control.manager.ImageLoader;
+import liuliu.he.community.model.TopImage;
 
 /**
  * Created by liuliu on 2015/11/16   16:29
@@ -105,6 +108,20 @@ public class CommonViewHolder {
     public String getText(int viewId) {
         TextView view = getView(viewId);
         return view.getText().toString().trim();
+    }
+
+    public CommonViewHolder loadImageByUrl(int viewId, FinalBitmap loader, final TopImage model) {
+        ImageView view = getView(viewId);
+        loader.display(view, model.getImg());
+        view.setVisibility(View.VISIBLE);
+//        view.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                jiexiLink(model.getLink());
+//            }
+//        });
+
+        return this;
     }
 
     /**

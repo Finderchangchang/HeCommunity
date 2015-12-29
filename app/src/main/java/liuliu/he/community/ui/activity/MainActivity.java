@@ -26,6 +26,7 @@ import liuliu.he.community.model.ChangeItemModel;
 import liuliu.he.community.model.ItemModel;
 import liuliu.he.community.ui.first_frag.FenleiFragment;
 import liuliu.he.community.ui.first_frag.ShouyeFragment;
+import liuliu.he.community.ui.first_frag.ShouyeFragments;
 import liuliu.he.community.ui.first_frag.WodeFragment;
 
 /**
@@ -127,29 +128,6 @@ public class MainActivity extends BaseActivity {
     private int now_pressed = -1;
     private Fragment mFrom = null;
 
-    public void switchContent(Fragment to) {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.addToBackStack(null);
-        if (mFrom != null) {//第一次加载的时候添加需要切换的fragment
-            transaction.hide(mFrom);
-        }
-        boolean isShow = false;
-        for (int i = 0; i < mContent.size(); i++) {
-            if (!mContent.get(i).getClass().equals(to.getClass())) {//不相同全部隐藏
-                transaction.hide(mContent.get(i));
-            } else {
-                transaction.show(to);
-                isShow = true;
-            }
-        }
-        if (!isShow) {
-            transaction.add(R.id.frag_ll, to);
-            mContent.add(to);
-        }
-        mFrom = to;
-        transaction.commit();
-    }
-
     /**
      * @param view
      */
@@ -201,14 +179,14 @@ public class MainActivity extends BaseActivity {
             case 0:
                 if (shouye == null) {
                     // 如果MessageFragment为空，则创建一个并添加到界面上
-                    shouye = new ShouyeFragment();
-                    shouye.setOnItemClick(new ShouyeFragment.OnItemClick() {
-                        @Override
-                        public void onItemClick(Object value) {
-                            now_pressed = (Integer) value;
-                            setItem(now_pressed);
-                        }
-                    });
+                    shouye = new ShouyeFragments();
+//                    shouye.setOnItemClick(new ShouyeFragment.OnItemClick() {
+//                        @Override
+//                        public void onItemClick(Object value) {
+//                            now_pressed = (Integer) value;
+//                            setItem(now_pressed);
+//                        }
+//                    });
                     transaction.add(R.id.frag_ll, shouye);
                 } else {
                     // 如果MessageFragment不为空，则直接将它显示出来
@@ -239,7 +217,7 @@ public class MainActivity extends BaseActivity {
         transaction.commit();
     }
 
-    private ShouyeFragment shouye;
+    private ShouyeFragments shouye;
     private FenleiFragment fenlei;
     private WodeFragment wode;
 

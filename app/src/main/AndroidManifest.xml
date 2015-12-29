@@ -32,8 +32,5 @@
         <activity android:name=".demo.DemoActivity">
 
         </activity>
-        <activity android:name=".ui.activity.DemosActivity">
-
-        </activity>
     </application>
 </manifest>

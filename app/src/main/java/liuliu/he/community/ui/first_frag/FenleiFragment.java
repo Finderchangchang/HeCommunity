@@ -20,7 +20,7 @@ import liuliu.he.community.adapter.RecycleAdapter;
 import liuliu.he.community.adapter.RecycleViewHolder;
 import liuliu.he.community.base.BaseFragment;
 import liuliu.he.community.control.fenlei.FenLeiListener;
-import liuliu.he.community.control.fenlei.IFenLeiView;
+import liuliu.he.community.control.fenlei.IFenleiView;
 import liuliu.he.community.model.GoodTypeModel;
 import liuliu.he.community.model.MyGridView;
 import liuliu.he.community.adapter.DataAdapterBase;
@@ -32,7 +32,7 @@ import liuliu.he.community.ui.activity.MainActivity;
  * 分类
  * Created by Administrator on 2015/11/25.
  */
-public class FenleiFragment extends BaseFragment implements IFenLeiView {
+public class FenleiFragment extends BaseFragment implements IFenleiView {
     @CodeNote(id = R.id.fenlei_view)
     RecyclerView recyclerView;//商品分类
     @CodeNote(id = R.id.fenlei_grid_view)
